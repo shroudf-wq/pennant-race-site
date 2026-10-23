@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ペナントレース シミュレーター</title>
+<meta name="description" content="架空のプロ野球リーグで、監督とGMを一人で。ブラウザで開くだけで遊べる野球シミュレーションゲーム。">
+<meta property="og:title" content="ペナントレース シミュレーター">
+<meta property="og:description" content="架空のプロ野球リーグで、監督とGMを一人で。ブラウザで開くだけで遊べます。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#16261E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='16' fill='%23F2F0E6' stroke='%23F5D86B' stroke-width='2'/%3E%3Cpath d='M8 9c4 5 4 13 0 18M28 9c-4 5-4 13 0 18' fill='none' stroke='%23C0392B' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#16261E; --board:#1F3A2C; --frame:#6B4A2B; --line:#3D6450;
+  --chalk:#F2F0E6; --sub:#BFD3C6; --gold:#F5D86B; --ink:#1A2A20;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--ground); color:var(--chalk);
+  font-family:'Zen Maru Gothic',system-ui,sans-serif;
+  min-height:100vh; padding:48px 16px;
+  display:flex; justify-content:center; align-items:flex-start;
+}
+a{color:var(--gold)} a:hover{color:#FFF0A8}
+a:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+main{
+  width:100%; max-width:760px; background:var(--board);
+  border:10px solid var(--frame); border-radius:6px;
+  box-shadow:inset 0 0 0 2px #2C4D3B, 0 18px 36px rgba(0,0,0,.45);
+  padding:40px 36px; display:flex; flex-direction:column; gap:28px;
+}
+.top{display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; font-size:14px; color:var(--sub)}
+h1{margin:0; font-family:'Yusei Magic',sans-serif; font-weight:400; font-size:clamp(36px,6vw,60px); line-height:1.2; letter-spacing:.04em}
+h1 span{color:var(--gold)}
+.lead{margin:16px 0 0; font-size:18px; line-height:1.8}
+.score{overflow-x:auto}
+table{width:100%; min-width:420px; border-collapse:collapse; font-family:'Yusei Magic',sans-serif; font-size:22px; text-align:center}
+thead th{color:var(--sub); font-size:15px; font-weight:400}
+thead th.total,td.total{color:var(--gold)}
+tbody tr{border-top:2px solid var(--line)}
+tbody tr:last-child{border-bottom:2px solid var(--line)}
+tbody th{text-align:left; padding:8px 4px; font-weight:400; white-space:nowrap}
+ul.points{margin:0; padding:0 0 0 1.2em; font-size:17px; line-height:2}
+.cta{display:flex; flex-wrap:wrap; gap:12px}
+.btn{
+  flex:1 1 240px; min-height:56px; padding:16px 20px; border-radius:8px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-weight:700; font-size:18px; line-height:1.3; text-decoration:none; text-align:center;
+}
+.btn small{font-weight:500; font-size:13px}
+.btn.main{background:var(--gold); color:var(--ink)}
+.btn.main:hover{background:#FFE48A; color:var(--ink)}
+.btn.sub{border:2px dashed var(--sub); color:var(--sub)}
+footer{border-top:1px dashed #4F7A63; padding-top:16px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; font-size:13px; color:var(--sub)}
+@media (max-width:480px){
+  body{padding:16px}
+  main{padding:28px 16px; border-width:8px}
+  table{min-width:0; font-size:15px}
+  thead th{font-size:12px}
+  tbody th{font-size:14px; padding:8px 2px}
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <span>PENNANT RACE</span>
+    <span>最新版 v1.3.v / 2026.10.23</span>
+  </div>
+
+  <div>
+    <h1>ペナントレース<br><span>シミュレーター</span></h1>
+    <p class="lead">架空のプロ野球リーグで、監督とGMを一人で。<br>ブラウザで開くだけで遊べます。</p>
+  </div>
+
+  <div class="score" role="img" aria-label="スコアボードの例。ドレイクス3点、きみの球団4点でサヨナラ勝ち">
+    <table aria-hidden="true">
+      <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th class="total">計</th></tr></thead>
+      <tbody>
+        <tr><th>ドレイクス</th><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="total">3</td></tr>
+        <tr><th>きみの球団</th><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1x</td><td class="total">4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="points">
+    <li>ドラフト・2軍・秋季キャンプで選手を育てる</li>
+    <li>勝負どころは自分で采配、ハイライトで観戦</li>
+    <li>歴代記録・永久欠番・殿堂入り。銀河杯や世界大会も</li>
+    <li>画面のスタイルは49種類。英語表示にも対応</li>
+  </ul>
+
+  <div class="cta">
+    <a class="btn main" href="https://claude.ai/artifact/7C6hNzABjNJQCXPCvNQzcd" target="_blank" rel="noopener">体験版で遊ぶ<small>6球団・3シーズン</small></a>
+    <span class="btn sub">本編は近日公開予定<small>FA・トレード・育成・何年でも</small></span>
+  </div>
+
+  <footer>
+    <span>登場する球団・選手はすべて架空です。</span>
+    <span>© 2026 Pennant Race</span>
+  </footer>
+</main>
+</body>
+</html>
