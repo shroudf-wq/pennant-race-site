@@ -133,7 +133,35 @@ select{min-height:40px}
 .zCard.unseen{opacity:.6}
 .zNo{font-size:.75em;opacity:.8}
 .zStar{color:#f7c948}
-.zSil{font-size:2.2em;text-align:center;opacity:.35;font-family:var(--display)}
+.zSil{text-align:center;line-height:0;margin:2px 0 4px}
+.zSilSvg{width:72px;height:81px;color:var(--cream)}
+.zSilSvg.unseen{opacity:.8}
+.zSilQ{font-family:var(--display);font-size:24px;fill:var(--card2)}   /* v1.3.z:図鑑のシルエット */
+.dcHead{font-weight:bold}
+.dcLine{display:block;margin-top:3px}
+.dcCm{display:block;margin-top:3px;line-height:1.5}
+.dcCm b{color:var(--gold);margin-right:6px}
+/* v1.4.b:練習モード */
+.practiceBar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 10px;padding:6px 10px;border:2px dashed var(--gold);border-radius:8px;background:var(--card)}
+.practiceBar.hidden{display:none}
+.practiceBar .pracT{font-weight:bold;color:var(--gold)}
+.practiceBar .pracBtns{display:flex;gap:6px;margin-left:auto}
+.practiceBar button{min-height:38px;padding:4px 12px}
+/* v1.4.a:スカウトの手帳 */
+.dcRow.dcC{cursor:pointer;flex-wrap:nowrap}
+.dcRow.dcC>.dcName{flex:1 1 auto;min-width:0;display:flex;align-items:center;flex-wrap:wrap;gap:2px 6px}
+.dcRow.dcC>.dcBtns{flex:0 0 auto;display:flex;gap:6px;align-items:center;margin-left:auto}
+.dcRow.dcC.on{background:var(--card2);box-shadow:inset 3px 0 0 var(--gold)}
+.dcPos{font-weight:bold}
+.dcPad{border:1px solid var(--gold);border-radius:8px;background:var(--card);padding:8px 10px;line-height:1.6;font-size:.9em;text-align:left}
+.dcPadT{color:var(--gold);font-weight:bold;margin-bottom:4px}
+.dcPadT .small{color:var(--cream);font-weight:normal;margin-left:4px}
+.dcPadH{font-weight:bold;margin-bottom:2px}
+@media (min-width:860px){ .dcWrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px;align-items:start} .dcPad{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto} }
+@media (max-width:859px){ .dcPad{position:sticky;bottom:8px;z-index:3;margin-top:8px;max-height:38vh;overflow:auto;box-shadow:0 -4px 14px rgba(0,0,0,.35)} }
+@media (max-width:640px){ .dcPad{bottom:calc(62px + env(safe-area-inset-bottom,0px))} }
+@media (max-width:520px){ .dcRow.dcC .dcAge{display:none} }
+@media (max-width:420px){ .dcRow.dcC>.dcBtns .infoBtn{padding:0 8px} .dcRow.dcC>.dcBtns .retryBtn{padding:2px 6px} }
 .zName{font-family:var(--display);font-size:1.1em;margin:2px 0}
 .zTitle{color:var(--gold);font-size:.85em;margin-bottom:4px}
 .zBlurb{margin:4px 0;line-height:1.5}
@@ -1950,6 +1978,7 @@ html[data-simple] .tabs .tab{border:none;background:transparent}
     <button class="sec titleStart hidden" id="continueBtn" onclick="openLoadChooser()">つづきから</button>
     <button class="sec titleHelp" onclick="openManual()">遊び方</button>
     <button class="sec titleHelp" onclick="openBeginnerGuide()">野球を知らない方へ</button>
+    <button class="sec titleStart hidden" id="practiceBtn" onclick="openPracticeMenu()">🔧 練習モード</button>
   </div>
   <p class="titleNote">本作の球団・選手・リーグ・記録はすべて架空のもので、実在の球団・選手・団体とは関係ありません。試合結果や成績はすべて乱数によるシミュレーションです。</p>
   <p class="titleNote">コール音声:VOICEVOX:ずんだもん</p>
@@ -2088,6 +2117,7 @@ html[data-simple] .tabs .tab{border:none;background:transparent}
 
 <div id="tipBand" class="hidden" role="status" aria-live="polite"><div class="tbHead"><span class="tbTxt"></span><button type="button" class="sec tbMore" onclick="tipMore()" aria-expanded="false">詳しく</button><button type="button" class="tbX" onclick="tipHide()" aria-label="閉じる">×</button></div><div class="tbFull hidden"></div></div>
 <div id="main" class="hidden">
+<div id="practiceBar" class="practiceBar hidden" role="status"></div>
 <nav class="tabs" id="mainNav">
   <button class="tab active" data-p="game">試合</button>
   <button class="tab" data-p="lineup">編成</button>
@@ -2569,7 +2599,10 @@ function __liteGone(n){ try{ (window.__goneCalls||(window.__goneCalls=[])).push(
 
 Object.defineProperty(Array.prototype,"shuffleR",{value:function(){ for(let i=this.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=this[i]; this[i]=this[j]; this[j]=t; } return this; },enumerable:false,configurable:true,writable:true});
 
-const APP_VERSION="v1.3.y";
+(function(){ try{ const s=localStorage.getItem("pennantPracticeSnap"); if(!s) return; const o=JSON.parse(s)||{}; const del=[];
+  for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
+  del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); }catch(e){} })();
+const APP_VERSION="v1.4.b";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -4604,9 +4637,9 @@ const CUP_EVERY=4, CUP_MONTH=6, CUP_DAY=22;
 const CUP_N={upGap:4, grow:0.5, growChamp:1.0, growAge:25, pts:{1:8,2:4,4:2,8:1}, pop:{1:10,2:5,4:3}, upsetPts:2, trust:15, fatGames:8, fatSta:0.85, fatCond:8};
 const CUP_KEYS=[...new Set([...BAT_KEYS,...PIT_KEYS,"cg","sho","koshiN"])];
 function cupName(){__liteGone("cupName");}
-function cupYear(y){ return cupEnabled && !LITE && ((y||year)%CUP_EVERY===0); }
+function cupYear(y){ return cupEnabled && !LITE && (((y||year)%CUP_EVERY===0) || (practiceForce==="cup" && !y)); }
 function cupDateReached(d){__liteGone("cupDateReached");}
-function cupDue(){ return cupYear() && !!league && !(cup && cup.y===year) && gameIdx<schedule.length && !(post && (post.active||post.done)) && cupDateReached(gameDates[gameIdx]); }
+function cupDue(){ return cupYear() && !!league && !(cup && cup.y===year) && gameIdx<schedule.length && !(post && (post.active||post.done)) && (cupDateReached(gameDates[gameIdx]) || practiceForce==="cup"); }
 function cupActive(){ return !!(cupEnabled && cup && cup.y===year && cup.active && !cup.done); }
 function cupBusy(){ return worldBusy() || cupDue() || cupActive(); }
 function cupTier(t){__liteGone("cupTier");}
@@ -5329,6 +5362,7 @@ function updateMatchupInner(){
     const w = post.winsA>post.winsB? post.champA: post.champB;
     simBtn.style.display="none"; skipBtn.style.display="none"; postBtn.style.display="none"; hlBtn.style.display="none";
     document.getElementById("five5Btn").style.display="none";
+    offPhaseScroll(draft.active?"draft": !draft.finished?"pre": !ikuDraft.done?"iku": fa.active?"fa": !fa.done?"faPre":"off");
     if(draft.active){
       offBtn.style.display="none"; draftBtn.style.display="none";
       m.innerHTML=draftScreenHtml();
@@ -6028,6 +6062,212 @@ function startDraft(choice){
   }
   updateMatchup(); renderAll();
 }
+const ZSIL_POSE={
+  bat:   {h:[40,14],n:[40,22],p:[40,48],a1:[[47,31],[50,21]],a2:[[44,33],[49,23]],l1:[[33,64],[27,84]],l2:[[47,65],[52,84]],bat:[[50,22],[60,3]]},
+  swing: {h:[44,15],n:[43,22],p:[41,48],a1:[[34,27],[29,18]],a2:[[37,30],[31,20]],l1:[[34,66],[29,84]],l2:[[50,63],[57,80]],bat:[[30,19],[62,25]]},
+  catch: {h:[37,38],n:[39,45],p:[45,64],a1:[[31,50],[25,46]],a2:[[46,54],[52,60]],l1:[[33,64],[35,84]],l2:[[54,63],[54,84]],glove:[23,45]},
+  infld: {h:[38,30],n:[40,37],p:[42,57],a1:[[34,50],[32,65]],a2:[[46,50],[44,64]],l1:[[31,67],[24,85]],l2:[[53,67],[59,85]],glove:[31,68]},
+  ofld:  {h:[40,20],n:[40,27],p:[42,54],a1:[[35,15],[31,4]],a2:[[48,34],[55,40]],l1:[[35,68],[29,84]],l2:[[52,66],[58,80]],glove:[30,4]},
+  run:   {h:[52,15],n:[48,22],p:[39,47],a1:[[55,33],[61,25]],a2:[[37,33],[30,41]],l1:[[53,56],[51,72]],l2:[[30,66],[17,81]]},
+  windup:{h:[41,12],n:[41,19],p:[42,46],a1:[[34,27],[39,33]],a2:[[49,27],[42,33]],l1:[[25,38],[29,57]],l2:[[43,66],[43,85]],glove:[40,32]},
+  set:   {h:[40,14],n:[40,21],p:[40,47],a1:[[34,31],[38,41]],a2:[[46,31],[41,41]],l1:[[37,66],[34,85]],l2:[[44,66],[47,85]],glove:[39,41]},
+  throw: {h:[33,23],n:[37,30],p:[45,52],a1:[[30,42],[28,54]],a2:[[45,37],[50,31]],l1:[[33,64],[25,84]],l2:[[57,60],[69,64]],glove:[51,30]}
+};
+function zukanPose(u){
+  const st=u.st||{}, v=k=>st[k]||0;
+  if(u.t==="p") return u.role==="先発"? ((st.velo||0)>=80? "throw" : "windup") : ((st.control||0)>(st.velo||0)? "set" : "throw");
+  if(u.pos==="捕") return "catch";
+  if(u.pos==="一"||u.pos==="指") return v("power")>=80? "swing" : "bat";
+  if(u.pos==="三") return v("power")>=78? "bat" : "infld";
+  if(u.pos==="遊"||u.pos==="二") return "infld";
+  return v("speed")>=80? "run" : v("power")>=80? "swing" : "ofld";
+}
+function zukanBuild(u){
+  const st=u.st||{};
+  if(u.t==="p") return (st.velo||0)>=82? 2 : (st.control||0)>=80? 0 : 1;
+  return (st.power||0)>=80? 2 : (st.speed||0)>=80? 0 : 1;
+}
+function zukanSilSvg(u,state){
+  const P=ZSIL_POSE[zukanPose(u)], b=zukanBuild(u), lw=[4.6,5.6,7][b], tw=[9,11,13.5][b], hr=[5.6,6,6.4][b];
+  const pts=(a,arr)=>[a,...arr].map(q=>q.join(",")).join(" ");
+  const shape=(x,col)=>`<g stroke="${col}" fill="none" stroke-linecap="round" stroke-linejoin="round">`
+    +(P.bat? `<line x1="${P.bat[0][0]}" y1="${P.bat[0][1]}" x2="${P.bat[1][0]}" y2="${P.bat[1][1]}" stroke-width="${2.8+x}"/>` : "")
+    +`<polyline points="${pts(P.p,P.l2)}" stroke-width="${lw+1+x}"/><polyline points="${pts(P.n,P.a2)}" stroke-width="${lw+x}"/>`
+    +`<line x1="${P.n[0]}" y1="${P.n[1]}" x2="${P.p[0]}" y2="${P.p[1]}" stroke-width="${tw+x}"/>`
+    +`<polyline points="${pts(P.p,P.l1)}" stroke-width="${lw+1+x}"/><polyline points="${pts(P.n,P.a1)}" stroke-width="${lw+x}"/>`
+    +`<circle cx="${P.h[0]}" cy="${P.h[1]}" r="${hr+x/2}" fill="${col}" stroke="none"/>`
+    +`<path d="M${P.h[0]-hr-x/2} ${P.h[1]-1}h${hr*2+4+x}" stroke-width="${2.2+x}"/>`
+    +(P.glove? `<circle cx="${P.glove[0]}" cy="${P.glove[1]}" r="${3.6+x/2}" fill="${col}" stroke="none"/>` : "")
+    +`</g>`;
+  const flip= u.hand==="左"? ` transform="translate(80 0) scale(-1 1)"` : "";
+  const body= state==="unseen"? shape(0,"currentColor")
+    : state==="got"? shape(2.4,"currentColor")+shape(0,"var(--gold)")
+    : shape(2.4,"currentColor")+shape(0,"var(--card2)");
+  return `<svg class="zSilSvg ${state}" viewBox="0 0 80 90" aria-hidden="true"><ellipse cx="40" cy="86" rx="22" ry="2.6" fill="currentColor" opacity=".18"/><g${flip}>${body}</g>${state==="unseen"? `<text x="40" y="58" text-anchor="middle" class="zSilQ">？</text>` : ""}</svg>`;
+}
+const DCM_TOP={meet:["ミートはすでに一軍級","バットコントロールは即戦力"],power:["長打力はすでに一軍級","一発で試合を変えられる大砲"],speed:["足はすでに一軍でも通用","俊足で塁上をかき回せる"],
+  fieldSkill:["守備はすでに即戦力","守りは一軍でも計算できる"],arm:["肩の強さはプロでも上位","強肩が光る"],velo:["球威はすでに一軍級","真っすぐで押せる本格派"],
+  control:["制球はすでに一軍級","四球で崩れない精密さ"],stamina:["長いイニングを任せられる","スタミナはすでに一軍級"]};
+const DCM_GOOD={meet:["ミートのうまさが光る","広角に打てる巧打タイプ"],power:["長打力に光るものがある","パンチ力が魅力"],speed:["足の速さが武器","走れる選手"],
+  fieldSkill:["堅実な守備が持ち味","守備の安定感がある"],arm:["肩が強い","送球に力がある"],velo:["力のある真っすぐが武器","球威に光るものがある"],
+  control:["制球がまとまっている","コントロールが安定"],stamina:["スタミナに自信あり","粘り強く投げられる"]};
+const DCM_WEAK={meet:["ミートに課題","確実性はこれから"],power:["長打は期待薄","力強さはまだこれから"],speed:["足は遅め","走塁は課題"],
+  fieldSkill:["守備は鍛えがいあり","守りに課題"],arm:["肩は弱め","送球に不安"],velo:["球威不足","真っすぐの強さはこれから"],
+  control:["制球が荒れがち","四球が多くなりそう"],stamina:["スタミナに不安","長い回はまだ厳しい"]};
+const DCM_MISC={bal:["バランスの取れた好素材","走攻守にまとまりがある"],balP:["まとまりのある好投手","安定感のある投手"],ok:["大きな穴のない素材","全体にまとまっている"],raw:["まだ粗削り","じっくり育てたい素材"],
+  young:["高卒らしい素材型","これからの成長に期待"],ready:["即戦力候補","1年目から戦力になりそう"],indy:["叩き上げの粘り強さ"],rp:["リリーフで生きそう"],sp:["先発ローテの候補"]};
+function draftComment(p){
+  if(!p || (typeof impHidden==="function" && impHidden(p))) return "";
+  const isP= p.velo!==undefined;
+  const keys= isP? ["velo","control"] : ["meet","power","speed","fieldSkill","arm"];
+  const v=k=>Number(p[k])||0, pk=(arr,salt)=>arr[forteHash(p.name+"|"+salt)%arr.length], w=k=> k==="speed"? v(k)-6 : v(k);
+  const ord=keys.slice().sort((a,b)=>w(b)-w(a)), best=ord[0], second=ord[1], worst=ord[ord.length-1];
+  const avg=keys.reduce((s,k)=>s+v(k),0)/keys.length;
+  const out=[], bal= v(best)-v(worst)<=8 && v(best)>=56;
+  if(bal) out.push(pk(isP? DCM_MISC.balP : DCM_MISC.bal,"bal"));
+  else if(v(best)>=66) out.push(pk(DCM_TOP[best],best));
+  else if(v(best)>=56) out.push(pk(DCM_GOOD[best],best));
+  else out.push(pk(avg>=48? DCM_MISC.ok : DCM_MISC.raw,"base"));
+  let tail=null;
+  if(v(worst)<=42 && worst!==best) tail=pk(DCM_WEAK[worst],"w"+worst);
+  else if(!bal && second && v(second)>=66) tail=pk(DCM_TOP[second],second);
+  else if(isP && p.pos==="先発" && v("stamina")<=60) tail=pk(DCM_WEAK.stamina,"wst");
+  else if(isP && p.pos==="先発" && v("stamina")>=75) tail=pk(v(best)>=56? DCM_MISC.sp : DCM_GOOD.stamina,"sp");
+  else if(isP && p.pos!=="先発" && v("velo")>=60) tail=pk(DCM_MISC.rp,"rp");
+  else if((p.background==="大卒"||p.background==="社会人") && avg>=56) tail=pk(DCM_MISC.ready,"ready");
+  else if(p.background==="独立リーグ") tail=pk(DCM_MISC.indy,"indy");
+  else if(p.age<=18 && v(best)<66) tail=pk(DCM_MISC.young,"young");
+  if(tail && tail!==out[0]) out.push(tail);
+  return out.join("、");
+}
+function draftCmHtml(p){ const c=draftComment(p); return c? `<span class="dcCm"><b>寸評</b>${c}</span>` : ""; }
+function draftCandLines(it){
+  const q=it.p, ab= it.type==="batter"? `[${q.fielding}${(q.subPos&&q.subPos.length)?`・副${q.subPos.join("/")}`:""}] 野手 ミ${gSpanP(q,"meet")}/パ${gSpanP(q,"power")}/走${gSpanP(q,"speed")}/守${gSpanP(q,"fieldSkill")}` : `投手(${q.pos}) 球速${gSpanP(q,"velo")}/制球${gSpanP(q,"control")}${q.pos==="先発"? `/スタ${gSpanP(q,"stamina")}` : ""}`;
+  return `<span class="dcLine">${localTagHtml(q,league[myTeam])}${retryDescHtml(q)}${ab}${scoutTag(q)}</span>${skillChipsHtml(q)}${it.unique? "" : draftCmHtml(q)}`;
+}
+let offPhaseLast=null;
+function scrollUpToMatchup(){ const m=document.getElementById("matchup"); if(!m || !m.offsetParent) return; const y=Math.max(0,m.getBoundingClientRect().top+window.scrollY-60); if(window.scrollY>y+4) window.scrollTo(0,y); }
+function offPhaseScroll(ph){ const prev=offPhaseLast; offPhaseLast=ph; if(prev && prev!==ph && ph!=="draft" && ph!=="pre") setTimeout(scrollUpToMatchup,0); }
+const DRAFT_CM_EN={"寸評":"Scout's note",
+ "ミートはすでに一軍級":"contact already big-league ready","バットコントロールは即戦力":"bat control ready now","長打力はすでに一軍級":"power already big-league ready","一発で試合を変えられる大砲":"a slugger who can change a game with one swing",
+ "足はすでに一軍でも通用":"speed already plays in the majors","俊足で塁上をかき回せる":"fast enough to wreak havoc on the bases","守備はすでに即戦力":"defense ready now","守りは一軍でも計算できる":"you can count on his glove right away",
+ "肩の強さはプロでも上位":"arm strength among the best","強肩が光る":"a standout arm","球威はすでに一軍級":"stuff already big-league ready","真っすぐで押せる本格派":"a power pitcher who attacks with the fastball",
+ "制球はすでに一軍級":"command already big-league ready","四球で崩れない精密さ":"pinpoint control, rarely walks anyone","長いイニングを任せられる":"can handle long outings","スタミナはすでに一軍級":"stamina already big-league ready",
+ "ミートのうまさが光る":"a good contact hitter","広角に打てる巧打タイプ":"a spray hitter who uses the whole field","長打力に光るものがある":"shows some pop","パンチ力が魅力":"appealing pop in the bat",
+ "足の速さが武器":"speed is his weapon","走れる選手":"a runner","堅実な守備が持ち味":"solid, dependable defense","守備の安定感がある":"steady in the field","肩が強い":"strong arm","送球に力がある":"throws with authority",
+ "力のある真っすぐが武器":"a lively fastball is his weapon","球威に光るものがある":"shows some life on his pitches","制球がまとまっている":"commands the zone well","コントロールが安定":"steady control",
+ "スタミナに自信あり":"confident in his stamina","粘り強く投げられる":"keeps grinding on the mound","ミートに課題":"contact needs work","確実性はこれから":"consistency still to come","長打は期待薄":"little power","力強さはまだこれから":"strength still to come",
+ "足は遅め":"on the slow side","走塁は課題":"baserunning needs work","守備は鍛えがいあり":"defense needs plenty of work","守りに課題":"defense needs work","肩は弱め":"a weak arm","送球に不安":"shaky throws",
+ "球威不足":"lacks velocity","真っすぐの強さはこれから":"fastball still developing","制球が荒れがち":"control can get wild","四球が多くなりそう":"likely to issue walks","スタミナに不安":"stamina is a question","長い回はまだ厳しい":"not ready for long outings",
+ "バランスの取れた好素材":"a well-rounded prospect","走攻守にまとまりがある":"solid in every phase","まとまりのある好投手":"a polished pitcher","安定感のある投手":"a steady pitcher","大きな穴のない素材":"no glaring holes","全体にまとまっている":"solid all around",
+ "まだ粗削り":"still raw","じっくり育てたい素材":"a project to develop patiently","高卒らしい素材型":"a raw high-school talent","これからの成長に期待":"a lot of growth ahead","即戦力候補":"could contribute right away","1年目から戦力になりそう":"could help from year one",
+ "叩き上げの粘り強さ":"a grinder who worked his way up","リリーフで生きそう":"projects as a reliever","先発ローテの候補":"a rotation candidate",
+ "候補には、見えている能力と年齢・出身から、スカウトの寸評(一言の評価)が付きます。伸びしろは、スカウトの目がないと分かりません。":"Each candidate gets a scout's note based on the visible ratings, age and background. Potential stays hidden without the scout's eye.",
+ "候補の一覧は名前と守備位置だけで、能力・スキル・寸評は「スカウトの手帳」に出ます(PCは一覧の右、スマホは画面の下)。名前にマウスを乗せると中身が入れ替わり、押すとその選手で止まります。":"The candidate list shows only names and positions; ratings, skills and the scout's note appear in the Scout's notebook (to the right of the list on a PC, at the bottom of the screen on a phone). Hover over a name to switch the notebook; click or tap to keep it on that player."};
+let dcPadCache=[], dcPadKeys=[], dcPadSel=null;
+function dcKey(p){ return p? p.name+"|"+p.age : ""; }
+function dcPosLabel(it){ const q=it.p; return it.type==="batter"? (q.fielding||"") : (q.pos==="先発"? "先発" : "中継ぎ"); }
+function dcRowHtml(k,on,lead,q,pos,btns,extra){
+  return `<div class="playerRow dcRow dcC${on?" on":""}${extra||""}" data-k="${k}" tabindex="0" onmouseenter="dcPadHover(${k})" onfocus="dcPadHover(${k})" onclick="dcPadPick(event,${k})">`
+    +`<span class="dcName">${lead}<span class="dcHead">${q.name}</span><span class="posBadge dcPos">${pos}</span><span class="small dcAge">${q.age}歳(${q.background})</span></span>`
+    +`<span class="dcBtns">${btns}</span></div>`;
+}
+function dcWrapHtml(rows,emptyHtml){
+  if(!rows) return emptyHtml;
+  let k=dcPadKeys.indexOf(dcPadSel); if(k<0) k=0;
+  return `<div class="dcWrap"><div class="dcList" onmouseleave="dcPadBack()">${rows}</div><aside class="dcPad" id="dcPad" aria-live="polite"><div class="dcPadT">📒 スカウトの手帳 <span class="small">名前にマウスを乗せるか、押すと出ます</span></div><div id="dcPadBody">${dcPadCache[k]||""}</div></aside></div>`;
+}
+function dcPadShow(k){
+  const b=document.getElementById("dcPadBody"); if(!b || dcPadCache[k]===undefined) return;
+  b.innerHTML=dcPadCache[k];
+  document.querySelectorAll("#matchup .dcRow.dcC").forEach(r=>r.classList.toggle("on",+r.dataset.k===k));
+}
+function dcPadHover(k){ dcPadShow(k); }
+function dcPadPick(ev,k){ if(ev && ev.target && ev.target.closest && ev.target.closest("button")) return; dcPadSel=dcPadKeys[k]; dcPadShow(k); }
+function dcPadBack(){ const k=dcPadKeys.indexOf(dcPadSel); dcPadShow(k<0? 0 : k); }
+function dcPadFit(){}
+const DCPAD_EN={"スカウトの手帳":"Scout's notebook","名前にマウスを乗せるか、押すと出ます":"Hover over or tap a name to see details","中継ぎ":"RP"};
+let practice=null;
+let practiceForce=null;
+const PRACTICE_KINDS=[["world","🌏 世界大会","代表選びから"],["cup","🌌 銀河杯","1回戦から"],["draft","🎉 ドラフト会議","1位入札から"],["camp","🏕 秋季キャンプ","参加する選手選びから"]];
+function practiceAvail(){ return !LITE && testPanelOn(); }
+function practiceName(k){ const x=PRACTICE_KINDS.find(a=>a[0]===k); return x? x[1].replace(/^\S+\s/,"") : ""; }
+function openPracticeMenu(){
+  if(!practiceAvail()) return;
+  openModal(`<h3>🔧 練習モード</h3><p class="small">お試しのリーグ(6球団・約30試合)を作り、選んだ場面からすぐ始めます。セーブはされません。実績・図鑑・解禁・設定などの記録は、「練習を終える」で練習を始める前の状態に戻ります。</p>
+    <div class="mgOpts">${PRACTICE_KINDS.map(([k,l,s])=>`<button class="sec mgOpt" onclick="practiceStart('${k}')"><b>${l}</b> <span class="small">${s}</span></button>`).join("")}</div>`);
+}
+function practiceSnapLs(){
+  const o={}; try{ if(localStorage.getItem("pennantPracticeSnap")) return true; 
+    for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") o[k]=localStorage.getItem(k); }
+    localStorage.setItem("pennantPracticeSnap",JSON.stringify(o)); return true; }catch(e){ return false; }
+}
+function practiceSetSel(id,v){ const s=document.getElementById(id); if(!s) return; if(![...s.options].some(o=>o.value===v)) return; s.value=v; s.dispatchEvent(new Event("change",{bubbles:true})); }
+function practiceStart(kind){
+  closeModal();
+  if(!practiceSnapLs()){ showToast("端末の記録の控えを取れなかったので、練習モードを始められません"); return; }
+  practice={kind,state:null,t0:Date.now()}; practiceForce=null;
+  try{ localStorage.setItem("pennantCampAuto","0"); }catch(e){}
+  showSetupScreen();
+  document.querySelectorAll("#setup details").forEach(d=>d.open=true);
+  [["presetSel",""],["numTeams","6"],["targetGames","30"],["teamSelectMode","random"],["modeSel","normal"],["cupSel","on"],["worldSel","on"],["growthSel","new"],["ownSel","off"],["drawFxSel","on"],["injurySel","on"]].forEach(([k,v])=>practiceSetSel(k,v));
+  startLeague(); try{ closeModal(); }catch(e){}
+  achTrack.debugUsed=true;
+  practiceBar(); showPanel("game");
+  practicePrepare(); practiceEnter();
+}
+function practicePrepare(){
+  const k=practice.kind;
+  if(k==="draft"||k==="camp"){
+    while(gameIdx<schedule.length){ if(cupBusy()){ cupAuto(); continue; } simScheduledGame(); }
+    if(leagueFormat==="twodiv" && league.some(t=>t.division) && !relegation.done){ startRelegation(); simRelegationAll(); }
+    if(tierEligible() && !tierRelegation.done){ startTierRelegation(); simTierRelegationAll(); }
+    if(pendingChaosDecision){ chaosContinue(); try{ closeModal(); }catch(e){} }
+    startPostseason(); simPostseasonAll();
+    if(k==="camp"){ startDraft("joint"); finishDraft(); if(!ikuDraft.done){ if(!ikuDraft.active) startIkuseiDraft(); finishIkuseiDraft(); } if(!fa.done) runFAAuto(); }
+  }
+  if(k==="world"){ practiceForce="world"; world=null; worldLog=worldLog.filter(x=>x.y!==year); worldSetup(); }
+  if(k==="cup") practiceForce="cup";
+  practice.state=encodeGraph(collectState());
+}
+function practiceEnter(){
+  const k=practice.kind;
+  try{ closeModal(); }catch(e){}
+  if(k==="draft") startDraft("joint");
+  if(k==="camp") startOffseason();
+  updateMatchup(); renderAll(); window.scrollTo(0,0);
+  showToast(`練習モード:${practiceName(k)}を始めました`);
+}
+function practiceAgain(){
+  if(!practice || !practice.state) return;
+  try{ closeModal(); }catch(e){}
+  suppressAutoSave=true;
+  try{ applyState(decodeGraph(practice.state)); normalizeState(); afterLoadUI(); }
+  finally{ suppressAutoSave=false; }
+  campPending=null; dcPadSel=null;
+  practiceForce= (practice.kind==="world"||practice.kind==="cup")? practice.kind : null;
+  practiceBar(); showPanel("game"); practiceEnter();
+}
+function practiceEnd(){
+  league=null; practiceForce=null;
+  try{ location.reload(); }catch(e){ practiceRestoreLs(); showToast("ページを読み直してください"); }
+}
+function practiceRestoreLs(){
+  try{ const s=localStorage.getItem("pennantPracticeSnap"); if(!s) return false; const o=JSON.parse(s)||{};
+    const del=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
+    del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); return true; }catch(e){ return false; }
+}
+function practiceBar(){
+  const b=document.getElementById("practiceBar"); if(!b) return;
+  b.classList.toggle("hidden",!practice); refreshTestBadge();
+  if(practice) b.innerHTML=`<span class="pracT">🔧 練習モード:${practiceName(practice.kind)}</span><span class="pracBtns"><button class="sec" onclick="practiceAgain()">↺ もう一度</button><button class="sec" onclick="practiceEnd()">練習を終える</button></span>`;
+}
+const PRACTICE_EN={"練習モード":"Practice mode","🔧 練習モード":"🔧 Practice mode","↺ もう一度":"↺ Again","練習を終える":"End practice","代表選びから":"from picking the national team","1回戦から":"from the first round","1位入札から":"from the 1st-round bid","参加する選手選びから":"from picking the players",
+  "🌏 世界大会":"🌏 World tournament","🌌 銀河杯":"🌌 Galaxy Cup","🎉 ドラフト会議":"🎉 Draft","🏕 秋季キャンプ":"🏕 Fall camp",
+  "🔧 練習モード:世界大会":"🔧 Practice: World tournament","🔧 練習モード:銀河杯":"🔧 Practice: Galaxy Cup","🔧 練習モード:ドラフト会議":"🔧 Practice: Draft","🔧 練習モード:秋季キャンプ":"🔧 Practice: Fall camp",
+  "練習モード:{0}を始めました":"Practice mode: started {0}","練習モードでは保存できません":"You can't save in practice mode",
+  "お試しのリーグ(6球団・約30試合)を作り、選んだ場面からすぐ始めます。セーブはされません。実績・図鑑・解禁・設定などの記録は、「練習を終える」で練習を始める前の状態に戻ります。":"Creates a trial league (6 teams, about 30 games) and starts right at the scene you pick. Nothing is saved. Achievements, the collection, unlocks, settings and so on go back to how they were before practice when you choose “End practice”.",
+  "端末の記録の控えを取れなかったので、練習モードを始められません":"Couldn't back up this device's records, so practice mode can't start"};
 function renderZukan(){
   const z=loadZukan(), el=document.getElementById("zukanView"); if(!el) return;
   const seen=UNIQUES.filter(u=>z[u.id]&&z[u.id].seen).length, got=UNIQUES.filter(u=>z[u.id]&&z[u.id].got).length;
@@ -6036,10 +6276,10 @@ function renderZukan(){
   el.innerHTML=`<div class="zukanStats"><span>出会った ${seen}/${UNIQUES.length}</span><span>獲得 ${got}/${UNIQUES.length}</span><span>コンプリート率 ${Math.round(got/UNIQUES.length*100)}%</span></div>
     <div class="zukanGrid">`+UNIQUES.map((u,i)=>{
       const e=z[u.id]||{}, stars="★".repeat(u.r);
-      if(!e.seen) return `<div class="zCard unseen"><div class="zNo">No.${i+1} <span class="zStar">${stars}</span></div><div class="zSil">？</div><div class="zName">？？？</div><div class="small">${u.t==="b"?"野手":"投手"}・未発見</div></div>`;
+      if(!e.seen) return `<div class="zCard unseen"><div class="zNo">No.${i+1} <span class="zStar">${stars}</span></div><div class="zSil">${zukanSilSvg(u,"unseen")}</div><div class="zName">？？？</div><div class="small">${u.t==="b"?"野手":"投手"}・未発見</div></div>`;
       const team=where(u.id);
       return `<div class="zCard ${e.got?"got":""}"><div class="zNo">No.${i+1} <span class="zStar">${stars}</span>${e.got?' <span class="badge" style="background:var(--gold);color:var(--onGold,var(--field2))">獲得</span>':''}</div>
-        <div class="zName">${uniqName(u)}</div><div class="zTitle">「${u.title}」</div>
+        <div class="zSil">${zukanSilSvg(u,e.got?"got":"seen")}</div><div class="zName">${uniqName(u)}</div><div class="zTitle">「${u.title}」</div>
         <div class="small">固有スキル:${pbText(uniquePb(u))? pbText(uniquePb(u))+"(いつも効く)" : "能力への上乗せなし"}</div>
         <div class="small">${u.t==="b"?`野手・${u.pos}`:`投手・${u.role}`} / ${uqBg(u)} / ${u.pers}${u.aff?` / 好みの球団:${u.aff}`:""}</div>
         <div class="small zBlurb">${uqBlurb(u)}</div>
@@ -6203,7 +6443,12 @@ function draftScreenHtml(){
   list.sort((x,y)=> (recSet.has(y.it)?1:0)-(recSet.has(x.it)?1:0));
   list.sort((x,y)=> (y.it.unique?1:0)-(x.it.unique?1:0));
   if(retryEnabled){ list.sort((x,y)=> (y.it.p.retry&&y.it.p.retry.track?1:0)-(x.it.p.retry&&x.it.p.retry.track?1:0)); if(draft.retryNote) html+=`<div class="notice" style="margin:6px 0">${draft.retryNote}</div>`; if(draft.active && !lottery && draft.mode==="joint") html+=`<p class="small" style="margin:4px 0">☆追跡:指名されなかった高校生・大学生のうち、気になる選手に印を付けられます(${RETRY_TRACK_MAX}人まで)。印の選手が何年かあとに戻ってきたら、お知らせします。</p>`; }
-  html+= list.map(({it,i})=>{ const q=it.p, u=it.unique; return `<div class="playerRow${u?" uniqRow":""}"><span>${u?`<span class="badge uniq">★目玉 ${"★".repeat(u.r)}</span> `:""}${recSet.has(it)?'<span class="badge" style="background:var(--gold);color:var(--onGold,var(--field2))">おすすめ</span> ':''}${q.name}${u?`「${u.title}」`:""} ${q.age}歳(${q.background}) - ${draftCandDesc(it)}</span><span style="display:flex;gap:6px;align-items:center">${retryTrackBtn(it)}${infoBtnHtml(q)}<button class="sec" onclick="${lottery?`draftBid(${i})`:`draftSelectPick(${i})`}">${lottery?"入札":"指名"}</button></span></div>`; }).join("") || '<p class="small">候補がいません。</p>';
+  { dcPadKeys=list.map(({it})=>dcKey(it.p)); const selK= dcPadKeys.includes(dcPadSel)? dcPadSel : dcPadKeys[0];
+    dcPadCache=list.map(({it})=>{ const q=it.p, u=it.unique; return `<div class="dcPadH">${u?`<span class="badge uniq">★目玉 ${"★".repeat(u.r)}</span> `:""}${q.name}${u?`「${u.title}」`:""} ${q.age}歳(${q.background})</div>${draftCandLines(it)}${u?`<div class="small" style="margin-top:3px">${uqBlurb(u)}</div>`:""}`; });
+    const rows=list.map(({it,i},k)=>{ const q=it.p, u=it.unique;
+      const lead=`${u?`<span class="badge uniq">★目玉 ${"★".repeat(u.r)}</span>`:""}${recSet.has(it)?'<span class="badge" style="background:var(--gold);color:var(--onGold,var(--field2))">おすすめ</span>':''}${(q.retry)?`<span class="badge retryTag">再挑戦</span>`:""}`;
+      return dcRowHtml(k, dcPadKeys[k]===selK, lead, q, dcPosLabel(it), `${retryTrackBtn(it)}${infoBtnHtml(q)}<button class="sec" onclick="${lottery?`draftBid(${i})`:`draftSelectPick(${i})`}">${lottery?"入札":"指名"}</button>`, u?" uniqRow":""); }).join("");
+    html+= dcWrapHtml(rows,'<p class="small">候補がいません。</p>'); }
   html+=`</div><div style="width:100%;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px">
     ${lottery? `<button class="sec" onclick="draftPassR1()">1巡目は入札しない</button>` : draft.mode==="joint"?`<button class="sec" onclick="draftPassTurn()">この巡は見送る</button>`:""}
     <button class="act" onclick="confirmFinishDraft()">指名を終える</button></div>`;
@@ -9064,6 +9309,7 @@ function allTestSwitchesOff(){ try{ localStorage.removeItem("pennantTestSw"); }c
 function renderTestPanel(){
   const card=document.getElementById("testCard"); if(!card) return;
   card.classList.toggle("hidden",!testPanelOn());
+  { const pb=document.getElementById("practiceBtn"); if(pb) pb.classList.toggle("hidden",!practiceAvail()); }
   const el=document.getElementById("testSwitches"); if(!el) return;
   el.innerHTML=testSwitchDefs().map(d=>`<label class="tsRow"><input type="checkbox" ${testSw(d.k)?"checked":""} onchange="setTestSwitch('${d.k}',this.checked)"><span>${d.label}</span></label>`).join("");
   const n=document.getElementById("testCardNote");
@@ -9071,8 +9317,8 @@ function renderTestPanel(){
 }
 function refreshTestBadge(){
   const b=document.getElementById("testBadge"); if(!b) return;
-  const on= DEV || anyTestSwitch();
-  b.classList.toggle("hidden",!on); b.textContent= DEV? "開発版" : "TEST";
+  const on= DEV || anyTestSwitch() || !!practice;
+  b.classList.toggle("hidden",!on); b.textContent= practice? "練習" : DEV? "開発版" : "TEST";
 }
 function toggleTestPanel(){
   if(LITE) return false;
@@ -9468,6 +9714,8 @@ const MANUAL=[
   <p><b>秋季キャンプ</b>(成長が「新しい」のリーグ):オフシーズンへ進むときに、特訓する選手を3人(育成施設の強化で5人まで)選び、メニュー(打撃・守備・走塁/球威・制球・スタミナ、31歳からは「調整」)を決めます。結果は大成功・成功・失敗のどれかです。「おまかせ」で選ぶことも、設定で「秋季キャンプを自動にする」こともできます。他球団も同じように行います。伸びた選手は、開幕前に「この冬に伸びた選手」で確かめられます。</p>
   <p><b>引退</b>:野手は39歳、投手は40歳を過ぎると、毎年半々の確率で引退します。</p>`],
  ["ドラフトとFA",`<p id="manDraft"><b>合同ドラフト</b>:自リーグともう一方のリーグの全球団が、同じ候補から指名します(1球団最大7人)。1巡目は入札抽選で、入札が重なったら抽選、外れた球団は残りから再入札します。自分の入札が重なったときは、球団数ぶんの封筒から1つ選んで開けます(どれを選んでも当たる確率は同じです)。2巡目以降は、両リーグを合わせた勝率の低い球団から順に指名します(偶数巡は逆順)。指名した選手は、2軍に入れるか、1軍の選手と入れ替えます。設定をオンにしていると、チームのウィークポイントとおすすめの候補が表示されます。</p>
+  <p id="manDraftCm">候補には、見えている能力と年齢・出身から、スカウトの寸評(一言の評価)が付きます。伸びしろは、スカウトの目がないと分かりません。</p>
+  <p id="manDraftPad">候補の一覧は名前と守備位置だけで、能力・スキル・寸評は「スカウトの手帳」に出ます(PCは一覧の右、スマホは画面の下)。名前にマウスを乗せると中身が入れ替わり、押すとその選手で止まります。</p>
   <p class="fullOnly"><b>トレードの看板</b>:他球団は「🏆 今季勝負」か「🌱 再建中」の看板を持ち、トレードの画面に出ます。シーズン中は勝率5割以上なら勝負、オフや開幕直後は戦力が上半分なら勝負です。今季勝負の球団は今の力を重く見るので、若手の見込みだけでは主力を出しません。再建中の球団は若手と伸びしろを重く見て、30歳以上の選手を安く見るので、ベテランの主力を若手と引き換えに出してくれることがあります。</p>
   <p class="fullOnly" id="manTrade"><b>トレード</b>:編成画面の「トレード」から、相手の球団に、出す選手と欲しい選手(それぞれ最大3人。1軍・2軍・育成の選手)を示して申し込めます。相手の反応(乗り気・検討中・お断り)を見ながら条件を調整できます。相手は見込み・年齢・手薄な位置・ケガで損得を判断し、スターほど価値を高く見ます。看板選手は出してくれません。シーズン中は7月末まで、オフはいつでもでき、1シーズン3回までです。看板選手や目玉選手を出すと人気が下がります。シーズン中は、他球団から申し込みが来ることもあります(試合画面の「📨」の帯から見て、受けるか断るかを選びます。翌月には取り下げられます)。他球団同士のトレードも行われ、大型トレードは号外になります。</p>
   <p class="fullOnly">リーグ作成で「もう一方のリーグ:開幕時にまとめて消化」を選んだリーグでは、もう一方のリーグの試合はシーズンの初めに済んでいるので、シーズン中のトレードは同じリーグの球団どうしだけです(オフはどちらのリーグとも)。</p>
@@ -11534,7 +11782,7 @@ async function storeDelete(slot){
 let autoSaveTimer=null, suppressAutoSave=false, saveBusy=false, lastAutoSave=0, autoSaveDue=0;
 const AUTOSAVE_GAP=30000;
 function scheduleAutoSave(urgent){
-  if(!league || suppressAutoSave) return;
+  if(!league || suppressAutoSave || practice) return;
   const now=Date.now();
   const due= urgent? now+1500 : Math.max(now+1500, lastAutoSave+AUTOSAVE_GAP);
   if(autoSaveTimer && autoSaveDue<=due) return;
@@ -11546,6 +11794,7 @@ function scheduleAutoSave(urgent){
 }
 async function saveToSlot(slot,silent){
   if(!league) return false;
+  if(practice){ if(!silent) showToast(tr("練習モードでは保存できません")); return false; }
   if(farmPending){ if(!silent) showToast("選択中の操作を終えてから保存してください。"); else scheduleAutoSave(); return false; }
   if(saveBusy){ if(silent){ scheduleAutoSave(); return false; }
     while(saveBusy) await saveIdle();
@@ -17764,7 +18013,7 @@ try{ I18N.add("en",{"ミニマル": "Minimal", "ミニマル(黒)": "Minimal (bl
   I18N.add("en",{"林(杉木立)": "Forest (cedars)", "火(火焔)": "Fire (flames)", "山(遠山)": "Mountain (far peaks)", "雷(雷文)": "Thunder (fret)", "林・火・山・雷": "Forest, Fire, Mountain, Thunder", "林(杉)": "Forest (cedar)", "火(焔)": "Fire (flame)", "山(薄墨)": "Mountain (ink wash)", "雷(紫電)": "Thunder (violet)", "林の如し": "Still as the Forest", "火の如し": "Fierce as Fire", "山の如し": "Immovable as the Mountain", "雷の如し": "Swift as Thunder", "チームの与四球がリーグで最も少ない": "Your team allows the fewest walks in the league", "チームの本塁打がリーグで最も多い": "Your team hits the most home runs in the league", "同じ野手が3年続けて、シーズンの全試合に出場する": "The same position player plays in every game for 3 straight seasons", "チームの盗塁がリーグで最も多い": "Your team steals the most bases in the league"});
   I18N.add("en",{"青龍": "Azure Dragon", "白虎": "White Tiger", "朱雀": "Vermilion Bird", "玄武": "Black Tortoise", "青龍(深藍)": "Azure Dragon (deep indigo)", "白虎(白磁)": "White Tiger (porcelain)", "朱雀(朱)": "Vermilion Bird (vermilion)", "玄武(玄)": "Black Tortoise (jet)", "独走": "Runaway", "常勝軍団": "Perennial Power", "不死鳥": "Phoenix", "鉄壁": "Iron Wall", "2位に10ゲーム差以上をつけてリーグ優勝する": "Win the pennant by 10 or more games over 2nd place", "5年のうち3回リーグ優勝する": "Win 3 pennants within 5 years", "前年Bクラス(下位半分)から、ポストシーズンを制する": "Win the postseason the year after finishing in the bottom half", "リーグ最少失点でリーグ優勝する": "Win the pennant while allowing the fewest runs in the league", "定番": "Classics", "花鳥風月": "Flowers, birds, wind & moon", "球場と中継": "Ballparks & broadcasts", "球団の記録": "Club keepsakes", "四神": "Four Gods"});
   I18N.ctx("en","#setup, #p-settings, #tipBand",{"なし":"Off"});
-  I18N.add("en",{"見た目と音":"Look & sound","リーグ・チーム":"League & teams","超投高":"Extreme","強弱つき":"Scaled"}); I18N.add("en",SEL_TIPS_EN); if(I18N.lang!=="ja") i18nRefresh(); }catch(e){ console.error("i18n end",e); }
+  I18N.add("en",{"見た目と音":"Look & sound","リーグ・チーム":"League & teams","超投高":"Extreme","強弱つき":"Scaled"}); I18N.add("en",SEL_TIPS_EN); I18N.add("en",DRAFT_CM_EN); I18N.add("en",DCPAD_EN); I18N.add("en",PRACTICE_EN); I18N.add("en",{"練習":"PRACTICE"}); if(I18N.lang!=="ja") i18nRefresh(); }catch(e){ console.error("i18n end",e); }
 
 </script>
 </body>
