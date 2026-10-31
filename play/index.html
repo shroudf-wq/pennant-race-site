@@ -2694,6 +2694,49 @@ body:not(.aoArt) .aoOnly{display:none !important}
 @media (prefers-reduced-motion:reduce){ #aoRow.aoFlash{animation:none;outline:2px solid var(--gold)} }
 .zkHead .aoGo{min-height:44px}
 </style>
+<style id="dfCss">
+/* draft-fa:指名ボード・発表・取られた候補・FAの補償 */
+.dfBoardD{margin:8px 0}
+.dfBoardD>summary{cursor:pointer;min-height:36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dfBoardBox{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:6px;margin-top:4px}
+table.dfBoard{border-collapse:separate;border-spacing:0;font-size:.78em;min-width:max-content;width:100%}
+table.dfBoard th,table.dfBoard td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:3px 5px;vertical-align:top;text-align:left;min-width:76px;max-width:120px}
+table.dfBoard thead th{background:var(--card2);position:sticky;top:0;white-space:nowrap;font-weight:bold}
+table.dfBoard .dfRd{position:sticky;left:0;z-index:1;background:var(--card2);min-width:30px;width:30px;text-align:center;white-space:nowrap}
+table.dfBoard thead .dfRd{z-index:2}
+table.dfBoard td{background:var(--field)}
+table.dfBoard .me{background:var(--field2);box-shadow:inset 0 0 0 1px var(--gold)}
+.dfP{display:flex;flex-direction:column;gap:1px;line-height:1.25;padding:2px 0}
+.dfP+.dfP{border-top:1px dashed var(--line);margin-top:2px;padding-top:3px}
+.dfP b{font-weight:bold;word-break:keep-all}
+.dfP .dfSub{font-size:.88em;opacity:.8}
+.dfP .dfBy{font-size:.86em;color:var(--gold)}
+.dfP.mine b{color:var(--gold)}
+.dfP.hot{background:rgba(220,60,60,.14);border-radius:4px;padding:2px 3px}
+.dfP .dfMk{font-size:.82em;padding:1px 5px;align-self:flex-start;margin-top:1px}
+.dfNew{animation:dfIn .5s ease-out}
+@keyframes dfIn{from{background:var(--gold);color:var(--onGold,#000)}to{background:transparent}}
+.dfAnn{border:2px solid var(--gold);border-radius:8px;padding:10px 12px;margin:8px 0;background:var(--field)}
+.dfAnnMain{font-size:1.12em;min-height:2.6em;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin:4px 0}
+.dfAnnMain .dfAnnName{font-size:1.15em;color:var(--gold)}
+.dfPop{animation:dfPop .35s ease-out}
+@keyframes dfPop{from{transform:translateY(6px);opacity:.2}to{transform:none;opacity:1}}
+.dfCtl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.dfCtl button{min-height:36px;padding:4px 12px}
+.dfTkHead{margin:10px 0 2px;opacity:.85;border-top:1px solid var(--line);padding-top:6px}
+.dcRow.dfTk{opacity:.5;filter:grayscale(1);cursor:default}
+.dcRow.dfTk .dfTkTag{background:#666;white-space:normal}
+.fcRow{margin-top:3px}
+.fcCls{background:#555}
+.fcCls.fcA{background:#a0312d}
+.fcCls.fcB,.fcCls.fcB2{background:#2d5fa0}
+.fcDraft{margin:6px 0}
+.fcOpts{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.fcOpt{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;min-height:56px;padding:8px 12px;width:100%}
+@media (prefers-reduced-motion:reduce){ .dfNew,.dfPop{animation:none} }
+@media (max-width:480px){ table.dfBoard{font-size:.72em} table.dfBoard th,table.dfBoard td{min-width:64px;padding:2px 4px} }
+#playerModal:has(.fcAsk) #playerModalBody+div{display:none}   /* 補償を選ぶ窓では「閉じる」を出さない(選ぶまで閉じない) */
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -2831,6 +2874,9 @@ body:not(.aoArt) .aoOnly{display:none !important}
     <div class="formRow fullOnly"><label for="salarySel">年俸と契約更改</label>
       <select id="salarySel"><option value="off" selected>なし</option><option value="on">あり</option></select>
       <p class="formHint">「あり」:オフに自チームの契約更改(提示額と退団をまとめて決める。おまかせもある)。年俸は球団ポイントで払い、球団ポイントの上限は100点、入る点と使う点は3倍になります。</p></div>
+    <div class="formRow fullOnly"><label for="faCompSel">FAの補償</label>
+      <select id="faCompSel"><option value="new" selected>新しい形(指名権・金銭)</option><option value="human">人的補償(今まで)</option></select>
+      <p class="formHint">「新しい形」:FAで選手を取られた球団は、その選手の元の球団での年俸の順位で、獲得した球団の翌年のドラフトの2巡目・3巡目の指名権か球団ポイントを受け取ります(9位以下と、翌年の4月1日に35歳以上の選手は補償なし)。「人的補償」:獲得した球団の2軍から1人が元の球団へ移ります(今までの形)。</p></div>
     <div class="formRow"><label for="ownSel">オーナーの解任</label>
       <select id="ownSel"><option value="stay" selected>あり(続投もできる)</option><option value="move">あり(移籍のみ)</option><option value="off">なし</option></select>
       <p class="formHint">信頼が0になると解任されます。「続投もできる」は、いまの球団に残る道(信頼50から)も選べます。「移籍のみ」は、同じリーグの昨季の下位2球団からのオファーを受けて移ります。球団を移っても、実績・図鑑・殿堂は引き継がれます。「なし」にすると、今までどおりです。</p></div>
@@ -3445,7 +3491,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.7.s";
+const APP_VERSION="v1.7.t";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -5401,7 +5447,7 @@ function koshiLoad(p,t){__liteGone("koshiLoad");}
 function koshiSta(p,t){ const s=eff(p,"stamina"); if(!koshiEnabled) return s; const L=koshiLoad(p,t); return L>0? Math.round(s*Math.max(KOSHI.staMin,1-KOSHI.sta*L)) : s; }
 function koshiInj(p,t){__liteGone("koshiInj");}
 function koshiAvail(p,t,todaySt){__liteGone("koshiAvail");}
-function koshiList(t,todaySt){__liteGone("koshiList");}
+function koshiList(t,todaySt){ return koshiOn(t)? t.rotation.filter(p=>koshiAvail(p,t,todaySt)).sort((a,b)=>scoreOf(b)-scoreOf(a)).slice(0,2) : []; }
 function koshiAiList(t,todaySt){
   if(!koshiOn(t) || (league && t===league[myTeam])) return [];
   const g=t._gc||0, n=t.rotation.length, next=n? t.rotation[t.rotIdx%n] : null;
@@ -6856,7 +6902,7 @@ function aiChooseProspect(t,pool,lottery){
   return best;
 }
 function aiWantsPick(t,count,pool){
-  if(count>=DRAFT_ROUNDS || !pool.length) return false;
+  if(count>=dfCap(t) || !pool.length) return false;
   if(count<3) return true;
   const i=aiChooseProspect(t,pool); if(i<0) return false;
   const it=pool[i], type= it.type==="batter"? "bat":"pit";
@@ -6959,7 +7005,7 @@ function advanceDraftAI(){
     const t=draft.order[draft.pickNo];
     const cnt=draft.picked.get(t)||0;
     if(t===me){
-      if(!draft.myDone && draft.myPicks<DRAFT_ROUNDS && draft.pool.length){ if(draft.myAuto){ djAutoPickMe(); continue; } return; }
+      if(!draft.myDone && draft.myPicks<dfCap(me) && draft.pool.length){ if(draft.myAuto){ djAutoPickMe(); continue; } return; }
       draft.pickNo++; continue;
     }
     if(aiWantsPick(t,cnt,draft.pool)){
@@ -7155,81 +7201,17 @@ let practice=null;
 let practiceForce=null;
 const PRACTICE_KINDS=[["world","🌏 世界大会","代表選びから"],["cup","🌌 銀河杯","1回戦から"],["draft","🎉 ドラフト会議","1位入札から"],["camp","🏕 秋季キャンプ","参加する選手選びから"]];
 function practiceAvail(){ return !LITE && testPanelOn(); }
-function practiceName(k){ const x=PRACTICE_KINDS.find(a=>a[0]===k); return x? x[1].replace(/^\S+\s/,"") : ""; }
-function openPracticeMenu(){
-  if(!practiceAvail()) return;
-  openModal(`<h3>🔧 練習モード</h3><p class="small">お試しのリーグ(6球団・約30試合)を作り、選んだ場面からすぐ始めます。セーブはされません。実績・図鑑・解禁・設定などの記録は、「練習を終える」で練習を始める前の状態に戻ります。</p>
-    <div class="mgOpts">${PRACTICE_KINDS.map(([k,l,s])=>`<button class="sec mgOpt" onclick="practiceStart('${k}')"><b>${l}</b> <span class="small">${s}</span></button>`).join("")}</div>`);
-}
-function practiceSnapLs(){
-  const o={}; try{ if(localStorage.getItem("pennantPracticeSnap")) return true; 
-    for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") o[k]=localStorage.getItem(k); }
-    localStorage.setItem("pennantPracticeSnap",JSON.stringify(o)); return true; }catch(e){ return false; }
-}
-function practiceSetSel(id,v){ const s=document.getElementById(id); if(!s) return; if(![...s.options].some(o=>o.value===v)) return; s.value=v; s.dispatchEvent(new Event("change",{bubbles:true})); }
-function practiceStart(kind){
-  closeModal();
-  if(practiceElsewhere){ showToast("別のタブで練習モード中です。そちらで「練習を終える」を押してから始めてください"); return; }
-  if(!practiceSnapLs()){ showToast("端末の記録の控えを取れなかったので、練習モードを始められません"); return; }
-  practice={kind,state:null,t0:Date.now()}; practiceForce=null;
-  try{ sessionStorage.setItem("pennantPracticeOwner","1"); }catch(e){}
-  const beat=()=>{ try{ localStorage.setItem("pennantPracticeAlive",String(Date.now())); }catch(e){} }; beat(); setInterval(beat,3000);
-  try{ tdLsSet("pennantCampAuto","0"); }catch(e){}
-  showSetupScreen();
-  document.querySelectorAll("#setup details").forEach(d=>d.open=true);
-  [["presetSel",""],["numTeams","6"],["targetGames","30"],["teamSelectMode","random"],["modeSel","normal"],["cupSel","on"],["worldSel","on"],["growthSel","new"],["ownSel","off"],["drawFxSel","on"],["injurySel","on"]].forEach(([k,v])=>practiceSetSel(k,v));
-  startLeague(); try{ closeModal(); }catch(e){}
-  practice.y0=year;
-  achTrack.debugUsed=true;
-  practiceBar(); showPanel("game");
-  practicePrepare(); practiceEnter();
-}
-function practicePrepare(){
-  const k=practice.kind;
-  if(k==="draft"||k==="camp"){
-    while(gameIdx<schedule.length){ if(cupBusy()){ cupAuto(); continue; } simScheduledGame(); }
-    if(leagueFormat==="twodiv" && league.some(t=>t.division) && !relegation.done){ startRelegation(); simRelegationAll(); }
-    if(tierEligible() && !tierRelegation.done){ startTierRelegation(); simTierRelegationAll(); }
-    if(pendingChaosDecision){ chaosContinue(); try{ closeModal(); }catch(e){} }
-    startPostseason(); simPostseasonAll();
-    if(k==="camp"){ startDraft("joint"); finishDraft(); if(!ikuDraft.done){ if(!ikuDraft.active) startIkuseiDraft(); finishIkuseiDraft(); } if(!fa.done) runFAAuto(); }
-  }
-  if(k==="world"){ practiceForce="world"; world=null; worldLog=worldLog.filter(x=>x.y!==year); worldSetup(); }
-  if(k==="cup") practiceForce="cup";
-  practice.state=encodeGraph(collectState());
-}
-function practiceEnter(){
-  const k=practice.kind;
-  try{ closeModal(); }catch(e){}
-  if(k==="draft") startDraft("joint");
-  if(k==="camp") startOffseason();
-  updateMatchup(); renderAll(); window.scrollTo(0,0);
-  showToast(`練習モード:${practiceName(k)}を始めました`);
-}
-function practiceAgain(){
-  if(!practice || !practice.state) return;
-  try{ closeModal(); }catch(e){}
-  suppressAutoSave=true;
-  try{ applyState(decodeGraph(practice.state)); normalizeState(); afterLoadUI(); }
-  finally{ suppressAutoSave=false; }
-  campPending=null; dcPadSel=null;
-  practiceForce= (practice.kind==="world"||practice.kind==="cup")? practice.kind : null;
-  practiceBar(); showPanel("game"); practiceEnter();
-}
-function practiceEnd(){
-  league=null; practiceForce=null;
-  try{ location.reload(); }catch(e){ practiceRestoreLs(); showToast("ページを読み直してください"); }
-}
-function practiceRestoreLs(){
-  try{ const s=localStorage.getItem("pennantPracticeSnap"); if(!s) return false; const o=JSON.parse(s)||{};
-    const del=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
-    del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); return true; }catch(e){ return false; }
-}
-function practiceBar(){
-  const b=document.getElementById("practiceBar"); if(!b) return;
-  b.classList.toggle("hidden",!practice); refreshTestBadge();
-  if(practice) b.innerHTML=`<span class="pracT">🔧 練習モード:${practiceName(practice.kind)}</span><span class="pracBtns"><button class="sec" onclick="practiceAgain()">↺ もう一度</button><button class="sec" onclick="practiceEnd()">練習を終える</button></span>`;
-}
+function practiceName(k){__liteGone("practiceName");}
+function openPracticeMenu(){__liteGone("openPracticeMenu");}
+function practiceSnapLs(){__liteGone("practiceSnapLs");}
+function practiceSetSel(id,v){__liteGone("practiceSetSel");}
+function practiceStart(kind){__liteGone("practiceStart");}
+function practicePrepare(){__liteGone("practicePrepare");}
+function practiceEnter(){__liteGone("practiceEnter");}
+function practiceAgain(){__liteGone("practiceAgain");}
+function practiceEnd(){__liteGone("practiceEnd");}
+function practiceRestoreLs(){__liteGone("practiceRestoreLs");}
+function practiceBar(){__liteGone("practiceBar");}
 const PRACTICE_EN={"練習モード":"Practice mode","🔧 練習モード":"🔧 Practice mode","↺ もう一度":"↺ Again","練習を終える":"End practice","代表選びから":"from picking the national team","1回戦から":"from the first round","1位入札から":"from the 1st-round bid","参加する選手選びから":"from picking the players",
   "🌏 世界大会":"🌏 World tournament","🌌 銀河杯":"🌌 Galaxy Cup","🎉 ドラフト会議":"🎉 Draft","🏕 秋季キャンプ":"🏕 Fall camp",
   "🔧 練習モード:世界大会":"🔧 Practice: World tournament","🔧 練習モード:銀河杯":"🔧 Practice: Galaxy Cup","🔧 練習モード:ドラフト会議":"🔧 Practice: Draft","🔧 練習モード:秋季キャンプ":"🔧 Practice: Fall camp",
@@ -7371,13 +7353,14 @@ function draftScreenHtml(){
     if(draft.myLost) html+=`<div class="notice" style="margin:6px 0">🎯 <b>${draft.myLost}</b>の抽選に外れました。残りの候補から再入札してください。</div>`;
   } else {
     html+= draft.mode==="joint"
-      ? `<p><b>第${round}巡目・全体${draft.teams.length+draft.pickNo+1}番目 — ${me.name}の指名番です</b><br><span class="small">指名済み ${draft.myPicks}/${DRAFT_ROUNDS}人。2巡目以降は両リーグを合わせた勝率の低い順(偶数巡は逆順)。</span></p>`
-      : `<p><b>${me.name}の独自スカウト</b><br><span class="small">獲得済み ${draft.myPicks}/${DRAFT_ROUNDS}人。上位リーグの合同ドラフトは終了しています。</span></p>`;
+      ? `<p><b>第${round}巡目・全体${draft.teams.length+draft.pickNo+1}番目 — ${me.name}の指名番です</b><br><span class="small">指名済み ${draft.myPicks}/${dfCap(me)}人。2巡目以降は両リーグを合わせた勝率の低い順(偶数巡は逆順)。</span></p>`
+      : `<p><b>${me.name}の独自スカウト</b><br><span class="small">獲得済み ${draft.myPicks}/${dfCap(me)}人。上位リーグの合同ドラフトは終了しています。</span></p>`;
   }
   if(draft.lotteryLog.length){
     const last=draft.lotteryLog.slice(-2);
     html+=`<div class="notice" style="margin:6px 0"><b>🎰 1位入札の抽選結果</b>`+last.map(r=>r.items.map(x=>`<div class="small" style="margin-top:3px">${x.attn?attnHtml(x.attn)+" ":""}${x.unique?'<span class="badge uniq">★目玉</span> ':''}<b>${x.name}</b>:${x.bidders.length}球団競合(${x.bidders.join("・")})→ <b style="color:var(--gold)">${x.winner}</b></div>`).join("")).join("")+`</div>`;
   }
+  html+=fcDraftNoteHtml();
   draft.offers.forEach((o,k)=>{
     const q=o.item.p, u=o.item.unique;
     html+=`<div class="card" style="border-color:var(--gold);margin:8px 0">
@@ -7421,12 +7404,13 @@ function draftScreenHtml(){
     const rows=list.map(({it,i},k)=>{ const q=it.p, u=it.unique;
       const lead=`${ssLeadHtml(it)}${u?`<span class="badge uniq">★目玉 ${"★".repeat(u.r)}</span>`:""}${recSet.has(it)?'<span class="badge" style="background:var(--gold);color:var(--onGold,var(--field2))">おすすめ</span>':''}${(q.retry)?`<span class="badge retryTag">再挑戦</span>`:""}`;
       return dcRowHtml(k, dcPadKeys[k]===selK, lead, q, dcPosLabel(it), `${retryTrackBtn(it)}${ssItem(it)? ssMarkBtn("d",i,q) : ""}${ssHid(it)? "" : infoBtnHtml(q)}<button class="sec" onclick="${lottery?`draftBid(${i})`:`draftSelectPick(${i})`}">${lottery?"入札":"指名"}</button>`, u?" uniqRow":""); }).join("");
-    html+= dcWrapHtml(rows,'<p class="small">候補がいません。</p>'); }
+    html+= dcWrapHtml(rows+dfGrayRows(f),'<p class="small">候補がいません。</p>'); }
   html+=`</div><div style="width:100%;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px">
     ${lottery? `<button class="sec" onclick="draftPassR1()">1巡目は入札しない</button>` : draft.mode==="joint"?`<button class="sec" onclick="draftPassTurn()">この巡は見送る</button><button class="sec" onclick="djAutoRest()">残りの巡はおまかせ</button>`:""}
     <button class="act" onclick="confirmFinishDraft()">指名を終える</button></div>`;
-  const recent=draft.log.slice(-8).reverse();
-  if(recent.length) html+=`<div style="width:100%;margin-top:10px"><h4>直近の指名</h4>${recent.map(x=>`<div class="playerRow"><span>${x.round?`${x.round}巡`:""} ${x.name} [${x.pos}]${x.note?` <span class="badge">${x.note}</span>`:""}${x.ssTaken? ` <span class="badge ssMk">あなたの${"◎○△"[x.ssTaken-1]}</span>` : ""}</span><span class="small">${x.team}</span></div>`).join("")}</div>`;
+  if(draft.mode==="joint") html+=`<div style="width:100%;margin-top:10px">${dfBoardWrap()}</div>`;
+  else { const recent=draft.log.slice(-8).reverse();
+  if(recent.length) html+=`<div style="width:100%;margin-top:10px"><h4>直近の指名</h4>${recent.map(x=>`<div class="playerRow"><span>${x.round?`${x.round}巡`:""} ${x.name} [${x.pos}]${x.note?` <span class="badge">${x.note}</span>`:""}${x.ssTaken? ` <span class="badge ssMk">あなたの${"◎○△"[x.ssTaken-1]}</span>` : ""}</span><span class="small">${x.team}</span></div>`).join("")}</div>`; }
   return html;
 }
 let retryEnabled=false, retryPool=[];
@@ -7564,7 +7548,7 @@ function draftFinishPick(){
     }
     else { draft.pickNo++; advanceDraftAI(); }
   }
-  else if(draft.myPicks>=DRAFT_ROUNDS || !draft.pool.length){ endDraft(); }
+  else if(draft.myPicks>=dfCap(me) || !draft.pool.length){ endDraft(); }
   buildLineupUI();
   updateMatchup(); renderAll();
 }
@@ -11724,6 +11708,7 @@ function resolveFA(){
       e.p.svcYears=0; e.p.teamB=null;
       if(winner===me && !fa.auto) mine.push({p:e.p,type:e.type});
       else if(!aiSignToFarm(winner,e.p,e.type)) recordRelease(e.p,e.type,winner);
+      if(fcNew()) fcOnMove(e,winner,res); else {
       const farmAll=[...winner.farm.bat.map(x=>({x,type:"bat"})),...winner.farm.pit.map(x=>({x,type:"pit"}))]
         .sort((a,b)=>potentialBase(b.x)-potentialBase(a.x)).slice(FA_PROTECT);
       if(farmAll.length){
@@ -11734,6 +11719,7 @@ function resolveFA(){
         else if(!aiSignToFarm(e.from,c.x,c.type)) recordRelease(c.x,c.type,e.from);
         res.comp=c.x.name;
       }
+      }
       if(scoreOf(e.p)>=68 || e.p.signature || e.p.uniqueId){ popBump(e.from,-3); popBump(winner,1); }
       if(winner===me){ newsFA(true,e.p,e.from.name); achStatAdd("faSigned"); }
       else if(e.from===me && (scoreOf(e.p)>=68 || e.p.signature || e.p.uniqueId)) newsFA(false,e.p,winner.name);
@@ -11742,7 +11728,7 @@ function resolveFA(){
     fa.results.push(res);
   });
   const finish=()=>{ scheduleAutoSave(true); fa.active=false; fa.done=true; allTeamsEverywhere().forEach(refreshTeamBonuses); if(!fa.auto){ buildLineupUI(); updateMatchup(); renderAll(); } };
-  const next=()=>{ const it=mine.shift(); if(!it){ finish(); return; } addToFarm(it.p,it.type,next); };
+  const next=()=>{ const it=mine.shift(); if(!it){ fcAskAll(finish); return; } addToFarm(it.p,it.type,next); };
   next();
 }
 function runFAAuto(){ startFA(true); resolveFA(); }
@@ -11927,7 +11913,7 @@ const MANUAL=[
   <p><b>目玉選手</b>:名前と経歴を持つ特別な選手が60人いて、毎年のドラフトに2〜3人登場します。1つのリーグでは1人1回だけ登場し、他球団も指名を狙ってきます。60人が出尽くした後は、引退した目玉選手の子が「2代目」として登場します。</p>
   <p><b>逆指名</b>:看板選手が引退した球団には、同じタイプの有望株が「後継者」として逆指名してくることがあります。目玉選手が、好みのタイプの球団を逆指名することもあります。受け入れると1巡目の指名権を使います。</p>
   <p class="fullOnly" id="manFaDeal"><b>FAの駆け引き</b>:名乗りを上げた選手(と、FA宣言した自チームの選手)には「獲得(残留)の見込み 約○%」と「魅力の内訳」が出ます。条件を「厚遇」(魅力 +1・球団ポイント3点)か「大型契約」(+2・6点)に上げると見込みが上がり、ポイントは決まったときだけ払います(年俸ありのリーグは3倍)。結果の画面では、選手がどこを選んだかと、あなたの見込み・何番目の魅力だったか、自チームのFA資格の選手のうち誰が宣言して誰が残ったかが分かります。</p>
-  <p class="fullOnly" id="manFA"><b>FA</b>:同じ球団に7シーズン以上在籍した26〜35歳の選手が、FA宣言することがあります。ドラフトの後の「FA市場」で、1年に3人まで獲得に名乗りを上げられます。移籍先は、名乗りを上げた球団と元の球団の中から、成績・所属リーグ・補強の必要性・愛着などの「球団の魅力」による抽選で決まります。獲得した選手は2軍に入り、代わりに2軍から1人を元の球団に渡します(人的補償)。2軍の有望株3人はプロテクト(保護)され、補償には選ばれません。自チームの選手がFA宣言することもあります。</p>`],
+  <p class="fullOnly" id="manFA"><b>FA</b>:同じ球団に7シーズン以上在籍した26〜35歳の選手が、FA宣言することがあります。ドラフトの後の「FA市場」で、1年に3人まで獲得に名乗りを上げられます。移籍先は、名乗りを上げた球団と元の球団の中から、成績・所属リーグ・補強の必要性・愛着などの「球団の魅力」による抽選で決まります。獲得した選手は2軍に入ります。元の球団への補償は、リーグ作成の「FAの補償」で決まります。「新しい形」では、元の球団での年俸の順位で、1〜3位(ランクA)は獲得した球団の翌年のドラフトの2巡目の指名権か球団ポイント、4〜7位(ランクB)は3巡目の指名権か球団ポイント、8位は球団ポイントだけ、9位以下と翌年の4月1日に35歳以上の選手は補償なしです。指名権か球団ポイントかは元の球団が選び、指名権をもらった球団はその巡目に2人指名します(年俸なしのリーグは、年俸の見込みで順位を決めます)。「人的補償」では、代わりに2軍から1人を元の球団に渡します。2軍の有望株3人はプロテクト(保護)され、補償には選ばれません。自チームの選手がFA宣言することもあります。</p>`],
  ["リーグの仕組み",`<p>自分のリーグ(コスモリーグ)と、もう一方のリーグ(ネビュラリーグ)があります。リーグ名は設定で変えられます。</p>
   <p class="fullOnly"><b>方式</b>:総当り、2部制(10チーム・6チームと4チームのディビジョン)、地区制(10チーム・5チームずつ)、3地区制(9チーム)から選べます。</p>
   <p class="fullOnly"><b>入れ替え戦</b>(2部制):上のディビジョンの最下位と、下のディビジョンの1位が戦います(3試合先取2勝)。さらに3年に1度、下部のカオスリーグとの入れ替え戦があります。</p>
@@ -12440,18 +12426,10 @@ const IV_EN={
 
 let scenario=null;
 const SC_GR=["S","A","B","C"];
-function scEn(){ return typeof I18N!=="undefined" && I18N.lang==="en"; }
-function scOrder(){ return league.map((t,i)=>({i,s:tradeCoreScore(t)})).sort((a,b)=>a.s-b.s).map(x=>x.i); }
-function scRankOf(me){ const grp=magicGroup(me), srt=[...grp].sort((a,b)=>tbCmp(a,b)); return {rank:srt.indexOf(me)+1, n:srt.length}; }
-function scSwap(a,ta,b,tb){
-  const loc=(t,p)=>{ for(const k of ["batters","bench","rotation","bullpen"]){ const i=t[k].indexOf(p); if(i>=0) return [k,i]; } return null; };
-  const la=loc(ta,a), lb=loc(tb,b); if(!la || !lb) return false;
-  ta[la[0]][la[1]]=b; tb[lb[0]][lb[1]]=a;
-  if(a.velo===undefined){ const f=a.fielding; a.fielding=b.fielding; b.fielding=f; }
-  else { [a.pos,b.pos]=[b.pos,a.pos]; [a.bpRole,b.bpRole]=[b.bpRole,a.bpRole]; }
-  [a,b].forEach(p=>{ p.svcYears=0; p.lock=false; });
-  return true;
-}
+function scEn(){__liteGone("scEn");}
+function scOrder(){__liteGone("scOrder");}
+function scRankOf(me){__liteGone("scRankOf");}
+function scSwap(a,ta,b,tb){__liteGone("scSwap");}
 const SC_DEFS=[
   {id:"rebuild", stars:3, years:3, name:"どん底からの再建", en:"Rebuild from rock bottom",
     desc:"リーグでいちばん戦力の低い球団を任された。", descEn:"You take over the weakest club in the league.",
@@ -12513,62 +12491,22 @@ const SC_DEFS=[
     pick(){ const a=league.map((t,i)=>({i,p:popOf(t)})).sort((x,y)=>x.p-y.p); return a[0].i; }, setup(me){ me.pop=15; },
     judge(res,fin){ const j=res.findIndex(r=>r.pop>=35); if(j>=0) return SC_GR[Math.min(2,j)]; return fin? "C" : null; }}
 ];
-function scDef(id){ return SC_DEFS.find(d=>d.id===id); }
-function scName(d){ return scEn()? d.en : d.name; }
-function scBestAll(){ try{ return JSON.parse(localStorage.getItem("pennantScenarioBest")||"{}")||{}; }catch(e){ return {}; } }
-function scBestSet(id,g){ try{ const b=scBestAll(); if(!b[id] || SC_GR.indexOf(g)<SC_GR.indexOf(b[id])) { b[id]=g; localStorage.setItem("pennantScenarioBest",JSON.stringify(b)); } }catch(e){} }
-function scStars(n){ return "★".repeat(n)+"☆".repeat(3-n); }
-function openScenarioMenu(){
-  if(LITE) return;
-  const en=scEn(), best=scBestAll();
-  openModal(`<div class="scMenu"><h3>🎯 ${en? "Scenarios" : "シナリオ"}</h3><p class="small">${en? "Each scenario sets up a 6-club league and a starting situation. Reach the goal within the years given. Your other league settings (skills, growth, etc.) stay as currently chosen." : "お題の球団と始めの状態で、6球団のリーグを作ります。決まった年数のうちに目標を目指してください。スキル・成長など、ほかの設定はリーグ作成の画面のいまの選択のままです。"}</p>`+
-    SC_DEFS.map(d=>`<div class="scCard"><div class="scHead"><b>${scName(d)}</b><span class="scStars" title="${en? "Difficulty" : "難しさ"}">${scStars(d.stars)}</span>${best[d.id]? `<span class="scBest scG${best[d.id]}">${en? "Best" : "最高"} ${best[d.id]}</span>` : ""}</div>
-      <div class="small">${en? d.descEn : d.desc}</div><div class="scGoal">🎯 ${en? d.goalEn : d.goal}(${d.years}${en? (d.years>1? " years" : " year") : "年"})</div><div class="small scGr">${en? d.gradeEn : d.gradeTxt}</div>
-      <button class="act" onclick="scenarioStart('${d.id}')">${en? "Start this scenario" : "このシナリオで始める"}</button></div>`).join("")+`</div>`);
-}
-function scenarioStart(id){
-  const d=scDef(id); if(!d || LITE) return;
-  if(typeof practice!=="undefined" && practice){ showToast("練習モードの間はシナリオを始められません"); return; }
-  try{ closeModal(); }catch(e){}
-  showSetupScreen();
-  [["presetSel",""],["numTeams","6"],["teamSelectMode","choose"],["modeSel","normal"],["ownSel", id==="hotseat"? "move" : "off"]].forEach(([k,v])=>practiceSetSel(k,v));
-  startLeague(); try{ closeModal(); }catch(e){}
-  scenario={id,y0:year,n:d.years,done:false,grade:null,res:[],shown:false};
-  const i=d.pick(); chooseMyTeam(i);
-  const me=league[myTeam]; d.setup(me);
-  [league,leagueB].forEach(lg=>(lg||[]).forEach(refreshTeamBonuses));
-  theorySetup(me); exAiTheory();
-  me.goal=ownPick(me); achTrack.popStart=popOf(me);
-  buildLineupUI(); populateTeamViewSelect(); updateMatchup(); renderAll(); scBar(); scheduleAutoSave(true);
-  scIntro();
-}
-function scIntro(){
-  const d=scenario && scDef(scenario.id); if(!d) return;
-  const me=league[myTeam], en=scEn();
-  let extra="";
-  if(d.id==="dynasty" && scenario.lost) extra= en? `<p>Gone: <b>${scenario.lost[0]||"-"}</b> and <b>${scenario.lost[1]||"-"}</b>, now with ${scenario.lost[2]}.</p>` : `<p>移った選手:<b>${scenario.lost[0]||"-"}</b>・<b>${scenario.lost[1]||"-"}</b>(移籍先 ${scenario.lost[2]})</p>`;
-  if(d.id==="youth") extra= en? `<p>${scenario.swapped} players were swapped.</p>` : `<p>入れ替えた選手:${scenario.swapped}人</p>`;
-  if(d.id==="hotseat") extra= en? `<p>Owner's trust: <b>30</b></p>` : `<p>オーナーの信頼:<b>30</b></p>`;
-  if(d.id==="popular") extra= en? `<p>Popularity: <b>${popOf(me)}</b></p>` : `<p>人気:<b>${popOf(me)}</b></p>`;
-  openModal(`<div class="teamIntro scIntro"><h3>🎯 ${scName(d)}</h3><p>${en? `You manage <b>${me.name}</b>.` : `<b>${me.name}</b>の監督に就任しました。`}</p><p>${en? d.descEn : d.desc}</p>${extra}
-    <p class="scGoal">🎯 ${en? d.goalEn : d.goal}</p><p class="small">${en? d.gradeEn : d.gradeTxt}</p><button class="act" style="width:100%;min-height:48px" onclick="closeModal()">${en? "Let's go" : "はじめる"}</button></div>`);
-}
+function scDef(id){__liteGone("scDef");}
+function scName(d){__liteGone("scName");}
+function scBestAll(){__liteGone("scBestAll");}
+function scBestSet(id,g){__liteGone("scBestSet");}
+function scStars(n){__liteGone("scStars");}
+function openScenarioMenu(){__liteGone("openScenarioMenu");}
+function scenarioStart(id){__liteGone("scenarioStart");}
+function scIntro(){__liteGone("scIntro");}
 function scBar(){
   const b=document.getElementById("scBar"); if(!b) return;
   const on=!!(scenario && !scenario.done && league); b.classList.toggle("hidden",!on); if(!on){ b.innerHTML=""; return; }
   const d=scDef(scenario.id), en=scEn(), k=Math.min(scenario.n, year-scenario.y0+1);
   b.innerHTML=`<span class="scT">🎯 ${scName(d)}</span><span class="scP">${en? `Year ${k} of ${scenario.n}` : `${k}年目 / ${scenario.n}年`}・${en? d.goalEn : d.goal}</span><button class="sec" onclick="scDetail()">${en? "Details" : "詳しく"}</button>`;
 }
-function scResRows(){
-  const en=scEn();
-  return (scenario.res||[]).map((r,j)=>`<li>${en? `Year ${j+1}` : `${j+1}年目`}:${en? `${r.rank}${r.rank===1?"st":r.rank===2?"nd":r.rank===3?"rd":"th"} of ${r.n}` : `${r.rank}位/${r.n}球団`}${r.pennant? (en? "・Pennant" : "・リーグ優勝") : ""}${r.champ? (en? "・Champions" : "・日本一") : ""}・${en? "Popularity" : "人気"} ${r.pop}${r.fired? (en? "・Fired" : "・解任") : ""}</li>`).join("");
-}
-function scDetail(){
-  if(!scenario) return; const d=scDef(scenario.id), en=scEn();
-  openModal(`<div class="scMenu"><h3>🎯 ${scName(d)}</h3><p>${en? d.descEn : d.desc}</p><p class="scGoal">🎯 ${en? d.goalEn : d.goal}(${d.years}${en? (d.years>1? " years" : " year") : "年"})</p><p class="small">${en? d.gradeEn : d.gradeTxt}</p>
-    ${scenario.res.length? `<ul class="scRes">${scResRows()}</ul>` : `<p class="small">${en? "No seasons finished yet." : "まだ終わったシーズンはありません。"}</p>`}
-    ${scenario.done? `<p class="scGrade scG${scenario.grade}">${en? "Result" : "評価"} ${scenario.grade}</p>` : ""}</div>`);
-}
+function scResRows(){__liteGone("scResRows");}
+function scDetail(){__liteGone("scDetail");}
 function scSeasonEnd(){
   try{
     if(!scenario || scenario.done || !league) return;
@@ -12605,58 +12543,29 @@ const SAL_K=3, SAL_MAX=100, SAL_PT=5000, SAL_REF=10000, SAL_MIN=500;
 const SAL_PERS={"熱血":1.05,"クール":1.05,"勝負師":1.1,"プレッシャーに弱い":1.0,"ムードメーカー":1.02,"負けず嫌い":1.12,"マイペース":0.98,"気分屋":1.08};
 function salOn(){ return !!salaryEnabled && !LITE; }
 function clubK(){ return salOn()? SAL_K : 1; }
-function clubMax(){ return salOn()? SAL_MAX : CLUB_MAX; }
-function salYen(m){ m=Math.round(m); return m>=10000? (Math.round(m/1000)/10)+"億" : m+"万"; }
-function salWar(p){ try{ const m=sbMetricsNow(p,p.velo!==undefined); return m && m.v && isFinite(m.v.war)? m.v.war : 0; }catch(e){ return 0; } }
-function salBase(p){ return Math.max(SAL_MIN, Math.round(500*Math.pow(1.075,scoreOf(p)-40)/100)*100); }
-function salFair(p){ return Math.max(SAL_MIN, Math.round((salBase(p)+Math.max(0,salWar(p))*2500)/100)*100); }
-function salOf(p){ if(typeof p.sal!=="number") p.sal=salBase(p); return p.sal; }
-function salWant(p,fair,cur){ const k=SAL_PERS[p.personality]||1.03; return Math.round(Math.max(fair*k, cur*0.85)/100)*100; }
-function salGrade(fair,cur){ const r=fair/Math.max(1,cur); return r>=1.3? "◎" : r>=1.05? "○" : r>=0.95? "―" : "△"; }
-function salReact(offer,want){ return offer>=want? "happy" : offer>=want*0.9? "sign" : "hold"; }
-function salSmart(cur,fair,want){ return Math.max(Math.round(cur*0.6/100)*100, fair, Math.ceil(want*0.9/100)*100); }
-function salStep(v){ return v>=10000? 1000 : v>=3000? 500 : 100; }
-function salTeamPlayers(t){ return [...oneGun(t),...t.farm.bat,...t.farm.pit].filter(p=>!p.imp); }
+function clubMax(){__liteGone("clubMax");}
+function salYen(m){__liteGone("salYen");}
+function salWar(p){__liteGone("salWar");}
+function salBase(p){__liteGone("salBase");}
+function salFair(p){__liteGone("salFair");}
+function salOf(p){__liteGone("salOf");}
+function salWant(p,fair,cur){__liteGone("salWant");}
+function salGrade(fair,cur){__liteGone("salGrade");}
+function salReact(offer,want){__liteGone("salReact");}
+function salSmart(cur,fair,want){__liteGone("salSmart");}
+function salStep(v){__liteGone("salStep");}
+function salTeamPlayers(t){__liteGone("salTeamPlayers");}
 const SAL_START=30;
 function salInit(){ if(!salOn()) return; allTeamsEverywhere().forEach(t=>salTeamPlayers(t).forEach(p=>{ p.sal=salBase(p); })); clubPoints=Math.max(clubPoints,SAL_START); }
-function salAutoReleases(t){
-  const one=new Set(oneGun(t)), cand=[];
-  const lowPot=[...t.farm.bat,...t.farm.pit].map(potentialBase).sort((a,b)=>a-b), cut=lowPot[Math.floor(lowPot.length*0.2)]||0;
-  salTeamPlayers(t).forEach(p=>{ if(p.signature || p.uniqueId || p.hof) return; const cur=salOf(p), fair=salFair(p);
-    if(p.age>=31 && fair<cur*0.7) cand.push({p,s:fair/cur});
-    else if(!one.has(p) && p.age>=29 && potentialBase(p)<=cut) cand.push({p,s:1+potentialBase(p)/1000}); });
-  cand.sort((a,b)=>a.s-b.s);
-  const out=[]; let fb=t.farm.bat.length, fp=t.farm.pit.length;
-  for(const c of cand){ if(out.length>=4) break; const pit=c.p.velo!==undefined, inOne=one.has(c.p);
-    if(pit? fp-1<FARM_MIN_EACH : fb-1<FARM_MIN_EACH) continue;
-    if(pit) fp--; else fb--; out.push(c.p); }
-  return out;
-}
-function salMakeDraft(t){
-  const rows=salTeamPlayers(t).map(p=>{ const isNew=typeof p.sal!=="number"; const cur=salOf(p), fair=salFair(p), want=salWant(p,fair,cur);
-    return {p, cur, fair, want, offer:isNew? cur : salSmart(cur,fair,want), isNew, rel:false, one:oneGun(t).includes(p)}; });
-  return {rows};
-}
-function salAuto(d,t){ const rel=new Set(salAutoReleases(t)); d.rows.forEach(r=>{ r.rel=rel.has(r.p); if(!r.isNew) r.offer=salSmart(r.cur,r.fair,r.want); }); }
-function salNeed(d){ let need=0, back=0; d.rows.forEach(r=>{ if(r.rel){ back+=Math.floor(r.cur/SAL_REF); return; } if(!r.isNew) need+=Math.max(0,r.offer-r.cur); });
-  return {raise:need, pts:Math.ceil(need/SAL_PT), back}; }
-function salAutoOn(){ try{ return tdLsGet("pennantSalAuto")==="1"; }catch(e){ return false; } }
+function salAutoReleases(t){__liteGone("salAutoReleases");}
+function salMakeDraft(t){__liteGone("salMakeDraft");}
+function salAuto(d,t){__liteGone("salAuto");}
+function salNeed(d){__liteGone("salNeed");}
+function salAutoOn(){__liteGone("salAutoOn");}
 function salNeedsScreen(){ return salOn() && !(salPending && salPending.ready) && !!league; }
-function salOpen(){
-  const t=league[myTeam]; salDraft=salMakeDraft(t);
-  if(salAutoOn()){ salAuto(salDraft,t); const n=salNeed(salDraft); if(clubPoints+n.back<n.pts) salCut(salDraft,clubPoints+n.back); salApply(salDraft,true); salPending={ready:true}; startOffseason(); return; }
-  salAuto(salDraft,t); renderSal();
-}
-function salCut(d,have){ const rs=d.rows.filter(r=>!r.rel && !r.isNew && r.offer>r.cur).sort((a,b)=>(b.offer-b.cur)-(a.offer-a.cur));
-  for(const r of rs){ if(salNeed(d).pts<=have) break; r.offer=r.cur; } }
-function salRow(r,i){
-  const re=salReact(r.offer,r.want), lab= r.rel? "退団" : r.isNew? "新入団" : re==="happy"? "満足でサイン" : re==="sign"? "サイン" : "保留";
-  const cls= r.rel? "salRel" : r.isNew? "salNew" : "sal_"+re, st= r.p.velo!==undefined? (r.p.pos||"投手") : r.p.fielding;
-  return `<div class="salRow ${r.rel? "salOff" : ""}"><div class="salTop"><b>${r.p.name}</b> <span class="small">${st} ${r.p.age}歳${r.one? "" : "・2軍"}</span><span class="salG">査定 ${r.isNew? "―" : salGrade(r.fair,r.cur)}</span></div>
-    <div class="salMid">${r.isNew? `<span class="small">今年入った選手(${salYen(r.cur)}のまま)</span>` : `<span>${salYen(r.cur)} →</span><button class="sec salPm" aria-label="提示額を下げる" onclick="salAdj(${i},-1)"${r.rel?" disabled":""}>−</button><b class="salOf">${salYen(r.offer)}</b><button class="sec salPm" aria-label="提示額を上げる" onclick="salAdj(${i},1)"${r.rel?" disabled":""}>+</button>`}
-      <span class="salChip ${cls}">${lab}</span></div>
-    <div class="salBot small">${r.isNew? "" : `希望 ${salYen(r.want)}・`}<label class="salRelL"><input type="checkbox" onchange="salRel(${i},this.checked)"${r.rel?" checked":""}${(r.p.signature||r.p.uniqueId)? " disabled" : ""}> 退団させる</label>${r.rel? `(年俸 ${salYen(r.cur)}・${Math.floor(r.cur/SAL_REF)}点戻る)` : ""}</div></div>`;
-}
+function salOpen(){__liteGone("salOpen");}
+function salCut(d,have){__liteGone("salCut");}
+function salRow(r,i){__liteGone("salRow");}
 function renderSal(){
   const d=salDraft; if(!d) return; const n=salNeed(d), left=clubPoints+n.back-n.pts;
   const sort=(a,b)=>(b.one-a.one) || (b.cur-a.cur);
@@ -12672,43 +12581,16 @@ function renderSal(){
     <div class="salList">${idx.map(i=>salRow(d.rows[i],i)).join("")}</div></div>`);
   const closeBtn=document.querySelector("#playerModal .modalBox > div:last-child"); if(closeBtn) closeBtn.style.display="none";
 }
-function salAdj(i,dir){ const r=salDraft && salDraft.rows[i]; if(!r || r.isNew || r.rel) return; const st=salStep(dir>0? r.offer : r.offer-1);
-  r.offer=Math.min(Math.max(r.want*2,r.cur*3), Math.max(Math.round(r.cur*0.6/100)*100, r.offer+dir*st)); salRerender(); }
-function salRel(i,on){ const r=salDraft && salDraft.rows[i]; if(!r || r.p.signature || r.p.uniqueId) return; r.rel=!!on; salRerender(); }
-function salAutoBtn(){ salAuto(salDraft,league[myTeam]); const n=salNeed(salDraft); if(clubPoints+n.back<n.pts) salCut(salDraft,clubPoints+n.back); salRerender(); }
-function salSetAuto(on){ try{ tdLsSet("pennantSalAuto",on? "1" : "0"); }catch(e){} }
-function salRerender(){ const box=document.querySelector("#playerModal .salList"), y=box? box.scrollTop : 0, m=document.querySelector("#playerModal .modalBox"), my=m? m.scrollTop : 0;
-  renderSal(); const b2=document.querySelector("#playerModal .salList"); if(b2) b2.scrollTop=y; const m2=document.querySelector("#playerModal .modalBox"); if(m2) m2.scrollTop=my; }
-function salConfirm(){
-  const d=salDraft; if(!d) return; const n=salNeed(d); if(clubPoints+n.back<n.pts){ showToast("球団ポイントが足りません"); return; }
-  salApply(d,false); salPending={ready:true};
-  const closeBtn=document.querySelector("#playerModal .modalBox > div:last-child"); if(closeBtn) closeBtn.style.display="";
-  closeModal(); startOffseason();
-}
-function salApply(d,auto){
-  const t=league[myTeam], n=salNeed(d);
-  clubPoints=Math.max(0,Math.min(clubMax(), clubPoints-n.pts+n.back));
-  const rel=[], hold=[];
-  d.rows.forEach(r=>{ const p=r.p;
-    if(r.rel){ rel.push(p); return; }
-    if(r.isNew){ p.sal=r.cur; return; }
-    const re=salReact(r.offer,r.want); p.sal=r.offer; p.salY=year; p.salHold= re==="hold"? year : null;
-    if(re==="happy") p.cond=clamp((p.cond||70)+5,20,99);
-    if(re==="hold"){ p.cond=clamp((p.cond||70)-8,20,99); hold.push(p.name); } });
-  rel.forEach(p=>{ const pit=p.velo!==undefined;
-    if(oneGun(t).includes(p)) removeFromOneGun(t,p);
-    else { const a= pit? t.farm.pit : t.farm.bat, k=a.indexOf(p); if(k>=0) a.splice(k,1); }
-    recordRelease(p,pit? "pit" : "bat",t); });
-  if(rel.length) repairLineupPositions(t);
-  salLog=(salLog||[]).concat([{y:year,pts:n.pts,back:n.back,rel:rel.map(p=>p.name),hold,auto:!!auto}]).slice(-30);
-  noteToast("auto", `契約更改:球団ポイント −${n.pts}+${n.back}${rel.length? `・退団 ${rel.length}人` : ""}${hold.length? `・保留 ${hold.length}人` : ""}`);
-}
+function salAdj(i,dir){__liteGone("salAdj");}
+function salRel(i,on){__liteGone("salRel");}
+function salAutoBtn(){__liteGone("salAutoBtn");}
+function salSetAuto(on){__liteGone("salSetAuto");}
+function salRerender(){__liteGone("salRerender");}
+function salConfirm(){__liteGone("salConfirm");}
+function salApply(d,auto){__liteGone("salApply");}
 let salLog=[];
 function salAiOffseason(){ if(!salOn()) return; allTeamsEverywhere().forEach(t=>{ if(t===league[myTeam]) return; salTeamPlayers(t).forEach(p=>{ p.sal=salFair(p); }); }); }
-function salClubHtml(){ if(!salOn()) return ""; const t=league[myTeam], tot=salTeamPlayers(t).reduce((s,p)=>s+salOf(p),0), last=(salLog||[]).slice(-1)[0];
-  return `<div class="card salClub"><b>年俸と契約更改</b><p class="small">球団ポイントの上限は${SAL_MAX}点、毎オフに入る点と、ポイントで払うもの(施設・スカウトなど)は${SAL_K}倍です。契約更改では、昇給の合計 ${salYen(SAL_PT)}ごとに1点を使い、退団させた選手の年俸 ${salYen(SAL_REF)}ごとに1点が戻ります。</p>
-    <p class="small">自チームの年俸の合計(助っ人を除く):${salYen(tot)}${last? `・前回の契約更改(${last.y}年目のオフ):−${last.pts}点+${last.back}点${last.rel.length? `・退団 ${last.rel.join("、")}` : ""}` : ""}</p>
-    <label class="small"><input type="checkbox" onchange="salSetAuto(this.checked)"${salAutoOn()? " checked" : ""}> 契約更改をおまかせで決める(画面を出さない)</label></div>`; }
+function salClubHtml(){__liteGone("salClubHtml");}
 const SAL_EN={"契約更改":"Contract renewals","おまかせで決める":"Decide automatically","決定":"Confirm","退団させる":"Release","満足でサイン":"Signs happily","サイン":"Signs","保留":"Holds out","退団":"Released","新入団":"New signing","球団ポイント":"Club points","年俸と契約更改":"Salaries & contract renewals",
   "次のオフから、おまかせで決める(この画面を出さない)":"Decide automatically from next offseason (skip this screen)","契約更改をおまかせで決める(画面を出さない)":"Decide contract renewals automatically (skip the screen)"};
 
@@ -13509,23 +13391,8 @@ function mgrCardHtml(over){
     ${ev? `<h4>出来事</h4><ul class="mgrList">${ev}</ul>` : ""}
     ${S.years? "" : `<p class="small">シーズンを終えると、1年ずつ経歴に入ります。</p>`}</div>`;
 }
-function ownGameOverAsk(){
-  if(!ownFire) return;
-  openModal(`<div id="ownFireBox"><h3>ここで監督を退きますか?</h3>
-    <p>このリーグはここで終わり(ゲームオーバー)になります。オートセーブには「終わったリーグ」として残ります。</p>
-    <p class="small">実績・図鑑・殿堂(端末に残る記録)は消えません。新しいリーグはタイトル画面から始められます。</p>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
-    <button class="act" style="background:var(--red)" onclick="ownGameOver()">退任する(ゲームオーバー)</button>
-    <button class="sec" onclick="closeModal(); setTimeout(ownFireShow,50)">戻る</button></div></div>`);
-}
-async function ownGameOver(){
-  const me=league&&league[myTeam]; if(!ownFire || !me) return;
-  const from=ownFire.from||me.name;
-  mgrEvent("fired",from); mgrEvent("over",from);
-  mgrOver={y:ownFire.y||year, team:from}; ownFire=null;
-  try{ while(typeof saveBusy!=="undefined" && saveBusy) await saveIdle(); await saveToSlot("auto",true); }catch(e){}
-  closeModal(); mgrOverShow();
-}
+function ownGameOverAsk(){__liteGone("ownGameOverAsk");}
+async function ownGameOver(){__liteGone("ownGameOver");}
 function mgrOverHtml(){
   return `<div id="mgrOverBox"><h2>GAME OVER</h2><p>${mgrOver.team}の監督を退任しました(${mgrOver.y}年目のオフ)。</p>${mgrCardHtml(true)}
     <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px"><button class="act" onclick="mgrToTitle()">タイトルに戻る</button></div></div>`;
@@ -15852,7 +15719,11 @@ function coachClubHtml(){__liteGone("coachClubHtml");}
 let frontEnabled=false, FRONT_DEFAULT=true;
 const FRONT_MIN=3, FRONT_BAD=0.46, FRONT_P_BAD=0.35, FRONT_LONG=10, FRONT_P_LONG=0.10;
 function frontOffseason(){__liteGone("frontOffseason");}
-function frontNoteHtml(t){__liteGone("frontNoteHtml");}
+function frontNoteHtml(t){
+  if(!t || !t.frontLog || !t.frontLog.length) return "";
+  const x=t.frontLog[t.frontLog.length-1];
+  return `<p class="small frontNote" style="margin:0 0 6px">フロント交代:${x.y}年目のオフ(${x.from}→${x.to})${t.frontLog.length>1? `・これまで${t.frontLog.length}回` : ""}</p>`;
+}
 
 let leagueRecords=null;
 const REC_REAL={
@@ -17774,7 +17645,7 @@ I18N.add("en",{
 "目玉選手":"Phenoms",
 "{0}:名前と経歴を持つ特別な選手が60人いて、毎年のドラフトに2〜3人登場します。1つのリーグでは1人1回だけ登場し、他球団も指名を狙ってきます。60人が出尽くした後は、引退した目玉選手の子が「2代目」として登場します。":"{0}: There are 60 special players with names and backstories, and 2–3 of them appear in each year's draft. Each appears only once per league, and other clubs go after them, too. Once all 60 have appeared, children of retired phenoms show up as the \"2nd generation\".",
 "{0}:看板選手が引退した球団には、同じタイプの有望株が「後継者」として逆指名してくることがあります。目玉選手が、好みのタイプの球団を逆指名することもあります。受け入れると1巡目の指名権を使います。":"{0}: When a club's franchise player retires, a top prospect of the same type may choose that club as his \"successor\". A phenom may also choose a club of the type he likes. Accepting uses your first-round pick.",
-"{0}:同じ球団に7シーズン以上在籍した26〜35歳の選手が、FA宣言することがあります。ドラフトの後の「FA市場」で、1年に3人まで獲得に名乗りを上げられます。移籍先は、名乗りを上げた球団と元の球団の中から、成績・所属リーグ・補強の必要性・愛着などの「球団の魅力」による抽選で決まります。獲得した選手は2軍に入り、代わりに2軍から1人を元の球団に渡します(人的補償)。2軍の有望株3人はプロテクト(保護)され、補償には選ばれません。自チームの選手がFA宣言することもあります。":"{0}: A player aged 26–35 who has spent 7 or more seasons with the same club may declare free agency. In \"Free Agency\" after the draft, you can make offers to up to 3 players a year. Each destination is drawn by lot among the clubs that made offers and the old club, weighted by \"club appeal\" — record, league, need, loyalty, and so on. A signed player joins your Minors, and you hand one Minors player to his old club in return (compensation). Your top 3 Minors prospects are protected and cannot be taken. Your own players may declare free agency, too.",
+"{0}:同じ球団に7シーズン以上在籍した26〜35歳の選手が、FA宣言することがあります。ドラフトの後の「FA市場」で、1年に3人まで獲得に名乗りを上げられます。移籍先は、名乗りを上げた球団と元の球団の中から、成績・所属リーグ・補強の必要性・愛着などの「球団の魅力」による抽選で決まります。獲得した選手は2軍に入ります。元の球団への補償は、リーグ作成の「FAの補償」で決まります。「新しい形」では、元の球団での年俸の順位で、1〜3位(ランクA)は獲得した球団の翌年のドラフトの2巡目の指名権か球団ポイント、4〜7位(ランクB)は3巡目の指名権か球団ポイント、8位は球団ポイントだけ、9位以下と翌年の4月1日に35歳以上の選手は補償なしです。指名権か球団ポイントかは元の球団が選び、指名権をもらった球団はその巡目に2人指名します(年俸なしのリーグは、年俸の見込みで順位を決めます)。「人的補償」では、代わりに2軍から1人を元の球団に渡します。2軍の有望株3人はプロテクト(保護)され、補償には選ばれません。自チームの選手がFA宣言することもあります。":"{0}: A player aged 26–35 who has spent 7 or more seasons with the same club may declare free agency. In \"Free Agency\" after the draft, you can make offers to up to 3 players a year. Each destination is drawn by lot among the clubs that made offers and the old club, weighted by \"club appeal\" — record, league, need, loyalty, and so on. A signed player joins your Minors. Compensation to his old club follows the league setting \"FA compensation\". With the new style, it depends on his payroll rank at his old club: #1–3 (Rank A) = the signing club's round-2 pick in next year's draft or club points; #4–7 (Rank B) = a round-3 pick or club points; #8 = club points only; none for #9 or lower, or for players 35 or older next April 1. The old club chooses, and a club that receives a pick makes two picks in that round (leagues without salaries rank players by estimated salary). With player compensation, you hand one Minors player to his old club in return. Your top 3 Minors prospects are protected and cannot be taken. Your own players may declare free agency, too.",
 "リーグの仕組み":"How the leagues work",
 "自分のリーグ(コスモリーグ)と、もう一方のリーグ(ネビュラリーグ)があります。リーグ名は設定で変えられます。":"There is your league (the Cosmo League) and the other league (the Nebula League). You can rename the leagues in Settings.",
 "方式":"Format",
@@ -20383,55 +20254,24 @@ function djAutoRest(){
   draft.myAuto=true; advanceDraftAI(); buildLineupUI(); updateMatchup(); renderAll();
 }
 const FA_BONUS=[0,1.0,2.0], FA_BCOST=[0,3,6], FA_BLABEL=[["ふつう","Standard"],["厚遇","Generous"],["大型契約","Big deal"]];
-function faEn(){ return typeof swEn==="function" && swEn(); }
-function faL(ja,en){ return faEn()? `<span data-noi18n>${en}</span>` : ja; }
-function faCost(k){ return FA_BCOST[k||0]*clubK(); }
+function faEn(){__liteGone("faEn");}
+function faL(ja,en){__liteGone("faL");}
+function faCost(k){__liteGone("faCost");}
 if(typeof faAttraction==="function"){ const orig=faAttraction;
   faAttraction=function(t,e){ const a=orig(t,e); return (league && t===league[myTeam] && e && e.myBonus)? a+FA_BONUS[e.myBonus] : a; };
 }
-function faParts(t,e){
-  const P=[], pct=t.w/((t.w+t.l)||1), me=league&&league[myTeam];
-  P.push(["基本","Base",1]); P.push(["成績(勝率)","Record",pct*2]);
-  if(isUpperTeam(t)) P.push(["上位リーグ","Top league",1]);
-  if(faNeeds(t,e)) P.push(["補強の必要","Need",0.6]);
-  if(t===e.from) P.push(["元の球団(愛着)","Current club",1.5]);
-  P.push(["人気","Popularity",((typeof t.pop==="number"? t.pop : 50)-50)/25]);
-  if(perk("popular") && t===me) P.push(["人気球団","Fan Favorite",0.5]);
-  if(clubFlags.fa && t===me) P.push(["FA交渉の強化","FA push",0.8]);
-  const u=e.p.uniqueId? uniqueDef(e.p) : null; if(u && u.aff && u.aff===t.archetype) P.push(["目玉の好み","Phenom's liking",1]);
-  if(localEnabled){ const c=cityOf(t); if(c && c[2]===0) P.push(["大都市","Big city",LOCAL_N.faBig]); if(isLocal(e.p,t)) P.push(["地元","Hometown",LOCAL_N.faLocal+(c && c[2]===2? LOCAL_N.faSmall : 0)]); }
-  if(t===me && e.myBonus) P.push(["条件","Offer",FA_BONUS[e.myBonus]]);
-  return P;
-}
-function faParties(e){ const me=league[myTeam], s=new Set(e.suitors); if(e.myOffer) s.add(me); s.add(e.from); return [...s]; }
+function faParts(t,e){__liteGone("faParts");}
+function faParties(e){__liteGone("faParties");}
 function faChance(e){
   const me=league[myTeam]; if(!(e.myOffer || e.from===me)) return null;
   const arr=faParties(e), w=arr.map(t=>faParts(t,e).reduce((a,x)=>a+x[2],0)), sum=w.reduce((a,b)=>a+b,0), mw=w[arr.indexOf(me)];
   const rank=1+w.filter(x=>x>mw).length;
   return {pct: sum>0? Math.round(mw/sum*100) : 0, rank, n:arr.length};
 }
-function faCommitted(ex){ return fa.list.reduce((s,x)=>s+(x!==ex && (x.myOffer || x.from===league[myTeam])? faCost(x.myBonus) : 0),0); }
-function faSetBonus(i,k){
-  const e=fa.list[i]; if(!e || !(e.myOffer || e.from===league[myTeam])) return;
-  if(k && faCommitted(e)+faCost(k)>clubPoints){ showToast(faEn()? "Not enough club points for these offers" : "球団ポイントが足りません(決まったときに払う分を合わせて)"); return; }
-  e.myBonus=k||0; updateMatchup();
-}
-function faDealHtml(e,i){
-  const me=league[myTeam]; if(!(e.myOffer || e.from===me)) return "";
-  const ch=faChance(e), mine=e.from===me, en=faEn(), k=e.myBonus||0;
-  const parts=faParts(me,e).map(([ja,enl,v])=>`${en? enl : ja} ${v>=0? "+" : ""}${(Math.round(v*10)/10).toFixed(1)}`).join("・");
-  const btns=[0,1,2].map(j=>`<button class="${k===j?"act":"sec"} faBtn" type="button" onclick="faSetBonus(${i},${j})">${en? FA_BLABEL[j][1] : FA_BLABEL[j][0]}${j? (en? ` (+${FA_BONUS[j]}, ${faCost(j)} pts)` : `(+${FA_BONUS[j]}・${faCost(j)}点)`) : ""}</button>`).join("");
-  return `<div class="faDeal small"><b>${en? `<span data-noi18n>${mine? "Chance to keep him" : "Chance to sign"}: about ${ch.pct}% (${ch.n} clubs · your appeal ranks #${ch.rank})</span>` : `${mine? "残留" : "獲得"}の見込み 約${ch.pct}%(${ch.n}球団で争う・あなたの魅力は${ch.rank}番目)`}</b>
-    <div class="faBtns">${faL(mine? "引き止めの条件:" : "条件:", mine? "Offer to stay:" : "Offer:")}${btns}</div>
-    <details><summary>${faL("魅力の内訳","Appeal breakdown")}</summary>${parts}<br>${faL("条件の球団ポイントは、決まったときだけ払います。","Club points for an offer are paid only if he signs.")}</details></div>`;
-}
-function faMineHtml(){
-  const me=league[myTeam], el=fa.mineElig||[];
-  if(!el.length) return "";
-  const dec=fa.list.filter(e=>e.from===me).map(e=>e.p.name);
-  const stay=el.filter(n=>!dec.includes(n));
-  return `<div class="notice faMine small"><b>${faL("あなたの球団のFA資格","Your FA-eligible players")}</b>:${faEn()? `<span data-noi18n>${el.length} eligible · ${dec.length} declared</span>` : `${el.length}人・宣言したのは${dec.length}人`}${dec.length? `(${dec.join("・")})` : ""}${stay.length? `<br>${faL("宣言せず残留:","Stayed without declaring:")}${stay.slice(0,6).join("・")}${stay.length>6? (faEn()? ` <span data-noi18n>and ${stay.length-6} more</span>` : `ほか${stay.length-6}人`) : ""}` : ""}</div>`;
-}
+function faCommitted(ex){__liteGone("faCommitted");}
+function faSetBonus(i,k){__liteGone("faSetBonus");}
+function faDealHtml(e,i){__liteGone("faDealHtml");}
+function faMineHtml(){__liteGone("faMineHtml");}
 if(typeof startFA==="function"){ const orig=startFA;
   startFA=function(auto){
     let el=[]; try{ const me=league[myTeam]; el=oneGun(me).filter(p=>!p.imp && svcOf(p)>=FA_MIN_SVC && p.age>=26 && p.age<=35).map(p=>p.name); }catch(e){}
@@ -20716,9 +20556,9 @@ function ptFlush(){ ptNewsT=null; if(!ptNews.length) return; const L=ptNews.spli
   noteToast("grow", fmEn()? `<span data-noi18n>${ch? "Pitches changed" : "Pitches improved"}: ${s}${ch? " (marked ● on the Info button in Roster)" : ""}</span>` : `${ch? "持ち球が変わった" : "持ち球が増えた・伸びた"}:${s}${ch? "(編成の投手の「詳細」に●)" : ""}`); }
 const CP_YEARS=10;
 let cpState={log:[], bal:0};
-function cpEn(){ return typeof swEn==="function" && swEn(); }
-function cpL(ja,en){ return cpEn()? `<span data-noi18n>${en}</span>` : ja; }
-function cpT(ja,en){ return cpEn()? en : ja; }
+function cpEn(){__liteGone("cpEn");}
+function cpL(ja,en){__liteGone("cpL");}
+function cpT(ja,en){__liteGone("cpT");}
 const CP_K={
   base:["基本","Base"], pop:["人気","Popularity"], pen:["リーグ優勝","Pennant"], champ:["日本一","Championship"], post:["ポストシーズン進出","Postseason"], easy:["かんたん","Easy mode"], cap:["上限を超えて捨てた分","Over the cap (lost)"],
   sal_start:["年俸の元手(リーグ開始)","Payroll fund (league start)"], sal_raise:["契約更改(昇給)","Contract renewals (raises)"], sal_back:["退団で戻った年俸","Released players' pay back"], adj:["上限・下限の調整","Cap adjustment"],
@@ -20726,15 +20566,11 @@ const CP_K={
   imp:["海外スカウト","Overseas scouting"], posting:["ポスティング","Posting"], ss:["夏のスカウト(追加の視察)","Summer scouting (extra visits)"], fa:["FAの条件","FA offers"],
   club_facility:["育成施設の強化","Training complex"], club_scout:["スカウト派遣","Scouting trip"], club_fa:["FA交渉の強化","FA push"], club_keep:["主力の引き止め","Retain core players"], club_fan:["ファンサービス","Fan service"],
   other:["その他","Other"]};
-function cpName(k){ const n=CP_K[k]||[k,k]; return cpEn()? n[1] : n[0]; }
+function cpName(k){__liteGone("cpName");}
 function cpOn(){ return !!league && !LITE; }
 let cpAcc=0, cpDepth=0;
-function cpAdd(k,d,y){
-  if(!d) return; cpAcc+=d; y= y==null? year : y; const L=cpState.log;
-  const e=L.find(x=>x.y===y && x.k===k); if(e) e.d+=d; else L.push({y,k,d});
-  const y0=y-CP_YEARS+1; if(L.some(x=>x.y<y0)) cpState.log=L.filter(x=>x.y>=y0);
-}
-function cpSync(){ if(!cpOn() || cpDepth>0) return; if(clubPoints!==cpState.bal){ cpAdd("other",clubPoints-cpState.bal); cpState.bal=clubPoints; } }
+function cpAdd(k,d,y){__liteGone("cpAdd");}
+function cpSync(){__liteGone("cpSync");}
 function cpCall(self,args,orig,after){
   if(!cpOn()) return orig.apply(self,args);
   cpSync(); const b=clubPoints, a0=cpAcc; cpDepth++; let r;
@@ -20750,14 +20586,9 @@ function cpWrap(name,kf){
 ["cupPlay","cupFinish"].forEach(n=>cpWrap(n,"cup"));
 cpWrap("worldFinish","world"); cpWrap("draftAcceptTwoWay","posting"); cpWrap("rvAfterGame","rival"); cpWrap("ownOffseason","owner");
 cpWrap("ssBuy","ss"); cpWrap("resolveFA","fa"); cpWrap("useClubAction",k=>"club_"+k);
-function cpYenEn(m){ m=Math.round(m); return m>=100000? `¥${(m/100000).toFixed(2)}B` : `¥${Math.round(m/100)}M`; }
-function cpStars(t){ const v=(t && typeof t.pop==="number")? t.pop : 50; return Math.max(1,Math.min(5,Math.ceil(v/20))); }
-function cpEarnParts(){
-  const s=(achTrack.seasons||[])[achTrack.seasons.length-1]||{}, me=league[myTeam], K=clubK();
-  const P=[["base",3],["pop",cpStars(me)]];
-  if(s.pennant) P.push(["pen",3]); if(s.champ) P.push(["champ",2]); if(achTrack.postYear===year) P.push(["post",1]); if(gameMode==="easy") P.push(["easy",2]);
-  return P.map(([k,v])=>[k,v*K]);
-}
+function cpYenEn(m){__liteGone("cpYenEn");}
+function cpStars(t){__liteGone("cpStars");}
+function cpEarnParts(){__liteGone("cpEarnParts");}
 if(typeof earnClubPoints==="function"){ const orig=earnClubPoints;
   earnClubPoints=function(){ if(!cpOn()) return orig.apply(this,arguments);
     const b=clubPoints; let gain=0, P=[], sum=0;
@@ -20788,55 +20619,17 @@ if(typeof applyState==="function"){ const orig=applyState;
 }
 if(typeof NOTICE_ICON==="object" && NOTICE_ICON) NOTICE_ICON.club="💰";
 const CP_SAL_FROM=0.2;
-function cpSeasonFrac(){ return (typeof schedule!=="undefined" && schedule.length)? Math.min(1,gameIdx/schedule.length) : 1; }
-function cpSalEstimate(){
-  if(!salOn()) return null; const f=cpSeasonFrac(); if(f<CP_SAL_FROM) return {early:true};
-  const t=league[myTeam]; let raise=0;
-  salTeamPlayers(t).forEach(p=>{ if(typeof p.sal!=="number") return; const cur=p.sal;
-    const fair=Math.max(SAL_MIN, Math.round((salBase(p)+Math.max(0,salWar(p)/f)*2500)/100)*100), want=salWant(p,fair,cur);
-    raise+=Math.max(0,salSmart(cur,fair,want)-cur); });
-  return {raise, pts:Math.ceil(raise/SAL_PT)};
-}
-function cpForecast(){
-  const K=clubK(), me=league[myTeam], s=(achTrack.seasons||[]).find(x=>x && x.y===year) || {};
-  const seasonOver= typeof schedule!=="undefined" && gameIdx>=schedule.length;
-  const sure=[["base",3*K],["pop",cpStars(me)*K]]; if(gameMode==="easy") sure.push(["easy",2*K]);
-  const maybe=[["pen",3*K],["champ",2*K],["post",1*K]];
-  return {sure, maybe, sum:sure.reduce((a,x)=>a+x[1],0), seasonOver};
-}
-function cpYearRows(y){
-  const L=cpState.log.filter(x=>x.y===y), inc=L.filter(x=>x.d>0).sort((a,b)=>b.d-a.d), exp=L.filter(x=>x.d<0).sort((a,b)=>a.d-b.d);
-  const row=x=>`<tr><td>${cpEn()? `<span data-noi18n>${cpName(x.k)}</span>` : cpName(x.k)}</td><td class="${x.d>0? "cpIn" : "cpOut"}">${x.d>0? "+" : "−"}${Math.abs(x.d)}</td></tr>`;
-  const ti=inc.reduce((a,x)=>a+x.d,0), te=exp.reduce((a,x)=>a+x.d,0);
-  return {ti,te,html:`<table class="cpT"><tbody>${inc.length? `<tr class="cpH"><th colspan="2">${cpL("入った","In")}</th></tr>${inc.map(row).join("")}` : ""}${exp.length? `<tr class="cpH"><th colspan="2">${cpL("使った","Out")}</th></tr>${exp.map(row).join("")}` : ""}<tr class="cpSum"><td>${cpL("差し引き","Net")}</td><td>${ti+te>=0? "+" : "−"}${Math.abs(ti+te)}</td></tr></tbody></table>`};
-}
-function cpBoxHtml(){
-  if(!cpOn()) return ""; cpSync();
-  const en=cpEn(), F=cpForecast(), max=clubMax(), est=cpSalEstimate();
-  const sureTxt=F.sure.map(([k,v])=>k==="pop"? (en? `Popularity ★${cpStars(league[myTeam])} = ${v}` : `人気★${cpStars(league[myTeam])}=${v}`) : `${cpName(k)}${en? " " : ""}${v}`).join(en? ", " : "・");
-  const maybeTxt=F.maybe.map(([k,v])=>en? `${cpName(k)} +${v}` : `${cpName(k)}なら+${v}`).join(en? ", " : "・");
-  const after=clubPoints-((est && !est.early)? est.pts : 0)+F.sum, over=Math.max(0,after-max);
-  const fc=`<div class="cpFc"><b>${cpL("次のオフの見込み","Next offseason (estimate)")}</b>
-    <div>${en? `<span data-noi18n>In: at least +${F.sum} (${sureTxt}); plus ${maybeTxt}</span>` : `入る:少なくとも +${F.sum}(${sureTxt})。さらに ${maybeTxt}`}</div>
-    ${est && est.early? `<div>${en? `<span data-noi18n>Out: contract renewals — an estimate appears once ${Math.round(CP_SAL_FROM*100)}% of the season is played (raises follow this season's results). Renewals come <b>before</b> the offseason income.</span>` : `出る:契約更改(昇給は今季の成績で決まるので、シーズンの${Math.round(CP_SAL_FROM*100)}%を過ぎると見込みが出ます)。契約更改は、オフの収入より<b>先</b>です`}</div>` : ""}
-    ${est && !est.early? `<div>${en? `<span data-noi18n>Out: contract renewals about ${est.pts} pts (raises about ${cpYenEn(est.raise)}, projecting today's stats over the full season, with the auto offers). Renewals come <b>before</b> the offseason income.</span>` : `出る:契約更改 約${est.pts}点(いまの成績のペースで1年を見込み、おまかせの提示額で昇給 約${salYen(est.raise)})。契約更改は、オフの収入より<b>先</b>です`}</div>` : ""}
-    <div>${en? `<span data-noi18n>After the offseason: about ${Math.min(after,max)} pts (cap ${max})</span>` : `オフのあと:約${Math.min(after,max)}点(上限${max})`}${over? ` <span class="cpWarn">${en? `<span data-noi18n>about ${over} pts would go over the cap and be lost — spend them before then</span>` : `上限を超える約${over}点は捨てられます。それまでに使うのがおすすめ`}</span>` : ""}${est && !est.early && clubPoints<est.pts? ` <span class="cpWarn">${en? `<span data-noi18n>${est.pts-clubPoints} pts short for renewals right now</span>` : `いまのままだと契約更改に${est.pts-clubPoints}点足りません`}</span>` : ""}</div>
-    <div class="small">${en? `<span data-noi18n>Popularity ★ is your fans (★1–5 = 0–100 in steps of 20). It changes at the end of the season with your record, stars and fan service, and each ★ is +${clubK()} pt every offseason.</span>` : `人気の★はファンの数(★1〜5。0〜100を20ずつ)。シーズンの終わりに成績・スター・ファンサービスで変わり、★1つで毎年のオフに+${clubK()}点です。`}</div></div>`;
-  const ys=[...new Set(cpState.log.map(x=>x.y))].sort((a,b)=>b-a), cur=cpYearRows(year);
-  const past=ys.filter(y=>y!==year).map(y=>{ const R=cpYearRows(y); return `<details class="cpPast"><summary>${en? `<span data-noi18n>Year ${y}: +${R.ti} / −${Math.abs(R.te)}</span>` : `${y}年目:+${R.ti}/−${Math.abs(R.te)}`}</summary>${R.html}</details>`; }).join("");
-  return `<div class="cpBox"><h4 class="cpTitle">${cpL("球団ポイントの収支","Club points: in and out")}</h4>${fc}
-    <div class="cpNow"><b>${en? `<span data-noi18n>This year (Year ${year})</span>` : `今年(${year}年目)`}</b>${(cur.ti||cur.te)? cur.html : `<p class="small">${cpL("今年はまだ出入りがありません。","Nothing in or out yet this year.")}</p>`}</div>${past}</div>`;
-}
+function cpSeasonFrac(){__liteGone("cpSeasonFrac");}
+function cpSalEstimate(){__liteGone("cpSalEstimate");}
+function cpForecast(){__liteGone("cpForecast");}
+function cpYearRows(y){__liteGone("cpYearRows");}
+function cpBoxHtml(){__liteGone("cpBoxHtml");}
 if(typeof renderClubView==="function"){ const orig=renderClubView;
   renderClubView=function(){ const r=orig.apply(this,arguments);
     try{ const el=document.getElementById("clubView"); if(el && cpOn()){ const ps=el.querySelectorAll(":scope > p"); const at=ps[1]||ps[0]; if(at) at.insertAdjacentHTML("afterend",cpBoxHtml()); else el.insertAdjacentHTML("afterbegin",cpBoxHtml()); } }catch(e){ console.error("cp",e); }
     return r; };
 }
-function cpSalWhyHtml(){
-  const L=cpState.log.filter(x=>x.y===year && x.d<0), F=cpForecast(), en=cpEn();
-  const used=L.map(x=>`${cpName(x.k)} ${-x.d}${en? "" : "点"}`).join(en? ", " : "・");
-  return `<div class="small cpSalWhy">${used? (en? `<span data-noi18n>Spent this year: ${used}. </span>` : `今年使った点:${used}。`) : ""}${en? `<span data-noi18n>After renewals you'll get at least +${F.sum} pts (more for a pennant, title or postseason).</span>` : `契約更改のあとに、少なくとも +${F.sum}点が入ります(優勝・日本一・ポストシーズン進出ならさらに)。`}</div>`;
-}
+function cpSalWhyHtml(){__liteGone("cpSalWhyHtml");}
 if(typeof renderSal==="function"){ const orig=renderSal;
   renderSal=function(){ const r=orig.apply(this,arguments); try{ const h=document.querySelector("#playerModal .salHead"); if(h && cpOn()) h.insertAdjacentHTML("beforeend",cpSalWhyHtml()); }catch(e){} return r; };
 }
@@ -22225,41 +22018,17 @@ return {svg, forPlayer, styleFor, hasRecord, RECORD, MEDAMA, hash};
 })();
 
 const ZK_FEM8=["u17","u18","u20","u31","u34","u36","u42","u47"];
-function zkImgOn(){ if(LITE) return false; try{ return tdLsGet("pennantZukanImg")!=="off"; }catch(e){ return true; } }
-function zkSetImg(on){ try{ tdLsSet("pennantZukanImg", on? "on" : "off"); }catch(e){} renderZukan(); }
-function zkNo(u){ const i=UNIQUES.indexOf(u); return String(i+1).padStart(2,"0"); }
-function zkSrc(u,f,sc){ return `img/no${zkNo(u)}_${f? "f" : "m"}_s${sc}.webp`; }
-function zkAll(){ return typeof testSw==="function" && testSw("zukan"); }
-function zkStage(u,e,f){
-  if(zkAll()) return 3;
-  if(!f) return e.star? 3 : e.got? 2 : e.seen? 1 : 0;
-  const F=e.fem||{}; return F.hof? 3 : F.star? 3 : F.got? 2 : F.seen? 1 : 0;
-}
-function zkFail(img){ try{ const box=img.closest(".zImg"); if(!box) return; const sil=box.getAttribute("data-sil"); box.outerHTML=`<div class="zSil">${decodeURIComponent(sil||"")}</div>`; }catch(e){} }
-function zkImgHtml(u,e,state){
-  const st=zkStage(u,e,false), sil=zukanSilSvg(u,state);
-  if(!zkImgOn() || st<1) return `<div class="zSil">${sil}</div>`;
-  const src=zkSrc(u,false,st), alt=`${uniqName(u)}(${["","出会った","獲得","活躍"][st]})`;
-  return `<button type="button" class="zImg" data-sil="${encodeURIComponent(sil)}" onclick="zkOpen('${u.id}')" aria-label="${alt}の絵を大きく見る"><img class="zBg" src="${src}" alt="" loading="lazy" decoding="async" aria-hidden="true"><img class="zFg" src="${src}" alt="${alt}" loading="lazy" decoding="async" onerror="zkFail(this)"></button>`;
-}
+function zkImgOn(){__liteGone("zkImgOn");}
+function zkSetImg(on){__liteGone("zkSetImg");}
+function zkNo(u){__liteGone("zkNo");}
+function zkSrc(u,f,sc){__liteGone("zkSrc");}
+function zkAll(){__liteGone("zkAll");}
+function zkStage(u,e,f){__liteGone("zkStage");}
+function zkFail(img){__liteGone("zkFail");}
+function zkImgHtml(u,e,state){__liteGone("zkImgHtml");}
 let zkCur=null;
-function zkOpen(id,f,sc){
-  const u=UNIQUES.find(x=>x.id===id); if(!u) return; const e=loadZukan()[id]||{};
-  const stM=zkStage(u,e,false), stF=zkStage(u,e,true);
-  f=!!f && stF>0; const max= f? stF : stM; sc=Math.min(sc||max, max); if(sc<1) return;
-  zkCur={id,f,sc};
-  const lab=["","出会った","獲得","活躍"];
-  const tabs=[1,2,3].map(k=>`<button type="button" class="subTab${k===sc?" active":""}" ${k>max?"disabled":""} onclick="zkOpen('${id}',${f},${k})">${k<=max? lab[k] : "？？？"}</button>`).join("");
-  const sw= stF>0? `<div class="subTabs zkSex"><button type="button" class="subTab${!f?" active":""}" onclick="zkOpen('${id}',false)">男性版</button><button type="button" class="subTab${f?" active":""}" onclick="zkOpen('${id}',true)">女性版</button></div>` : "";
-  openModal(`<h3>No.${zkNo(u)} ${uniqName(u)}</h3>${sw}<div class="subTabs">${tabs}</div><div class="zkBig"><img src="${zkSrc(u,f,sc)}" alt="${uniqName(u)}(${lab[sc]})" onerror="this.closest('.zkBig').innerHTML='<p class=small>絵を読み込めませんでした。</p>'"></div><p class="small zkNote">図鑑のイラストは画像生成AIで作ったものです。</p>`);
-}
-function zkStarOf(p,isPit){
-  const G=Math.max(1,targetGamesPerTeam||143), f=G/143, title=(p.honors||[]).some(h=>h && h.y===year);
-  if(title) return true;
-  if(!isPit) return (p.pa||0)>=G*3.1 && ((p.h||0)/Math.max(1,p.ab||0)>=.300 || (p.hr||0)>=Math.ceil(30*f) || (p.sb||0)>=Math.ceil(30*f));
-  if(p.pos==="先発") return ((p.ip||0)>=G && (p.er||0)*9/Math.max(1,p.ip||0)<3) || (p.w||0)>=Math.ceil(15*f);
-  return (p.sv||0)>=Math.ceil(30*f) || (p.hold||0)>=Math.ceil(30*f);
-}
+function zkOpen(id,f,sc){__liteGone("zkOpen");}
+function zkStarOf(p,isPit){__liteGone("zkStarOf");}
 function zkCountable(){ return !(typeof editUsed==="function" && editUsed()) && !(typeof achTrack!=="undefined" && achTrack && achTrack.debugUsed) && !LITE; }
 if(typeof recordZukanBests==="function"){ const orig=recordZukanBests;
   recordZukanBests=function(){ const r=orig.apply(this,arguments);
@@ -22332,7 +22101,7 @@ const WL_US=["Emma", "Olivia", "Ava", "Sophia", "Isabella", "Mia", "Charlotte", 
 const WL_IMP=[["エマ", "Emma"], ["オリビア", "Olivia"], ["ソフィア", "Sophia"], ["ミア", "Mia"], ["シャーロット", "Charlotte"], ["アメリア", "Amelia"], ["ハーパー", "Harper"], ["エミリー", "Emily"], ["グレース", "Grace"], ["ノラ", "Nora"], ["ライリー", "Riley"], ["ハンナ", "Hannah"], ["リリー", "Lily"], ["ステラ", "Stella"], ["ナタリー", "Natalie"], ["レア", "Leah"], ["ルーシー", "Lucy"], ["オードリー", "Audrey"], ["クレア", "Claire"], ["ナオミ", "Naomi"], ["エレナ", "Elena"], ["アンナ", "Anna"], ["マヤ", "Maya"], ["ルビー", "Ruby"], ["アリス", "Alice"], ["サラ", "Sarah"], ["クイン", "Quinn"], ["エヴァ", "Eva"], ["ジュリア", "Julia"], ["マリア", "Maria"], ["ルシア", "Lucia"], ["バレリア", "Valeria"], ["ダニエラ", "Daniela"], ["ガブリエラ", "Gabriela"], ["カルメン", "Carmen"], ["ロサ", "Rosa"], ["イネス", "Ines"], ["パロマ", "Paloma"], ["ケイシー", "Casey"], ["ジェシカ", "Jessica"], ["ジェイド", "Jade"], ["アイリス", "Iris"], ["テッサ", "Tessa"], ["デイジー", "Daisy"], ["ローズ", "Rose"], ["マーガレット", "Margaret"], ["ケイト", "Kate"], ["ミーガン", "Megan"], ["レイチェル", "Rachel"], ["レベッカ", "Rebecca"], ["ローラ", "Laura"], ["エリン", "Erin"], ["ニコール", "Nicole"], ["アシュリー", "Ashley"], ["アマンダ", "Amanda"], ["ステファニー", "Stephanie"], ["ヴァネッサ", "Vanessa"], ["モニカ", "Monica"], ["アンドレア", "Andrea"], ["テイラー", "Taylor"], ["ペイジ", "Paige"], ["ブルック", "Brooke"], ["ナターシャ", "Natasha"], ["フィオナ", "Fiona"], ["フィービー", "Phoebe"]];
 const WL_EXCL=["葵", "悠里", "仁実", "結生", "結貴", "悠希", "渚", "羽", "悠", "夏樹", "青葉"];
 let wlOn=false, wlPick=false;
-function wlUnlocked(){ if(LITE) return false; let f=false; try{ f=localStorage.getItem("pennantWomenLeague")==="1"; }catch(e){} return f || modesAllOn(); }
+function wlUnlocked(){__liteGone("wlUnlocked");}
 const WL_ORIG={};
 function wlSwap(arr,key,list){ if(!arr) return; if(!WL_ORIG[key]) WL_ORIG[key]=arr.slice(); arr.length=0; (list||WL_ORIG[key]).forEach(x=>arr.push(x)); }
 function wlNames(on){
@@ -22341,22 +22110,13 @@ function wlNames(on){
   if(typeof IMP_GIVEN!=="undefined") wlSwap(IMP_GIVEN,"imp",on? WL_IMP : null);
 }
 WL_ROMA.forEach(([j,e])=>{ if(!I18N_ROMA.given.has(j)) I18N_ROMA.given.set(j,e); });
-function wlUniqGiven(id){
-  const ids=UNIQUES.map(u=>u.id).filter(x=>!WL_DUAL.includes(x)), i=ids.indexOf(id); if(i<0) return null;
-  if(i<WL_EXCL.length) return WL_EXCL[i];
-  const pool=WL_GIVEN.filter(g=>!WL_EXCL.includes(g)); return pool[(i*37)%pool.length];
-}
+function wlUniqGiven(id){__liteGone("wlUniqGiven");}
 { const o=uniqName; uniqName=function(u){ const r=o.apply(this,arguments); if(!wlOn || !u) return r; const id=u.baseId||u.id;
     if(r!==u.name){ const k=UNIQUES.findIndex(x=>x.id===id), sur=r.split(" ").slice(-1)[0]; return WL_US[(Math.max(0,k)*13)%WL_US.length]+" "+sur; }
     if(WL_DUAL.includes(id)) return r;
     const g=wlUniqGiven(id); return g? u.name.split(" ")[0]+" "+g : r; }; }
 { const o=uniqNames; uniqNames=function(u){ const r=o.apply(this,arguments); if(wlOn && u){ const n=uniqName(u); if(n && !r.includes(n)) r.push(n); } return r; }; }
-function wlFix(p){
-  if(!wlOn || !p || typeof p!=="object") return;
-  const k= p.velo!==undefined? "velo" : (p.power!==undefined? "power" : null); if(!k) return;
-  if(p._wl!==1){ if(!wlLoading) p[k]=Math.round(p[k]*WL.pw); p._wl=1; }
-  if(p[k]>WL.cap) p[k]=WL.cap;
-}
+function wlFix(p){__liteGone("wlFix");}
 function wlSweep(t){ if(!wlOn || !t) return; try{ edPlayersOf(t).forEach(wlFix); }catch(e){} }
 function wlSweepAll(){ if(!wlOn) return; try{ allTeamsEverywhere().forEach(wlSweep); if(typeof draft!=="undefined" && draft && Array.isArray(draft.pool)) draft.pool.forEach(it=>wlFix(it&&it.p)); }catch(e){} }
 { const o=refreshTeamBonuses; refreshTeamBonuses=function(t){ wlSweep(t); return o.apply(this,arguments); }; }
@@ -22366,7 +22126,7 @@ function wlSweepAll(){ if(!wlOn) return; try{ allTeamsEverywhere().forEach(wlSwe
 { const o=collectState; collectState=function(){ const s=o.apply(this,arguments); s.wlOn=wlOn; return s; }; }
 { const o=applyState; applyState=function(st){ wlOn= !LITE && !!(st && st.wlOn===true); wlNames(wlOn); const r=o.apply(this,arguments); wlObs(); return r; }; }
 let wlLoading=false;
-function wlMarkAll(){ try{ allTeamsEverywhere().forEach(t=>edPlayersOf(t).forEach(p=>{ if(p && typeof p==="object") p._wl=1; })); if(typeof draft!=="undefined" && draft && Array.isArray(draft.pool)) draft.pool.forEach(it=>{ if(it && it.p && typeof it.p==="object") it.p._wl=1; }); }catch(e){} }
+function wlMarkAll(){__liteGone("wlMarkAll");}
 { const o=applyState; applyState=function(st){ wlLoading=true; try{ return o.apply(this,arguments); } finally{ wlLoading=false; if(wlOn) wlMarkAll(); } }; }
 { const o=bczBat; bczBat=function(){ const r=o.apply(this,arguments); if(wlOn && r){ r.v*=WL.bat; r.d*=WL.bat; } return r; }; }
 { const o=zukanSeen; zukanSeen=function(id){ if(!wlOn || !id || id.endsWith("-2")) return o.apply(this,arguments);
@@ -22386,7 +22146,7 @@ function wlMarkAll(){ try{ allTeamsEverywhere().forEach(t=>edPlayersOf(t).forEac
     const sil=zukanSilSvg(u,state), src=zkSrc(u,true,st), alt=`${uniqName(u)}(女性版・${["","出会った","獲得","活躍"][st]})`;
     return `<button type="button" class="zImg" data-sil="${encodeURIComponent(sil)}" onclick="zkOpen('${u.id}',true)" aria-label="${alt}の絵を大きく見る"><img class="zBg" src="${src}" alt="" loading="lazy" decoding="async" aria-hidden="true"><img class="zFg" src="${src}" alt="${alt}" loading="lazy" decoding="async" onerror="zkFail(this)"></button>`; }; }
 { const o=renderModeBadge; renderModeBadge=function(){ const r=o.apply(this,arguments); const b=document.getElementById("modeBadge"); if(b && league && wlOn){ b.classList.remove("hidden"); b.textContent=(gameMode==="normal"? "" : (gameMode==="ex"? "EX " : gameMode==="special"? "SP " : gameMode==="easy"? "かんたん " : ""))+"🌸女子"; b.title="女子リーグ"; } return r; }; }
-function wlEn(){ return typeof mpEn==="function" && mpEn(); }
+function wlEn(){__liteGone("wlEn");}
 MP_CARDS.splice(MP_CARDS.findIndex(c=>c.k==="scenario"),0,{k:"wl",ico:"🌸",ja:"女子リーグ",en:"Women's League",tag:["隠しモード","Hidden mode"],
   d:["全員女性の別リーグ。パワーと球速は控えめで、本塁打より二塁打、盗塁やバントの多い「つなぐ野球」になります。","An all-women league. Less power and velocity, more doubles than homers, and more steals and bunts: small ball."],lock:["",""]});
 { const o=mpPick; mpPick=function(k){
@@ -22400,15 +22160,9 @@ const WL_JA=[["ピンチの男","ピンチの女王"],["野球を諦めかけた
 const WL_EN=[[/\bhimself\b/g,"herself"],[/\bHimself\b/g,"Herself"],[/\bhe\b/g,"she"],[/\bHe\b/g,"She"],[/\bHE\b/g,"SHE"],[/\bhis\b/g,"her"],[/\bHis\b/g,"Her"],[/\bhim\b/g,"her"],[/\bHim\b/g,"Her"],
   [/\bhe's\b/g,"she's"],[/\bHe's\b/g,"She's"],[/\bhe'll\b/g,"she'll"],[/\bHe'll\b/g,"She'll"],[/\bhe'd\b/g,"she'd"],[/\bHe'd\b/g,"She'd"],
   [/\bboys\b/g,"girls"],[/\bguy\b/g,"player"],[/\bguys\b/g,"players"],[/\bman\b/g,"woman"],[/\bmen\b/g,"women"],[/\bson\b/g,"daughter"],[/\bfather\b/g,"mother"],[/\bMr\. /g,"Ms. "]];
-function wlText(s){ if(!s || typeof s!=="string") return s; let o=s; if(!wlEn()) WL_JA.forEach(([a,b])=>{ if(o.includes(a)) o=o.split(a).join(b); }); if(/[A-Za-z]/.test(o)) WL_EN.forEach(([a,b])=>{ o=o.replace(a,b); }); return o; }
+function wlText(s){__liteGone("wlText");}
 let wlMo=null;
-function wlFixNode(n){
-  if(!wlOn) return;
-  if(n.nodeType===3){ if(n.parentNode && /^(TEXTAREA|SCRIPT|STYLE)$/.test(n.parentNode.nodeName)) return; const v=n.nodeValue, w=wlText(v); if(w!==v) n.nodeValue=w; return; }
-  if(n.nodeType!==1 || /^(SCRIPT|STYLE|TEXTAREA|INPUT)$/.test(n.tagName)) return;
-  const it=document.createTreeWalker(n,NodeFilter.SHOW_TEXT); let x; const L=[]; while((x=it.nextNode())) L.push(x); L.forEach(t=>{ if(t.parentNode && /^(TEXTAREA|SCRIPT|STYLE)$/.test(t.parentNode.nodeName)) return; const v=t.nodeValue, w=wlText(v); if(w!==v) t.nodeValue=w; });
-  if(n.title){ const w=wlText(n.title); if(w!==n.title) n.title=w; }
-}
+function wlFixNode(n){__liteGone("wlFixNode");}
 function wlObs(){
   if(!wlOn){ if(wlMo){ wlMo.disconnect(); wlMo=null; } return; }
   if(wlMo || typeof MutationObserver==="undefined") return;
@@ -22714,7 +22468,7 @@ function wlkApply(on){
     put(PARK_FIX,x[0]+"代表",[h%3, ((h>>>4)%2), ((forteHash(on0+"屋根")>>>3)%2)===0? 1 : 0]); });
 }
 { const o=wlNames; wlNames=function(on){ const r=o.apply(this,arguments); wlkApply(!!on); return r; }; }
-function wlkNatKey(n){ if(!wlOn) return n; const i=WLK_NATIONS.findIndex(x=>x[0]===n); return (i>=0 && WLK_NAT_ORIG[i])? WLK_NAT_ORIG[i][0] : n; }
+function wlkNatKey(n){__liteGone("wlkNatKey");}
 function wlkTeamKey(n){ if(!wlOn) return n; const s=WLK_SLOT[n]; return s? s.orig : n; }
 function wlkLeagueNames(){ return wlOn? Object.assign({},WLK_LG) : {main:"コスモリーグ",B:"ネビュラリーグ",C:"カオスリーグ"}; }
 { const o=worldName; worldName=function(kind){
@@ -22729,13 +22483,7 @@ const WLK_LIT=[["コスモリーグ","プリズムリーグ","Cosmo League","Pri
     WLK_LIT.forEach(([ja,wja,eo,we])=>{ if(cur.some(n=>n.includes(ja) || n===eo)) return; if(!en){ if(r.includes(ja)) r=r.split(ja).join(wja); } else if(r.includes(eo)) r=r.split(eo).join(we); });
     return r; }; }
 let wlkSetupW=false;
-function wlkSetupLabels(){
-  const s=document.getElementById("homeLeagueSel"), w= typeof wlPick!=="undefined" && !!wlPick; if(!s || !s.options || s.options.length<2 || w===wlkSetupW) return;
-  wlkSetupW=w;
-  s.options[0].textContent= w? WLK_LG.main : "コスモリーグ";
-  s.options[1].textContent= w? "🔓 "+WLK_LG.B : "🔓 ネビュラリーグ";
-  try{ if(typeof segSync==="function") segSync(s); }catch(e){}
-}
+function wlkSetupLabels(){__liteGone("wlkSetupLabels");}
 { const o=mpPick; mpPick=function(){ const r=o.apply(this,arguments); try{ wlkSetupLabels(); }catch(e){} return r; }; }
 I18N.add("en",WLK_EN); I18N.add("en",WLK_LG_EN);
 I18N.add("en",{"香港":"Hong Kong","香港代表":"Team Hong Kong","フィリピン":"Philippines","フィリピン代表":"Team Philippines"});
@@ -22959,23 +22707,11 @@ const SB_AI={
     "打撃型":{sq:38, hre:12, sfb:7}
   }
 };
-function sbRate(arch){ const T= wlOn? SB_AI.wl : SB_AI; return T[arch]||T["バランス型"]; }
-function sbGate(key,pct){ return pct>0 && forteHash(key+"|"+year+"|"+(typeof gameIdx==="number"? gameIdx : 0))%100 < pct; }
-function sbIsPl(r){ return !!r && typeof r.pa==="number"; }
-function sbOffOptions(c){
-  const o=[], b=c.bases;
-  if(b[2] && c.outs<2) o.push("sq");
-  if(b[0] && !b[2] && c.outs<2) o.push("hre");
-  if(!b[1] && !b[2] && c.outs<2 && eff(c.batter,"speed")>=SB_N.sfbSpdMin) o.push("sfb");
-  return o;
-}
-function sbAiOff(c){
-  const b=c.bases, w=wlOn, R=sbRate(c.arch), pw=eff(c.batter,"power"), mt=eff(c.batter,"meet"), sp=eff(c.batter,"speed"), ad=Math.abs(c.diff), k=c.batter.name+c.inn+"|"+c.outs+"|"+b.map(x=>x?1:0).join("");
-  if(b[2] && c.outs<2 && c.inn>=(w?5:6) && c.diff>=-1 && c.diff<=1 && pw<(w?60:52) && c.d!=="five" && sbGate("sq"+k,R.sq)) return "sq";
-  if(b[0] && !b[2] && c.outs<2 && c.inn>=3 && ad<=3 && eff(b[0],"speed")>=(w?50:58) && mt>=55 && pw<70 && sbGate("hr"+k,R.hre)) return "hre";
-  if(!b[1] && !b[2] && c.outs===0 && ad<=3 && sp>=(w?65:72) && pw<55 && c.d!=="bunt" && sbGate("sf"+k,R.sfb)) return "sfb";
-  return null;
-}
+function sbRate(arch){__liteGone("sbRate");}
+function sbGate(key,pct){__liteGone("sbGate");}
+function sbIsPl(r){__liteGone("sbIsPl");}
+function sbOffOptions(c){__liteGone("sbOffOptions");}
+function sbAiOff(c){__liteGone("sbAiOff");}
 { const o=tacOffOptions; tacOffOptions=function(c){ return o(c).concat(sbOffOptions(c)); }; }
 { const o=tacAiOff; tacAiOff=function(c){ return sbAiOff(c) || o(c); }; }
 { const o=tacHitAdd; tacHitAdd=function(bip,b,p){ const a=o(bip,b,p); return (curTac && curTac.o==="hre" && bip && bip.type==="GB")? a+SB_N.hreGbHit : a; }; }
@@ -22984,47 +22720,10 @@ Object.assign(TAC_O,{sq:"スクイズ",hre:"エンドラン",sfb:"セーフテ�
 Object.assign(TAC_O_HINT,{sq:"三塁走者は投げた瞬間に走り、打者は必ず転がす。外されたり空振りしたりすると走者が挟まれ、小フライなら併殺も",
   hre:"一塁走者は投げた瞬間に走り、打者は必ず打つ。ゴロでも併殺になりにくく、ヒットなら一気に三塁へ。内野へのライナーは併殺、空振りなら走者が刺されることも",
   sfb:"打者が自分も生きるつもりで転がす。足が速いほど決まりやすい。アウトでも走者は進む"});
-function sbBip(defense,type,list,key){ const pos=list[forteHash(key)%list.length]; return {type, pos, f:(defense && defense.byPos)? defense.byPos[pos]||null : null, bunt:1}; }
-function sbBunt(code,z){
-  const {batter,pitcher,defense,bases,tacD,spd,key}=z, meet=eff(batter,"meet"), skB=skillsEnabled? skBuntAdd(batter) : 0, r=[];
-  const adv=()=>{ if(bases[2]) r.push(bases[2]); bases[2]=bases[1]; bases[1]=bases[0]; bases[0]=null; };
-  const done=(res,outs,ok,x)=>({res,outs,score:r,cont:false,ok,x});
-  lastHBP=false;
-  if(code==="sq"){
-    const pc=clamp(SB_N.sqCt+(meet-60)/SB_N.sqCtMeet,0.55,0.93)+skB*SB_N.sqCtSk+(tacD==="bunt"? SB_N.sqCtShift : 0), u=Math.random();
-    if(u>=pc){
-      if((u-pc)/(1-pc)<SB_N.sqMissRun){ bases[2]=null; return {res:null,outs:1,score:r,cont:true,ok:false,x:"sq-miss"}; }
-      batter.pa++; pitcher.bf++; batter.ab++; lastBIP=sbBip(defense,"FB",["捕","投","一","三"],batter.name+key);
-      if(z.outs<1){ bases[2]=null; return done("OUT",2,false,"sq-pop2"); }
-      return done("OUT",1,false,"sq-pop");
-    }
-    batter.pa++; pitcher.bf++; lastBIP=sbBip(defense,"GB",["投","一","三"],batter.name+key);
-    const pH=clamp(SB_N.sqHome-(spd(bases[2])-SPEED_MEAN)/SB_N.sqHomeSpd+(tacD==="in"? SB_N.sqHomeIn : 0)+(tacD==="bunt"? SB_N.sqHomeShift : 0),0.03,0.3);
-    if(Math.random()<pH){ batter.ab++; bases[2]=null; adv(); bases[0]=batter; return done("FC",1,false,"sq-home"); }
-    const bh=Math.random()<clamp(SB_N.sqBH+(spd(batter)-SPEED_MEAN)/300,0.02,0.2);
-    adv();
-    if(bh){ batter.ab++; batter.h++; pitcher.h++; batter.tb++; bases[0]=batter; return done("1B",0,true,"sq-bh"); }
-    batter.sh=(batter.sh||0)+1; if(skillsEnabled && skHas(batter,"bunt")) skillXpAdd(batter,"bunt",1);
-    return done("SH",1,true,"sq-ok");
-  }
-  const pf=clamp(SB_N.sfbFair+(meet-60)/SB_N.sfbFairMeet,0.65,0.93)+skB*SB_N.sfbFairSk;
-  if(Math.random()>=pf) return {res:null,outs:0,score:r,cont:true,ok:false,x:"sf-foul"};
-  batter.pa++; pitcher.bf++; batter.ab++; lastBIP=sbBip(defense,"GB",["三","三","投","一"],batter.name+key);
-  const f3=(defense && defense.byPos)? defense.byPos["三"] : null, fs=f3? eff(f3,"fieldSkill") : 60;
-  const pH=clamp(SB_N.sfbHit+(spd(batter)-60)/SB_N.sfbSpd-(fs-60)/SB_N.sfbFs+(tacD==="bunt"? SB_N.sfbShift : 0)+(tacD==="deep"? SB_N.sfbDeep : 0),0.08,0.65)+(skillsEnabled? skLv(batter,"infieldHit","hit") : 0);
-  if(Math.random()<pH){ batter.h++; pitcher.h++; batter.tb++; adv(); bases[0]=batter; skXp2(batter,"infieldHit"); return done("1B",0,true,"sf-hit"); }
-  adv(); return done("OUT",1,false,"sf-out");
-}
-function sbHreK(bases,pitcher,catcher,defArm,tacEv){
-  const lead= bases[1]? 1 : 0, rr=bases[lead]; if(!sbIsPl(rr)) return 0;
-  const sp=eff(rr,"speed"), cst=fStat(catcher,"捕"); if(cst) cst.sba++;
-  const ok=Math.random()<clamp(0.60+(sp-SPEED_MEAN)/220-(defArm-ARM_MEAN)/180,0.35,0.9)+(skillsEnabled? skSteal(rr,pitcher,catcher) : 0)+SB_N.hreKst-(lead? SB_N.hreKlead : 0);
-  if(ok){ rr.sb=(rr.sb||0)+1; if(lead){ bases[2]=bases[1]; bases[1]=bases[0]; bases[0]=null; } else { bases[1]=bases[0]; bases[0]=null; } tacEv.hk=2; return 0; }
-  rr.cs=(rr.cs||0)+1; if(cst) cst.cs++;
-  if(lead){ bases[1]=bases[0]; bases[0]=null; } else bases[0]=null;
-  tacEv.hk=1; return 1;
-}
-function sbHreWhere(preO,bases,scL){ const r1=preO && preO[0]; if(!r1) return 0; if(scL.includes(r1)) return 4; return bases[2]===r1? 3 : bases[1]===r1? 2 : 0; }
+function sbBip(defense,type,list,key){__liteGone("sbBip");}
+function sbBunt(code,z){__liteGone("sbBunt");}
+function sbHreK(bases,pitcher,catcher,defArm,tacEv){__liteGone("sbHreK");}
+function sbHreWhere(preO,bases,scL){__liteGone("sbHreWhere");}
 function sbKindPA(rpK,tacO,sbRes,res,preO,bases,scL){
   try{
     if(tacO==="sq" && sbRes && sbRes.ok) return "sq";
@@ -23034,34 +22733,7 @@ function sbKindPA(rpK,tacO,sbRes,res,preO,bases,scL){
   return rpK;
 }
 
-function sbResultText(d,myBatting,R){
-  const x=d.sb||"", h=d.sbh||0, T=d.tac||{}, o=d.tacO;
-  if(!(o==="sq"||o==="sfb"||o==="hre")) return null;
-  const B={HR:"本塁打",K:"三振",BB:d.hp? "死球" : "四球",OUT:"アウト",SF:"犠牲フライ",E:"エラーで出塁",SH:"送りバント",FC:"バント失敗(走者がアウト)","1B":"ヒット","2B":"二塁打","3B":"三塁打"};
-  let label=R.label, good=R.good, main=null, note="";
-  const pick=(mine,opp,g)=>{ label= myBatting? mine : opp; good= myBatting? g : !g; };
-  if(o==="sq"){
-    if(x==="sq-ok"){ pick("スクイズ成功!","スクイズを決められた…",true); main="スクイズ成功"; }
-    else if(x==="sq-bh"){ pick("スクイズで内野安打!","スクイズを決められた…",true); main="スクイズで内野安打"; }
-    else if(x==="sq-home"){ pick("本塁でアウト…","本塁で刺した!",false); main="スクイズ失敗"; note="三塁走者は本塁でアウト(打者は一塁へ)"; }
-    else if(x==="sq-pop"){ pick("小フライ…","小フライに打ち取った!",false); main="スクイズ失敗(小フライ)"; }
-    else if(x==="sq-pop2"){ pick("小フライで併殺…","小フライで併殺!",false); main="スクイズ失敗(小フライで併殺)"; }
-    else if(x==="sq-miss"){ if(myBatting? !R.good : R.good) pick("挟まれた…","スクイズを外した!",false); note="スクイズは空振りで、三塁走者が挟まれてアウト"; }
-  } else if(o==="sfb"){
-    if(x==="sf-hit"){ pick("セーフティ成功!","セーフティを決められた…",true); main="セーフティバントで内野安打"; }
-    else if(x==="sf-out"){ pick("セーフティ失敗…","セーフティを封じた!",false); main="セーフティバント失敗"; if(T.adv||(d.rn||[]).some(Boolean)) note="走者が進んだ"; }
-    else if(x==="sf-foul") note="セーフティバントはファウルになり、打ち直し";
-  } else {
-    if(T.hk===1){ pick("三振ゲッツー…","三振ゲッツー!",false); note="走っていた走者も刺された"; }
-    else if(T.hk===2) note="走っていた走者は盗塁成功";
-    else if(T.ld){ pick("飛び出して併殺…","飛び出しを刺した!",false); note="打球が内野に飛び、走者が戻れず併殺"; }
-    else if(/^(1B|2B|3B)$/.test(d.res) && h>=3){ pick("エンドラン成功!","エンドランを決められた…",true); note= h===4? "一塁走者が一気に生還" : "一塁走者は一気に三塁へ"; }
-    else if(d.res==="OUT" && !d.dp && h===2){ pick("走者を進めた","打ち取った!",true); note="一塁走者は二塁へ(併殺を防いだ)"; }
-  }
-  const tacLine=`<br><span class="small">守り:${TAC_D[d.tacD]||"ふつう"}/攻め:${TAC_O[o]}</span>`;
-  const cap=`作戦の場面の結果<br><b>${d.batter}</b>(投手 ${d.pitcher}):${main||(d.dp? "併殺打" : (B[d.res]||d.res))}${d.scored? `(${d.scored}点)` : ""}${note? "<br>"+note : ""}${tacLine}`;
-  return {label,good,cap};
-}
+function sbResultText(d,myBatting,R){__liteGone("sbResultText");}
 { const o=mgResultText; mgResultText=function(d,myBatting){ const R=o.apply(this,arguments); try{ return (d && d.tacO && sbResultText(d,myBatting,R)) || R; }catch(e){ return R; } }; }
 
 Object.assign(RP.w,{sq:24, er:20, sf:20});
@@ -23094,24 +22766,8 @@ Object.assign(RP_TXT,{
   ["sq","er","sf"].forEach(k=>{ const t=RP_TXT[k]; ["ban","banWl"].forEach(q=>(t[q]||[]).forEach(([a,b])=>{ o[a]=b; })); (t.main||[]).forEach(([a,b])=>{ o[a+"スクイズ!"]=b; }); });
   I18N.add("en",o); }catch(e){} })();
 const SB_RP=new Set(["sq","er","sf"]);
-function sbBanner(ev,b){
-  const t=RP_TXT[ev.rp]; if(!t) return null;
-  const pre=(t.main||[]).find(([p])=>b.startsWith(p));
-  if(ev.rp==="sq" && pre) return pre[0]+"スクイズ!";
-  if(ev.runs>0 && RP_PRE.some(p=>b.startsWith(p))) return null;
-  const p=rpPool(t,"ban"); return p.length? p[rpIdx(ev,p.length,0)][0] : null;
-}
-function sbCaption(ev){
-  const t=RP_TXT[ev.rp]; if(!t) return null;
-  const en=rpEn(), pn=ev.pn||[], run= ev.rp==="sq"? (pn[2]||"") : (pn[0]||""), gh= run==="走者";
-  const p= (ev.rp==="sq" && ev.sbx==="sq-bh")? t.capBh : gh? (t.cap||[]).slice(ev.rp==="sq"? 1 : 0).slice(0,1) : rpPool(t,"cap");
-  const v=rpVars(Object.assign({},ev,{run}));
-  if(gh) v.run= en? (ev.rp==="sq"? "The runner" : "the runner") : (ev.rp==="sq"? "三塁走者" : "一塁走者");
-  const m=(ev.mv||[]).find(a=>a[0]===1), to= m? m[1] : 2;
-  v.to= to===4? "ホーム" : to===3? "三塁" : "二塁"; v.toE= to===4? "all the way home" : to===3? "to third" : "to second";
-  const s=rpFill(p[rpIdx(ev,p.length,1)][en? 1 : 0], v);
-  return (!en && typeof hlTacNote==="function")? s+hlTacNote(ev) : s;
-}
+function sbBanner(ev,b){__liteGone("sbBanner");}
+function sbCaption(ev){__liteGone("sbCaption");}
 { const o=hlBanner; hlBanner=function(ev){ const b=o.apply(this,arguments); try{ if(ev && SB_RP.has(ev.rp)){ const x=sbBanner(ev,b); if(x) return x; } }catch(e){} return b; }; }
 { const o=hlCaption; hlCaption=function(ev){ try{ if(ev && SB_RP.has(ev.rp)){ const x=sbCaption(ev); if(x) return x; } }catch(e){} return o.apply(this,arguments); }; }
 
@@ -23207,24 +22863,9 @@ const SBT_TXT={
   }
 };
 const SBT_SUB={"sq-home":"Home","sq-pop2":"Pop","sq-miss":"Miss"};
-function sbtPool(ev,key){ const t=SBT_TXT[ev.rp]; if(!t) return []; const sub= ev.rp==="sx"? (SBT_SUB[ev.sbx]||"Home") : "";
-  const base=t[key+sub]||t[key]||[]; return (wlOn && t[key+"Wl"])? t[key+"Wl"].concat(base) : base; }
-function sbtBanner(ev){ const p=sbtPool(ev,"ban"); return p.length? p[rpIdx(ev,p.length,0)][0] : null; }
-function sbtCaption(ev){
-  const p=sbtPool(ev,"cap"); if(!p.length) return null;
-  const en=rpEn(), pn=ev.pn||[], v=rpVars(ev);
-  const nm=(s,ja,jaGh,enGh)=>{ const gh= !s || s==="走者"; return en? (gh? enGh : rpN(s)) : (gh? jaGh : ja+rpN(s)); };
-  v.r3=nm(pn[2],"三塁走者の","三塁走者","the runner");
-  const lead= ev.rp==="ek" && pn[1];
-  v.r1= lead? nm(pn[1],"二塁走者の","二塁走者","the runner") : nm(pn[0],"一塁走者の","一塁走者","the runner");
-  v.base= lead? "三塁" : "二塁"; v.baseE= lead? "third" : "second";
-  const m=(ev.mv||[]).find(a=>a[0]===1), to= m? m[1] : 2;
-  v.to= to===3? "三塁" : "二塁"; v.toE= to===3? "to third" : "to second";
-  const ip=RP_POS[ev.ip]; v.pos= ip? ({投:"投手",捕:"捕手"}[ev.ip]||ip[0])+"へのゴロ" : "内野"; v.posE= ip? "on a grounder to "+ip[1] : "on the play";
-  if(ev.rp==="el"){ v.pos=({投:"ピッチャー",捕:"キャッチャー",一:"ファースト",二:"セカンド",遊:"ショート",三:"サード"})[ev.ip]||"内野手"; v.posE=({投:"the pitcher",捕:"the catcher",一:"the first baseman",二:"the second baseman",遊:"the shortstop",三:"the third baseman"})[ev.ip]||"an infielder"; }
-  const s=rpFill(p[rpIdx(ev,p.length,1)][en? 1 : 0], v);
-  return (!en && typeof hlTacNote==="function")? s+hlTacNote(ev) : s;
-}
+function sbtPool(ev,key){__liteGone("sbtPool");}
+function sbtBanner(ev){__liteGone("sbtBanner");}
+function sbtCaption(ev){__liteGone("sbtCaption");}
 { const o=hlBanner; hlBanner=function(ev){ const b=o.apply(this,arguments); try{ if(ev && SBT_TXT[ev.rp] && !(ev.runs>0)){ const x=sbtBanner(ev); if(x) return x; } }catch(e){} return b; }; }
 { const o=hlCaption; hlCaption=function(ev){ try{ if(ev && SBT_TXT[ev.rp] && !(ev.fw && !(ev.runs>0))){ const x=sbtCaption(ev); if(x) return x; } }catch(e){} return o.apply(this,arguments); }; }
 { const o=hlTrajectory; hlTrajectory=function(ev,seed){
@@ -23247,10 +22888,10 @@ function sbtCaption(ev){
 
 WL.hrMax=0.3; WL.xbh=1.3;
 const WLT={stAskSp:52, stAskInn:6, stAskDiff:3, stAskW:1, stSug:-2};
-function wltEn(){ return typeof I18N!=="undefined" && I18N.lang==="en"; }
-function wltEsc(s){ return String(s).replace(/[&<>"'`]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"}[c])); }
-function wltHash(s){ let h=0; for(const ch of String(s)) h=(h*31+ch.codePointAt(0))>>>0; return h; }
-function wltIdx(ev,n,salt){ const h=wltHash(`${Math.floor((ev.sq||0)*2)}|${ev.inn||0}|${ev.half||""}|${ev.batter||""}|${salt||0}`); return h%n; }
+function wltEn(){__liteGone("wltEn");}
+function wltEsc(s){__liteGone("wltEsc");}
+function wltHash(s){__liteGone("wltHash");}
+function wltIdx(ev,n,salt){__liteGone("wltIdx");}
 
 const WLT_CAP={
   "1B":[["しぶとく転がした打球が、内野の間を抜けていく!","A tough grounder finds a hole in the infield!"],["コンパクトに振り抜いて、センター前へ!","A compact swing, and it drops into center!"],
@@ -23263,7 +22904,7 @@ const WLT_ORIG={"1B":"鋭い打球が外野へ抜けていく!","2B":"外野の�
 const WLT_BAN=[["つなぎのタイムリー!","Keep-the-line-moving RBI hit!"],["しぶとくタイムリー!","A gritty RBI hit!"]];
 const SG_CHEER_WL={bat:[["つないでいこう、{n}!","Keep it going, {n}!"],["ここで一本、{n}!","One hit right here, {n}!"],["{n}、しぶとくいこう!","Grind it out, {n}!"]],
   pit:[["{n}、粘っていこう!","Hang in there, {n}!"]], good:[["ナイスバッティング、{n}!","Nice hitting, {n}!"]], bad:[["切り替えていこう、{n}!","Shake it off, {n}!"]]};
-function wltPlain(ev){ return !!ev && !ev.rp && !ev.mm; }
+function wltPlain(ev){__liteGone("wltPlain");}
 if(typeof hlCaption==="function"){ const o=hlCaption;
   hlCaption=function(ev){ const s=o.apply(this,arguments);
     try{ if(wlOn && wltPlain(ev) && WLT_CAP[ev.kind] && typeof s==="string" && s.includes(WLT_ORIG[ev.kind])){
@@ -23292,7 +22933,7 @@ if(typeof renderDivisionRename==="function"){ const o=renderDivisionRename;
     return r; }; }
 I18N.add("en",{"スペクトル":"Spectrum","グロウ":"Glow","トワイライト":"Twilight","ハロ":"Halo","プリズム":"Prism","オーロラ":"Aurora"});
 
-function wltRealLv(lv){ return lv==="npb" || lv==="mlb"; }
+function wltRealLv(lv){__liteGone("wltRealLv");}
 if(typeof newsRecords==="function"){ const o=newsRecords;
   newsRecords=function(list){ if(!wlOn) return o.apply(this,arguments); const L=(list||[]).filter(x=>x && x.r && !wltRealLv(x.r.lv)); if(!L.length) return; return o.call(this,L); }; }
 if(typeof recsHtml==="function"){ const o=recsHtml;
@@ -23314,20 +22955,9 @@ const WLT_NORM={
   hit:{on:[1.26,2.79,0.18,0.08], off:[1.29,2.87,0.19,0.09]}, ultraPitch:{on:[0.32,0.57,0.17,0.10], off:[0.31,0.59,0.15,0.13]}};
 HLO.wlc="off"; try{ const s=JSON.parse(localStorage.getItem("pennantHlOpt")||"null"); if(s && (s.wlc==="on"||s.wlc==="off")) HLO.wlc=s.wlc; }catch(e){}
 function wltCmpOn(){ return !!wlOn && HLO.wlc==="on"; }
-function wltSeason(){
-  let g=0; const n={hr:0,d2:0,sb:0,sh:0};
-  (league||[]).forEach(t=>{ g+=(t.w||0)+(t.l||0)+(t.t||0); edPlayersOf(t).forEach(p=>{ if(!p || p.velo!==undefined) return; n.hr+=p.hr||0; n.d2+=p.d2||0; n.sb+=p.sb||0; n.sh+=p.sh||0; }); });
-  return g>0? {hr:n.hr/g, d2:n.d2/g, sb:n.sb/g, sh:n.sh/g} : null;
-}
-function wltRatio(x,y,en){ if(!(y>0)) return "—"; const r=x/y;
-  if(r>=0.95) return en? `${r.toFixed(1)}x` : `${r.toFixed(1)}倍`;
-  const w=Math.max(1,Math.round(r*10)); return en? `${w*10}%` : `${w}割`; }
-function wltCmpHtml(){
-  const s=wltSeason(); if(!s) return ""; const B=WLT_NORM[balanceMode]||WLT_NORM.standard, N=B[tacEnabled? "on" : "off"]||B.on, en=wltEn();
-  const items= en? [["Steals",s.sb,N[2]],["Sac bunts",s.sh,N[3]],["Doubles",s.d2,N[1]],["Home runs",s.hr,N[0]]] : [["盗塁",s.sb,N[2]],["犠打",s.sh,N[3]],["二塁打",s.d2,N[1]],["本塁打",s.hr,N[0]]];
-  const t=items.map(([k,x,y])=>`${k} ${wltRatio(x,y,en)}`).join(en? ", " : "・");
-  return `<p class="small wltCmp" style="margin-top:8px">🌸 ${en? `<span data-noi18n>Compared with a regular league (per game): ${t}</span>` : `通常のリーグと比べると(1試合あたり):${t}`}</p>`;
-}
+function wltSeason(){__liteGone("wltSeason");}
+function wltRatio(x,y,en){__liteGone("wltRatio");}
+function wltCmpHtml(){__liteGone("wltCmpHtml");}
 if(typeof seasonWrapShow==="function"){ const o=seasonWrapShow;
   seasonWrapShow=function(){ const r=o.apply(this,arguments);
     try{ if(wltCmpOn()){ const w=document.querySelector("#playerModalBody .swWrap"); if(w && !w.querySelector(".wltCmp")){ const h=wltCmpHtml(); const a=w.querySelector(".swStand")||w.querySelector(".swHead"); if(h && a) a.insertAdjacentHTML("afterend",h); } } }catch(e){}
@@ -23610,18 +23240,7 @@ window.addEventListener("pagehide",()=>{ sfFlush(); });
 setTimeout(()=>{ try{ idbOpen().catch(()=>{}); }catch(e){} },0);
 try{ I18N.add("en",{"ページやアプリを閉じる直前の数試合は、保存が間に合わないことがあります。閉じる前に数秒待つか、手動セーブをしてください。":"The last few games right before you close the page or app may not be saved in time. Wait a few seconds before closing, or make a manual save."}); }catch(e){}
 
-function cpCupNotes(r,home,away,snap){
-  try{
-    const n=r && r.box && r.box.n; if(!n) return;
-    const pool=[...(snap||[]).map(x=>x.p),...oneGun(home),...oneGun(away)], find=nm=>pool.find(p=>p.name===nm), cs={};
-    const csOf=p=>(p && p.cupS && p.cupS.y===year)? p.cupS : {};
-    ["w","l","s"].forEach(k=>{ const x=n[k]; if(!Array.isArray(x)) return; const p=find(x[0]); if(!p) return; const c=csOf(p);
-      x[1]=p.w||0; x[2]=p.l||0; x[3]=p.sv||0; cs[k]=[c.w||0,c.l||0,c.sv||0]; });
-    if(Array.isArray(n.hr) && n.hr.length){ const left={}; n.hr.forEach(x=>{ left[x[0]]=(left[x[0]]||0)+1; });
-      n.hr.forEach(x=>{ left[x[0]]--; const c=csOf(find(x[0])); x[1]=(c.hr||0)-left[x[0]]; }); cs.hr=1; }
-    n.cup=cs;
-  }catch(e){}
-}
+function cpCupNotes(r,home,away,snap){__liteGone("cpCupNotes");}
 { const o=umPsTag; umPsTag=function(n,k){
     const cs=n && n.cup; if(!cs) return o.apply(this,arguments);
     const x=cs[k]; if(!x) return "";
@@ -23647,25 +23266,14 @@ const BA_FIG={
   f_pit_r_set:{w:200,h:300,mid:.488}, f_pit_r_throw:{w:200,h:300,mid:.448}
 };
 const BA_W=1200, BA_H=900, BA_CUT={bat:.72,pit:.62};
-function baOn(){ if(LITE) return false; try{ return tdLsGet("pennantBatArt")!=="off"; }catch(e){ return true; } }
-function baSet(on){ try{ tdLsSet("pennantBatArt", on? "on" : "off"); }catch(e){} baSync(); }
+function baOn(){__liteGone("baOn");}
+function baSet(on){__liteGone("baSet");}
 function baSync(){ const c=document.getElementById("baChk"); if(c) c.checked=baOn(); const w=document.getElementById("baRow"); if(w) w.classList.toggle("hidden",!!LITE); }
 const baSt={}, baEl={}, baRc={}, baRcBusy={};
-function baLoad(f){
-  if(baSt[f]) return; baSt[f]="load";
-  try{ const im=new Image(); baEl[f]=im; im.onload=()=>{ baSt[f]="ok"; baRcFlush(f); }; im.onerror=()=>{ baSt[f]="err"; }; im.src=`img/bat/${f}.webp`; }catch(e){ baSt[f]="err"; }
-}
-function baHex(t){ try{ const c=String((typeof teamColorMap!=="undefined" && t && teamColorMap[t.name]) || (t && t.color) || "").trim().toLowerCase(); const m=c.match(/^#?([0-9a-f]{6})$/); return m? m[1] : null; }catch(e){ return null; } }
-function baDome(t){
-  try{ if(!t) return false; let pk=t.park;
-    if(!pk){ const fx=PARK_FIX[String(t.name||"")]; if(fx) pk={turf:fx[1]===1, dome:fx[2]===1}; else { const h=forteHash(String(t.name||"")+"球場"); pk={turf:((h>>>4)%2)===1}; } }
-    return !!pk.turf && (typeof pk.dome==="boolean"? pk.dome : ((forteHash(String(t.name||"")+"屋根")>>>3)%2)===0);
-  }catch(e){ return false; }
-}
-function baNight(){
-  try{ const d=(typeof curDate==="function")? curDate() : null; if(!d || typeof d.getDay!=="function") return true;
-    const w=d.getDay(), m=d.getMonth(); return !((w===0 || w===6) && m!==6 && m!==7); }catch(e){ return true; }
-}
+function baLoad(f){__liteGone("baLoad");}
+function baHex(t){__liteGone("baHex");}
+function baDome(t){__liteGone("baDome");}
+function baNight(){__liteGone("baNight");}
 let baCtx=null;
 function baScene(det){
   if(!baOn() || !baCtx || !det) return null;
@@ -23683,53 +23291,15 @@ function baPrep(r){
     [r.homeTeam, r.awayTeam].forEach(t=>{ const h=baHex(t); if(!h) return; [pre+"bat_r_stance", pre+"bat_r_swing", pre+"pit_r_set", pre+"pit_r_throw"].forEach(f=>baRecolor(f,h)); });
   }catch(e){}
 }
-function baRecolor(f,hex){
-  const k=f+"|"+hex; if(!hex || baRc[k]!==undefined || baRcBusy[k]) return;
-  if(baSt[f]!=="ok"){ baRcBusy[k]="wait"; return; }
-  baRcBusy[k]=true;
-  setTimeout(()=>{ try{ const im=baEl[f], c=document.createElement("canvas"); c.width=im.naturalWidth; c.height=im.naturalHeight;
-      const x=c.getContext("2d"); x.drawImage(im,0,0); const h=Math.round(c.height*(f.includes("bat_")? BA_CUT.bat : BA_CUT.pit));
-      const d=x.getImageData(0,0,c.width,h); baRecolorData(d.data,hex); x.putImageData(d,0,0); baRc[k]=c.toDataURL("image/png"); }catch(e){ baRc[k]=null; }
-    baRcBusy[k]=false;
-    if(baRc[k]) document.querySelectorAll(`#bcvScene img[data-baf="${f}"][data-bah="${hex}"]`).forEach(i=>{ i.src=baRc[k]; });
-  },0);
-}
-function baRecolorData(px,hex){
-  const org=px.slice(); gdRecolorData(px,hex);
-  for(let i=0;i<px.length;i+=4){
-    if(px[i]===org[i] && px[i+1]===org[i+1] && px[i+2]===org[i+2]) continue;
-    const [,L,S]=gdHls(org[i]/255,org[i+1]/255,org[i+2]/255), k=Math.max(Math.min(1,Math.max(0,(S-.2)/.08)), Math.min(1,Math.max(0,(L-.18)/.06)));
-    if(k<1) for(let j=0;j<3;j++) px[i+j]=Math.round(org[i+j]+(px[i+j]-org[i+j])*k);
-  }
-}
-function baRcFlush(f){ Object.keys(baRcBusy).forEach(k=>{ if(baRcBusy[k]==="wait" && k.split("|")[0]===f){ delete baRcBusy[k]; baRecolor(f,k.split("|")[1]); } }); }
-function baSrc(f,hex){ const k=f+"|"+hex; if(hex && baRc[k]) return baRc[k]; if(hex) baRecolor(f,hex); return `img/bat/${f}.webp`; }
-function baBox(f,feetX,feetY,hgt,flip,shift){
-  const g=BA_FIG[f], h=hgt*BA_H, w=h*g.w/g.h, mid=flip? 1-g.mid : g.mid;
-  const left=feetX*BA_W-mid*w+(shift||0)*w*(flip? -1 : 1), top=feetY*BA_H-h;
-  const pc=(v,d)=>(v/d*100).toFixed(2)+"%";
-  return `left:${pc(left,BA_W)};top:${pc(top,BA_H)};width:${pc(w,BA_W)};height:${pc(h,BA_H)}${flip? ";transform:scaleX(-1)" : ""}`;
-}
-function baImg(cls,f,hex,style){ return `<img class="${cls}" src="${baSrc(f,hex)}" data-baf="${f}" data-bah="${hex||""}" style="${style}" alt="" draggable="false" onerror="baBroken()">`; }
+function baRecolor(f,hex){__liteGone("baRecolor");}
+function baRecolorData(px,hex){__liteGone("baRecolorData");}
+function baRcFlush(f){__liteGone("baRcFlush");}
+function baSrc(f,hex){__liteGone("baSrc");}
+function baBox(f,feetX,feetY,hgt,flip,shift){__liteGone("baBox");}
+function baImg(cls,f,hex,style){__liteGone("baImg");}
 let baLastDet=null;
-function baSceneHtml(det,S){
-  const B=BA_BG[S.bg], [x0,x1,pt]=B.plate, s=(x1-x0)*BA_W/64, cx=(x0+x1)/2*BA_W, cy=pt*BA_H-.235*BA_H;
-  const toX=X=>150+(X-cx)/s, toY=Y=>150+(Y-cy)/s;
-  const bx= S.lb? 1-B.bx[S.fem? "f" : "m"] : B.bx[S.fem? "f" : "m"], ph=B.ph, [rx,ry]=B.rubber;
-  const hand=[rx*BA_W, (ry+.01-ph*.80)*BA_H], sd=ph*BA_H*.12/s;
-  const p=S.pre, sw=BA_FIG[p+"bat_r_swing"].dx;
-  const people=baImg("baP baSet",p+"pit_r_set",S.hp,baBox(p+"pit_r_set",rx,ry+.01,ph,S.lp))+baImg("baP baThr",p+"pit_r_throw",S.hp,baBox(p+"pit_r_throw",rx,ry+.01,ph,S.lp))+
-    baImg("baB baSt",p+"bat_r_stance",S.hb,baBox(p+"bat_r_stance",bx,1.03,.80,S.lb))+baImg("baB baSw",p+"bat_r_swing",S.hb,baBox(p+"bat_r_stance",bx,1.03,.80,S.lb,sw));
-  return `<div class="bcvScene baArt${S.lb? " lefty" : ""}${S.lp? " lp" : ""}" id="bcvScene" data-ba="${S.bg}" data-sx="${toX(hand[0]).toFixed(2)}" data-sy="${toY(hand[1]).toFixed(2)}" data-sd="${sd.toFixed(2)}" aria-hidden="true">`+
-    `<div class="baFrame"><img class="baBg" src="img/bat/bg_${S.bg}.webp" alt="" draggable="false" onerror="baBroken()">${people}`+
-    `<svg viewBox="0 0 ${BA_W} ${BA_H}" preserveAspectRatio="none"><g transform="translate(${(cx-150*s).toFixed(2)},${(cy-150*s).toFixed(2)}) scale(${s.toFixed(4)})">`+
-    `<rect class="bcvZone" x="118" y="118" width="64" height="64"/><path class="bcvGrid" d="M139.3,118 V182 M160.7,118 V182 M118,139.3 H182 M118,160.7 H182"/>`+
-    `<g id="bcvMarks"></g><path id="bcvTrail" class="bcvTrail" d=""/><circle id="bcvBall" class="bcvBall" cx="157" cy="110" r="0"/></g></svg></div>`+
-    `<div class="bcvCard" id="bcvCard"></div></div>`;
-}
-function baBroken(){ try{ const sc=document.getElementById("bcvScene"); if(!sc || !sc.classList.contains("baArt")) return; const f=sc.dataset.ba; if(f) baSt["bg_"+f]="err";
-  sc.querySelectorAll("img[data-baf]").forEach(i=>{ if(!i.complete || !i.naturalWidth) baSt[i.dataset.baf]="err"; });
-  if(baLastDet) sc.outerHTML=baOrigScene(baLastDet); }catch(e){} }
+function baSceneHtml(det,S){__liteGone("baSceneHtml");}
+function baBroken(){__liteGone("baBroken");}
 function bcvStart(dir){ const sc=document.getElementById("bcvScene"); if(sc && sc.dataset.sx) return [+sc.dataset.sx-(+sc.dataset.sd)*dir, +sc.dataset.sy]; return [150-7*dir,110]; }
 let baOrigScene=null;
 { const o=bcvSceneHtml; baOrigScene=o; bcvSceneHtml=function(det){
@@ -23837,6 +23407,286 @@ I18N.add("en",{"AIで作ったイラストを表示する":"Show AI-made illustr
   "最初の1年の案内役を出す(試合の画面の上に「いまやること」)":"Show the first-year guide (\"what to do now\" above the game screen)",
   "案内役の絵は画像生成AIで作ったものです。":"The guide's picture was made with an AI image generator."});
 try{ aoSync(); }catch(e){}
+
+function dfEsc(s){ return String(s==null? "" : s).replace(/[&<>"'`]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"}[c])); }
+const FC_PCT=[130,105,80,100,87,73,60,60], FC_OLD=35, FC_YOUNG_POT=58, FC_PTS_LOW=2;
+let fcState={mode:"human",picks:[],log:[]};
+let fcAsk=[], fcAskCur=null, fcAskDone=null, fcCur=null;
+function fcEn(){ return typeof swEn==="function" && swEn(); }
+function dfL(ja,en){ return fcEn()? `<span data-noi18n>${en}</span>` : ja; }
+function fcNew(){ return !LITE && !!fcState && fcState.mode==="new"; }
+const FC_CLS={A:["ランクA","Rank A"],B:["ランクB","Rank B"],B2:["ランクB","Rank B"],C:["ランクC","Rank C"],old:["35歳以上","Age 35+"]};
+function fcClsName(c){ const x=FC_CLS[c]||FC_CLS.C; return fcEn()? x[1] : x[0]; }
+function fcWar(p,t,cx){
+  try{ const arr=sbLeagueArrOf(t.name); if(!arr) return 0;
+    let c=cx.ctx.get(arr); if(!c){ c=leagueContext(arr); cx.ctx.set(arr,c); }
+    const m= p.velo!==undefined? sbPit(p,c) : sbBat(p,c); return m && isFinite(m.war)? m.war : 0; }catch(e){ return 0; }
+}
+function fcSal(p,t,cx){
+  if(cx.sal.has(p)) return cx.sal.get(p);
+  const v= salOn()? salOf(p) : Math.max(SAL_MIN, Math.round((salBase(p)+Math.max(0,fcWar(p,t,cx))*2500)/100)*100);
+  cx.sal.set(p,v); return v;
+}
+function fcCx(){ return {ctx:new Map(), sal:new Map()}; }
+function fcCalc(p,t,cx){
+  cx=cx||fcCx(); ensureFarm(t);
+  const list=salTeamPlayers(t); if(!list.includes(p)) list.push(p);
+  const mine=fcSal(p,t,cx), rank=1+list.filter(x=>x!==p && fcSal(x,t,cx)>mine).length;
+  const cls= p.age+1>=FC_OLD? "old" : rank<=3? "A" : rank<=7? "B" : rank===8? "B2" : "C";
+  const pct= (cls==="old"||cls==="C")? 0 : FC_PCT[rank-1];
+  const pts= pct? Math.max(1, Math.round(mine*pct/100/SAL_PT)) : 0;
+  return {rank, cls, round: cls==="A"? 2 : cls==="B"? 3 : 0, pct, sal:mine, pts};
+}
+function fcYoung(t){ ensureFarm(t); return [...oneGun(t),...t.farm.bat,...t.farm.pit].filter(x=>!x.imp && x.age<=23 && potentialBase(x)>=FC_YOUNG_POT).length; }
+function fcYoungAvg(t){ const lg=leagueOfTeam(t)||[t]; return lg.reduce((a,x)=>a+fcYoung(x),0)/Math.max(1,lg.length); }
+function fcWantsPick(t,c){
+  if(league && t===league[myTeam] && clubPoints+c.pts>clubMax()) return true;
+  return c.pts<=FC_PTS_LOW || fcYoung(t)<fcYoungAvg(t);
+}
+function fcPickUsed(giver,round,dy){ return fcState.picks.some(x=>x.dy===dy && x.giver===giver && x.round===round); }
+function fcApply(r,sign){
+  const me=league[myTeam], g=r._g, v=r._r;
+  if(r.kind==="pick"){
+    if(sign>0){ r.pk={dy:r.dy, round:r.round, giver:g, recv:v, gn:g.name, rn:v.name, player:r.player, st:""}; fcState.picks.push(r.pk); }
+    else if(r.pk){ const i=fcState.picks.indexOf(r.pk); if(i>=0) fcState.picks.splice(i,1); r.pk=null; }
+  } else if(r.kind==="pts"){
+    if(v===me){ if(sign>0){ const b=clubPoints; clubPoints=Math.min(clubMax(),clubPoints+r.pts); r.got=clubPoints-b; } else { clubPoints=Math.max(0,clubPoints-(r.got||0)); r.got=0; } }
+    if(g===me){ if(sign>0){ const pay=Math.min(clubPoints,r.pts); clubPoints-=pay; r.paid=pay; } else { clubPoints+=r.paid||0; r.paid=0; } }
+  }
+}
+function fcOnMove(e,winner,res){
+  const me=league[myTeam], c=e._fc || fcCalc(e.p,e.from);
+  const r={y:year, dy:year+1, player:e.p.name, age:e.p.age, from:e.from.name, to:winner.name, cls:c.cls, rank:c.rank, round:c.round, pts:c.pts, pct:c.pct, sal:c.sal, kind:"none", canPick:false};
+  r._g=winner; r._r=e.from;
+  if(c.cls!=="old" && c.cls!=="C"){
+    r.canPick= c.round>0 && isUpperTeam(winner) && isUpperTeam(e.from) && !fcPickUsed(winner,c.round,r.dy);
+    r.kind= (r.canPick && fcWantsPick(e.from,c))? "pick" : "pts";
+    fcApply(r,1);
+  }
+  fcState.log.push(r); if(fcState.log.length>200) fcState.log.splice(0,fcState.log.length-200);
+  res.fc=r; fcCur=r;
+  if(e.from===me && !fa.auto && r.canPick) fcAsk.push(r);
+  else if(e.from===me && r.kind!=="none") noticeAdd("fa", fcNoticeTxt(r));
+  if(winner===me) noticeAdd("fa", fcNoticeTxt(r));
+}
+function fcWhat(r,en){
+  if(r.kind==="pick") return en? `the ${dfEsc(r.to)}' round-${r.round} pick in next year's draft goes to the ${dfEsc(r.from)}` : `${dfEsc(r.to)}の来年のドラフトの${r.round}巡目の指名権を${dfEsc(r.from)}へ`;
+  if(r.kind==="pts") return en? `the ${dfEsc(r.to)} pay the ${dfEsc(r.from)} ${r.pts} club points` : `${dfEsc(r.to)}から${dfEsc(r.from)}へ球団ポイント${r.pts}点`;
+  return en? (r.cls==="old"? "none (35 or older next April 1)" : "none (Rank C)") : (r.cls==="old"? "なし(翌年の4月1日に35歳以上)" : "なし(ランクC)");
+}
+function fcNoticeTxt(r){
+  const en=fcEn(), me=league[myTeam].name;
+  if(en) return `<span data-noi18n>FA compensation for ${dfEsc(r.player)} (${fcClsName(r.cls)}): ${fcWhat(r,true)}${r.paid!==undefined && r.to===me && r.kind==="pts"? ` (paid ${r.paid})` : ""}</span>`;
+  return `FAの補償(${dfEsc(r.player)}・${fcClsName(r.cls)}):${fcWhat(r,false)}${r.paid!==undefined && r.to===me && r.kind==="pts" && r.paid<r.pts? `(所持が足りず${r.paid}点を払った)` : ""}`;
+}
+function fcAskAll(done){ const r=fcAsk.shift(); if(!r){ done(); return; } fcAskOpen(r,done); }
+function fcAskOpen(r,done){
+  fcAskCur=r; fcAskDone=done;
+  const en=fcEn();
+  openModal(`<div class="fcAsk"><h3>${dfL("FAの補償を選んでください","Choose your FA compensation")}</h3>
+    <p>${en? `<span data-noi18n>${dfEsc(r.player)} (${r.age}) left for the ${dfEsc(r.to)}. He was #${r.rank} in your payroll (${fcClsName(r.cls)}), so you choose one:</span>` : `${dfEsc(r.player)}(${r.age}歳)が${dfEsc(r.to)}へ移籍しました。年俸は球団内${r.rank}位(${fcClsName(r.cls)})なので、補償をどちらか選べます。`}</p>
+    <div class="fcOpts">
+      <button class="act fcOpt" type="button" onclick="fcAskPick('pick')"><b>${dfL(`${dfEsc(r.to)}の${r.round}巡目の指名権`,`The ${dfEsc(r.to)}' round-${r.round} pick`)}</b><span class="small">${dfL(`来年のドラフトで、${r.round}巡目に2人指名できます(${dfEsc(r.to)}は${r.round}巡目に指名できません)`,`Next year's draft: you pick twice in round ${r.round}; the ${dfEsc(r.to)} skip that round`)}</span></button>
+      <button class="sec fcOpt" type="button" onclick="fcAskPick('pts')"><b>${dfL(`球団ポイント ${r.pts}点`,`${r.pts} club points`)}</b><span class="small">${en? `<span data-noi18n>About ${r.pct}% of his salary${salOn()? ` (${salYen(r.sal)})` : ""} · you have ${clubPoints} (max ${clubMax()})${clubPoints+r.pts>clubMax()? ` · ${clubPoints+r.pts-clubMax()} would be lost over the cap` : ""}</span>` : `年俸の約${r.pct}%${salOn()? `(年俸 ${salYen(r.sal)})` : "(年俸の見込みから)"}・所持${clubPoints}点(上限${clubMax()})${clubPoints+r.pts>clubMax()? `・上限をこえる${clubPoints+r.pts-clubMax()}点は入りません` : ""}`}</span></button>
+    </div>
+    <p class="small">${dfL(`若手の層(23歳以下で見込みの高い選手):${fcYoung(league[myTeam])}人(リーグの平均 ${fcYoungAvg(league[myTeam]).toFixed(1)}人)。`,`Young depth (23 or younger, good potential): ${fcYoung(league[myTeam])} (league average ${fcYoungAvg(league[myTeam]).toFixed(1)}).`)}</p></div>`);
+}
+function fcAskPick(kind){
+  const r=fcAskCur; if(!r) return;
+  if(kind!==r.kind && (kind==="pts" || r.canPick)){ fcApply(r,-1); r.kind=kind; fcApply(r,1); }
+  r.ch=1; noticeAdd("fa", fcNoticeTxt(r));
+  const d=fcAskDone; fcAskCur=null; fcAskDone=null; closeModal();
+  fcAskAll(d||(()=>{}));
+}
+{ const orig=closeModal; closeModal=function(){ if(fcAskCur) return; return orig.apply(this,arguments); }; }
+function fcRowHtml(e){
+  if(!fcNew() || !e || !e.p) return "";
+  const c=e._fc || (e._fc=fcCalc(e.p,e.from)), en=fcEn();
+  const what= c.cls==="old"? dfL("補償なし(翌年の4月1日に35歳以上)","No compensation (35+ next April 1)")
+    : c.cls==="C"? dfL(`補償なし(年俸は球団内${c.rank}位)`,`No compensation (#${c.rank} in payroll)`)
+    : c.cls==="B2"? dfL(`補償:球団ポイント約${c.pts}点(年俸は球団内8位)`,`Compensation: about ${c.pts} club points (#8 in payroll)`)
+    : (en? `<span data-noi18n>Compensation: the signing club's round-${c.round} pick or about ${c.pts} club points (#${c.rank} in payroll)</span>` : `補償:獲得した球団の${c.round}巡目の指名権か球団ポイント約${c.pts}点(年俸は球団内${c.rank}位)`);
+  return `<div class="small fcRow"><span class="badge fcCls fc${c.cls}">${fcClsName(c.cls)}</span> ${what}</div>`;
+}
+function fcFaDescHtml(offers){
+  return `<p class="small">${dfL(`FA宣言した選手に名乗りを上げられます(${offers}/${faMaxOffers()}人)。移籍先は、名乗りを上げた球団と元の球団の中から、成績・所属リーグ・補強の必要性・愛着などの「球団の魅力」に応じた抽選で決まります。獲得した選手は2軍に入ります。`,
+    `You can make offers to players who have declared free agency (${offers}/${faMaxOffers()}). Each player's destination is drawn by lot among the clubs that made offers and the old club, weighted by "club appeal" — record, league, need, loyalty, and so on. A signed player joins your Minors.`)}</p>
+    <p class="small fcHow">${dfL(`補償(このリーグは新しい形):元の球団での年俸の順位で決まります。ランクA(1〜3位)=獲得した球団の来年のドラフトの2巡目の指名権か球団ポイント、ランクB(4〜7位)=3巡目の指名権か球団ポイント、8位=球団ポイントだけ、9位以下=なし。翌年の4月1日に35歳以上ならなし。どちらにするかは元の球団が選びます。${salOn()? "" : "このリーグは年俸がないので、年俸の見込みで順位を決めます。"}`,
+    `Compensation (new style in this league) depends on his payroll rank at his old club: Rank A (#1–3) = the signing club's round-2 pick in next year's draft or club points; Rank B (#4–7) = a round-3 pick or club points; #8 = club points only; #9 or lower = none. None if he is 35 or older next April 1. The old club chooses.${salOn()? "" : " This league has no salaries, so the rank uses estimated salaries."}`)}</p>`;
+}
+function fcResTxt(r){
+  if(r.fc){ const x=r.fc; return fcEn()? ` <span data-noi18n>(compensation: ${fcWhat(x,true)})</span>` : `(補償:${fcWhat(x,false)})`; }
+  return r.comp? `(補償:${r.comp})` : "";
+}
+function fcNewsLine(incoming,p,other){
+  const me=league[myTeam];
+  if(!fcNew() || !fcCur || fcCur.player!==p.name) return incoming? `補償として、${other}には${me.name}の2軍から1人が移籍する。` : `補償として、${other}の2軍から1人が加わる。`;
+  const r=fcCur;
+  if(r.kind==="none") return r.cls==="old"? "35歳以上のため、補償はない。" : "ランクCのため、補償はない。";
+  if(incoming) return r.kind==="pick"? `補償として、${other}には来年のドラフトの${r.round}巡目の指名権を渡す。` : `補償として、${other}に球団ポイント${r.pts}点を払う。`;
+  if(!fa.auto && r.canPick) return `補償は、${other}の${r.round}巡目の指名権か球団ポイント${r.pts}点から選ぶ。`;
+  return r.kind==="pick"? `補償として、${other}の来年のドラフトの${r.round}巡目の指名権を得る。` : `補償として、${other}から球団ポイント${r.pts}点を受け取る。`;
+}
+{ const orig=resolveFA; resolveFA=function(){
+    if(fcNew()){ fcAsk=[]; const cx=fcCx(); try{ fa.list.forEach(e=>{ e._fc=fcCalc(e.p,e.from,cx); }); }catch(err){ console.error("fc",err); } }
+    return orig.apply(this,arguments); }; }
+{ const orig=faSummaryHtml; faSummaryHtml=function(){
+    const h=orig.apply(this,arguments); if(!fcNew()) return h;
+    const me=league[myTeam].name, rs=(fa.results||[]).filter(r=>r.fc && !r.stay && (r.from===me||r.to===me) && r.fc.y===year);
+    if(!rs.length) return h;
+    return `<h4 style="margin-top:10px">${dfL("FAの補償","FA compensation")}</h4>${rs.map(r=>`<div class="playerRow"><span><span class="badge fcCls fc${r.fc.cls}">${fcClsName(r.fc.cls)}</span> ${dfEsc(r.name)}:${fcEn()? `<span data-noi18n>${fcWhat(r.fc,true)}</span>` : fcWhat(r.fc,false)}</span></div>`).join("")}`+h; }; }
+
+function fcPicksNow(){ return (fcState && fcState.picks || []).filter(x=>x.dy===year); }
+{ const orig=buildSnakeOrder; buildSnakeOrder=function(teams,rounds){
+    const o=orig(teams,rounds), cs=fcPicksNow();
+    if(!cs.length) return o;
+    const n=teams.length, base= rounds===DRAFT_ROUNDS-1? 2 : 1, own=o.slice(), ins=[];
+    cs.forEach(c=>{
+      const r=c.round-base; if(r<0 || r>=rounds){ c.st="void"; return; }
+      if(!teams.includes(c.recv)){ c.st= (league && c.recv===league[myTeam])? "scout" : "void"; return; }
+      if(teams.includes(c.giver)){
+        let k=-1; for(let i=r*n;i<(r+1)*n;i++) if(own[i]===c.giver){ k=i; break; }
+        if(k<0 || o[k]!==c.giver){ c.st="void"; return; }
+        o[k]=c.recv; c.st="used";
+      } else ins.push([r,c]);
+    });
+    ins.sort((a,b)=>b[0]-a[0]).forEach(([r,c])=>{ let k=-1; for(let i=r*n;i<(r+1)*n;i++) if(own[i]===c.recv){ k=i; break; } if(k<0){ c.st="void"; return; } o.splice(k+1,0,c.recv); own.splice(k+1,0,c.giver); c.st="used"; });
+    if(draft && draft.mode==="joint") draft.slotOwn=own;
+    return o; }; }
+function dfCap(t){ let c=DRAFT_ROUNDS; fcPicksNow().forEach(x=>{ if(x.st==="void") return; if(x.recv===t) c++; if(x.giver===t) c--; }); return c; }
+{ const orig=endDraft; endDraft=function(){ fcPicksNow().forEach(x=>{ if(!x.st) x.st="void"; }); if(fcState && fcState.picks) fcState.picks=fcState.picks.filter(x=>x.dy>year); return orig.apply(this,arguments); }; }
+function fcDraftNoteHtml(){
+  const cs=fcPicksNow().filter(x=>x.st!=="void"); if(!cs.length || !draft || draft.mode!=="joint") return "";
+  const en=fcEn(), me=league[myTeam];
+  return `<div class="notice fcDraft small"><b>${dfL("FAの補償の指名権","Compensation picks")}</b>${cs.map(x=>`<div>${en? `<span data-noi18n>Round ${x.round}: the ${dfEsc(x.rn)} use the ${dfEsc(x.gn)}' pick (for ${dfEsc(x.player)})</span>` : `第${x.round}巡:${dfEsc(x.gn)}の指名権を${dfEsc(x.rn)}が使う(${dfEsc(x.player)}のFAの補償)`}${(x.recv===me||x.giver===me)? ` <span class="badge">${dfL("自チーム","You")}</span>` : ""}</div>`).join("")}${(cs.some(x=>x.recv===me||x.giver===me))? `<div>${en? `<span data-noi18n>You can make up to ${dfCap(me)} picks this year.</span>` : `今年の自チームの指名は${dfCap(me)}人まで。`}</div>` : ""}</div>`;
+}
+
+const DF_BG={"高卒":["高校","HS"],"大卒":["大学","College"],"社会人":["社会人","Corp."],"独立リーグ":["独立L","Indy"]};
+function dfBg(bg){ const x=DF_BG[bg]; return x? (fcEn()? x[1] : x[0]) : (bg||""); }
+{ const orig=logPick; logPick=function(t,pl,type,note){
+    const r=orig.apply(this,arguments);
+    try{ const L=draft.log[draft.log.length-1];
+      if(L && pl && L.name===pl.name){
+        L.bg=pl.background; L.ty=type; L.dp=djPosOf({type: type==="bat"? "batter" : "pitcher", p:pl});
+        if(pl.ss){ if(pl.ss.gem && pl.ss.lv>=1) L.gem=1; if(pl.ss.lv>=1) L.ssSeen=1; }
+        if(draft.mode==="joint"){
+          L.ph= draft.phase==="picks"? 1 : 0;
+          if(L.ph){ const n=Math.max(1,draft.teams.length||1); L.rd= Math.floor(draft.pickNo/n)+((typeof usRules==="function" && usRules())? 1 : 2);
+            const own=draft.slotOwn && draft.slotOwn[draft.pickNo]; if(own && own!==t) L.own=own.name; }
+        }
+      } }catch(e){}
+    return r; }; }
+let dfFor=null, dfSeen=0, dfTimer=null, dfLast=null;
+function dfSpeed(){ let v=null; try{ v=tdLsGet("pennantDfSpeed"); }catch(e){} return v==="f"||v==="i"? v : "n"; }
+function dfSetSpeed(k){ try{ tdLsSet("pennantDfSpeed",k); }catch(e){} if(k==="i"){ dfSkip(); return; } dfRenderCtl(); if(dfTimer){ clearTimeout(dfTimer); dfTimer=null; } dfStartTimer(); }
+function dfDelay(){ return dfSpeed()==="f"? 320 : 950; }
+function dfAnim(L){ return !!L && L.ph===1 && league && L.team!==league[myTeam].name && dfSpeed()!=="i"; }
+function dfSync(){
+  if(!draft){ return; }
+  if(dfFor!==draft){ dfFor=draft; dfSeen= draft._dfNew? 0 : draft.log.length; dfLast=null; }
+  if(!draft.active || draft.finished){ dfSeen=draft.log.length; return; }
+  while(dfSeen<draft.log.length && !dfAnim(draft.log[dfSeen])) dfSeen++;
+}
+function dfBusy(){ dfSync(); return !!draft && draft.active && !draft.finished && draft.mode==="joint" && dfSeen<draft.log.length; }
+function dfSeenNow(){ dfSync(); return Math.min(dfSeen,draft.log.length); }
+{ const orig=startDraft; startDraft=function(){ const r=orig.apply(this,arguments); try{ if(draft){ draft._dfNew=1; dfFor=draft; dfSeen=0; dfLast=null; } }catch(e){} return r; }; }
+function dfCols(){
+  const n=draft.teams.length;
+  if(draft.slotOwn && draft.slotOwn.length>=n) return draft.slotOwn.slice(0,n);
+  if(draft.order && draft.order.length>=n) return draft.order.slice(0,n);
+  return [...draft.teams].sort((a,b)=>tbCmp(b,a));
+}
+function dfMarks(L){
+  const en=fcEn();
+  return `${L.unique? `<span class="badge uniq dfMk">${en? '<span data-noi18n>★Phenom</span>' : "★目玉"}</span>` : ""}${L.ssTaken? `<span class="badge ssMk dfMk">${en? `<span data-noi18n>Your ${"◎○△"[L.ssTaken-1]}</span>` : `あなたの${"◎○△"[L.ssTaken-1]}`}</span>` : ""}${L.gem? `<span class="badge djGem dfMk">${en? '<span data-noi18n>💎 Gem</span>' : "💎 隠し玉"}</span>` : ""}`;
+}
+function dfPosTxt(L){ return L.ty==="pit"? (fcEn()? "P" : "投手") : (L.pos||""); }
+function dfCellHtml(L){
+  const me=league[myTeam].name;
+  return `<div class="dfP${L.team===me? " mine" : ""}${(L.unique||L.ssTaken||L.gem) && L.team!==me? " hot" : ""}">${L.own? `<span class="dfBy">${dfByTxt(L)}</span>` : ""}<b>${dfEsc(L.name)}</b><span class="dfSub">${L.pos||""}${L.bg? "・"+dfBg(L.bg) : ""}</span>${L.team!==me? dfMarks(L) : ""}</div>`;
+}
+function dfByTxt(L){ return fcEn()? `<span data-noi18n>${dfEsc(L.team)} (${dfEsc(L.own)}'s pick)</span>` : `${dfEsc(L.team)}(${dfEsc(L.own)}分)`; }
+function dfBoardHtml(lim){
+  if(!draft || draft.mode!=="joint" || !draft.teams || !draft.teams.length) return "";
+  const cols=dfCols(), me=league[myTeam], log=draft.log.slice(0,lim), en=fcEn();
+  const R=Math.max(DRAFT_ROUNDS, ...log.map(L=>L.rd||L.round||0));
+  let h=`<div class="dfBoardBox"><table class="dfBoard" id="dfBoard"><thead><tr><th class="dfRd">${dfL("巡","Rd")}</th>${cols.map(t=>`<th class="${t===me? "me" : ""}">${teamDot(t.name)}${dfEsc(t.name)}</th>`).join("")}</tr></thead><tbody>`;
+  for(let r=1;r<=R;r++){
+    h+=`<tr><th class="dfRd">${en? `<span data-noi18n>${r}</span>` : `${r}巡`}</th>`+cols.map((t,ci)=>`<td id="dfc-${r}-${ci}" class="${t===me? "me" : ""}">${log.filter(L=>(L.rd||L.round)===r && (L.own||L.team)===t.name).map(dfCellHtml).join("")}</td>`).join("")+`</tr>`;
+  }
+  return h+`</tbody></table></div>`;
+}
+function dfBoardWrap(open){
+  const b=dfBoardHtml(dfSeenNow()); if(!b) return "";
+  return `<details class="dfBoardD" ${open===false? "" : "open"}><summary><b>${dfL("指名ボード","Draft board")}</b> <span class="small">${dfL("巡目×球団。決まった所から埋まります","Rounds × clubs. Filled in as picks are made")}</span></summary>${b}</details>`;
+}
+function dfAnnTxt(L){
+  if(!L) return dfL("他球団の指名を発表します…","Announcing the other clubs' picks…");
+  const en=fcEn();
+  return en? `<span data-noi18n>Round ${L.rd||L.round} · <b>${dfEsc(L.team)}</b>${L.own? ` (${dfEsc(L.own)}'s pick)` : ""} · <b>${dfEsc(L.name)}</b> (${L.ty==="pit"? "P" : (L.pos||"")} · ${dfBg(L.bg)})</span>${dfMarks(L)}`
+    : `第${L.rd||L.round}巡 <b>${dfEsc(L.team)}</b>${L.own? `(${dfEsc(L.own)}分)` : ""} <b class="dfAnnName">${dfEsc(L.name)}</b>(${dfPosTxt(L)}・${dfBg(L.bg)})${dfMarks(L)}`;
+}
+function dfCtlHtml(){
+  const s=dfSpeed(), b=(k,ja,en)=>`<button class="${s===k? "act" : "sec"} dfSp" type="button" onclick="dfSetSpeed('${k}')">${dfL(ja,en)}</button>`;
+  const left=draft.log.slice(dfSeen).filter(dfAnim).length;
+  return `<span class="small">${dfL("速さ","Speed")}</span>${b("n","ふつう","Normal")}${b("f","速い","Fast")}${b("i","すぐ","Instant")}<button class="sec dfSkip" type="button" onclick="dfSkip()">${dfL(`飛ばす(残り${left}人)`,`Skip (${left} left)`)}</button>`;
+}
+function dfRenderCtl(){ const c=document.getElementById("dfCtl"); if(c) c.innerHTML=dfCtlHtml(); }
+function dfBusyHtml(){
+  const me=league[myTeam];
+  return `<div style="width:100%"><div class="draftTopBar"><h3 style="margin:0">🎉 ${dfL("合同ドラフト会議","Joint Draft")}</h3></div>
+    <div class="dfAnn" aria-live="polite"><div class="dfAnnT small">${dfL(`${dfEsc(me.name)}の番までの他球団の指名`,`Picks before your turn`)}</div><div class="dfAnnMain" id="dfAnnMain">${dfAnnTxt(dfLast)}</div><div class="dfCtl" id="dfCtl">${dfCtlHtml()}</div></div>
+    ${fcDraftNoteHtml()}${dfBoardWrap()}
+    <p class="small">${dfL("発表が終わると、指名の画面に戻ります。","When the announcements end, you'll be back at your pick.")}</p></div>`;
+}
+function dfStartTimer(){ if(dfTimer) return; dfTimer=setTimeout(dfTick, dfLast? dfDelay() : 350); }
+function dfTick(){
+  dfTimer=null;
+  if(!draft || dfFor!==draft || !document.getElementById("dfBoard")) return;
+  const L=draft.log[dfSeen]; if(!L){ updateMatchup(); return; }
+  const from=dfSeen; dfSeen++; dfLast=L; dfSync();
+  const cols=dfCols();
+  for(let i=from;i<dfSeen;i++){ const x=draft.log[i], ci=cols.findIndex(t=>t.name===(x.own||x.team)), c=document.getElementById(`dfc-${x.rd||x.round}-${ci}`); if(c){ c.insertAdjacentHTML("beforeend",dfCellHtml(x)); if(i===from){ const el=c.lastElementChild; if(el) el.classList.add("dfNew"); } } }
+  const m=document.getElementById("dfAnnMain"); if(m){ m.innerHTML=dfAnnTxt(L); m.classList.remove("dfPop"); void m.offsetWidth; m.classList.add("dfPop"); }
+  dfRenderCtl();
+  if(dfBusy()) dfStartTimer(); else setTimeout(()=>{ if(!dfBusy()) updateMatchup(); }, dfSpeed()==="f"? 350 : 700);
+}
+function dfSkip(){ if(dfTimer){ clearTimeout(dfTimer); dfTimer=null; } if(draft) dfSeen=draft.log.length; updateMatchup(); }
+{ const orig=draftScreenHtml; draftScreenHtml=function(){
+    try{ if(draft && draft.active && !draft.finished && !draft.draw && draft.mode==="joint" && draft.selectedIdx===null && dfBusy()){ dfStartTimer(); return dfBusyHtml(); } }catch(e){ console.error("df",e); }
+    return orig.apply(this,arguments); }; }
+function dfGrayRows(f){
+  if(!draft || draft.mode!=="joint") return "";
+  const me=league[myTeam].name, lim=dfSeenNow(), en=fcEn();
+  const L=draft.log.slice(0,lim).filter(x=>x.team!==me && x.ty && (f==="all" || (f==="batter" && x.ty==="bat") || (f==="pitcher" && x.ty==="pit") || (f==="retry" && x.rt) || (f==="sslist" && x.ssTaken) || (f==="ssseen" && x.ssSeen)) && (!draft.posF || x.dp===draft.posF));
+  if(!L.length) return "";
+  return `<div class="dfTkHead small">${dfL(`他球団が指名した候補(${L.length}人)`,`Taken by other clubs (${L.length})`)}</div>`+L.slice().reverse().map(x=>`<div class="playerRow dcRow dfTk" aria-disabled="true"><span class="dcName">${dfMarks(x)}<span class="dcHead">${dfEsc(x.name)}</span><span class="posBadge dcPos">${x.pos||""}</span><span class="small dcAge">${en? `<span data-noi18n>${x.age} (${dfBg(x.bg)})</span>` : `${x.age}歳(${x.bg||""})`}</span></span><span class="dcBtns"><span class="badge dfTkTag">${en? `<span data-noi18n>${dfEsc(x.team)} · Rd ${x.rd||x.round}</span>` : `${dfEsc(x.team)}が${x.rd||x.round}巡目で指名`}</span></span></div>`).join("");
+}
+{ const orig=draftSummaryHtml; draftSummaryHtml=function(){ const h=orig.apply(this,arguments); try{ if(draft && draft.mode==="joint" && draft.log.length) return h+dfBoardWrap(false); }catch(e){} return h; }; }
+
+{ const orig=startLeague; startLeague=function(){
+    const s=document.getElementById("faCompSel");
+    fcState={mode: (!LITE && s && s.value==="human")? "human" : LITE? "human" : (s? "new" : "human"), picks:[], log:[]};
+    return orig.apply(this,arguments); }; }
+{ const orig=collectState; collectState=function(){ const st=orig.apply(this,arguments); st.fcState=fcState; return st; }; }
+{ const orig=applyState; applyState=function(st){ const r=orig.apply(this,arguments);
+    try{ const f=st && st.fcState; fcState= (f && typeof f==="object" && (f.mode==="new"||f.mode==="human"))? {mode:f.mode, picks:Array.isArray(f.picks)? f.picks : [], log:Array.isArray(f.log)? f.log : []} : {mode:"human",picks:[],log:[]}; }catch(e){ fcState={mode:"human",picks:[],log:[]}; }
+    dfFor=null; return r; }; }
+LEAGUE_SETTING_ROWS.push({k:"faComp",label:"FAの補償",full:true,get:()=> fcNew()? "新しい形(指名権・金銭)" : "人的補償"});
+I18N.add("en",{
+  "FAの補償":"FA compensation",
+  "新しい形(指名権・金銭)":"New style (draft picks · club points)",
+  "人的補償(今まで)":"Player compensation (classic)",
+  "人的補償":"Player compensation",
+  "「新しい形」:FAで選手を取られた球団は、その選手の元の球団での年俸の順位で、獲得した球団の翌年のドラフトの2巡目・3巡目の指名権か球団ポイントを受け取ります(9位以下と、翌年の4月1日に35歳以上の選手は補償なし)。「人的補償」:獲得した球団の2軍から1人が元の球団へ移ります(今までの形)。":"\"New style\": a club that loses a free agent receives the signing club's round-2 or round-3 pick in next year's draft, or club points, depending on his payroll rank at his old club (none for #9 or lower, or for players 35 or older next April 1). \"Player compensation\": one Minors player from the signing club moves to the old club (the classic rule).",
+  "補償として、{0}には来年のドラフトの{1}巡目の指名権を渡す。":"As compensation, the {0} get our round-{1} pick in next year's draft.",
+  "補償として、{0}に球団ポイント{1}点を払う。":"As compensation, we pay the {0} {1} club points.",
+  "補償として、{0}の来年のドラフトの{1}巡目の指名権を得る。":"As compensation, we get the {0}' round-{1} pick in next year's draft.",
+  "補償として、{0}から球団ポイント{1}点を受け取る。":"As compensation, we receive {1} club points from the {0}.",
+  "補償は、{0}の{1}巡目の指名権か球団ポイント{2}点から選ぶ。":"As compensation, we choose between the {0}' round-{1} pick and {2} club points.",
+  "35歳以上のため、補償はない。":"He is 35 or older, so there is no compensation.",
+  "ランクCのため、補償はない。":"He is Rank C, so there is no compensation."
+});
 
 let csMode="champ";
 function csOn(){
