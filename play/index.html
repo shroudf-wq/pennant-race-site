@@ -443,10 +443,6 @@ details.worldYear>summary{cursor:pointer;min-height:40px;display:flex;align-item
 .spRec{font-size:.88em} .spRec td:nth-child(2),.spRec td:nth-child(1){white-space:nowrap}
 .exSeal{display:inline-block;margin-left:8px;padding:0 5px;border:2px solid #b3302b;color:#b3302b;font-size:.42em;line-height:1.4;border-radius:3px;transform:rotate(-8deg);vertical-align:middle;letter-spacing:.05em;font-family:"Zen Kaku Gothic New",sans-serif}
 .exSeal.sp{border-color:#1f5f8b;color:#1f5f8b}
-.paper.goldMast .pMast{background:linear-gradient(135deg,#a8761f 0%,#f2d47c 45%,#c8952f 70%,#f6e2a0 100%);color:#1d1608;border-radius:4px}
-.paper.goldMast .pMast *{color:#1d1608}
-.paper.goldMast .pName,.paper.goldMast .pDate{background:transparent !important;color:#1d1608 !important;text-shadow:0 1px 0 rgba(255,255,255,.35)}
-.paper.goldMast .exSeal{border-color:#7a1f18;color:#7a1f18}
 html.goldBoard #matchup{box-shadow:0 0 0 3px #d4af37,0 0 14px rgba(212,175,55,.45);border-radius:8px}
 .tradeOfferBanner{display:block;width:100%;text-align:left;min-height:44px;margin:0 0 10px;border:2px solid var(--gold) !important}
 .tradeOfferBanner.hidden{display:none}
@@ -525,27 +521,6 @@ body.noAnim .fadingOut{transition:none}
 /* 紙面(テーマに関係なく新聞の紙色) */
 #playerModal.paperModal .modalBox{max-width:600px;background:#e9e6de;color:#17171b}
 #playerModal.paperModal .modalBox button.sec{background:#e9e6de;color:#17171b;border-color:#17171b}
-.paper{font-family:"Zen Kaku Gothic New",sans-serif;color:#17171b}
-.pMast{display:flex;align-items:stretch;border-bottom:4px solid #17171b;padding-bottom:0}
-.pName{background:#d0161c;color:#fff;font-family:"Kaisei Tokumin",serif;font-size:1.6em;padding:4px 12px 2px;letter-spacing:1px}
-.pDate{flex:1;text-align:right;font-size:.78em;line-height:1.5;align-self:center}
-.pTop{display:flex;gap:10px;margin-top:10px;border-bottom:2px solid #17171b;padding-bottom:10px}
-.pHeads{flex:1;min-width:0}
-.pKicker{font-size:.78em;font-weight:700;color:#d0161c}
-.pHead{font-family:"Kaisei Tokumin",serif;font-size:1.65em;line-height:1.2;margin:4px 0;color:#17171b}
-.pSub{margin:0;font-weight:700;font-size:.92em}
-.pVert{writing-mode:vertical-rl;background:#ffd60a;border:3px solid #17171b;font-family:"Kaisei Tokumin",serif;font-size:1.7em;line-height:1.05;padding:8px 4px;letter-spacing:2px;max-height:8em}
-.pPhoto{margin:10px 0 0;border:2px solid #17171b}
-.pPhoto figcaption{font-size:.75em;padding:4px 6px;border-top:1px solid #17171b}
-.pBody{column-count:2;column-gap:16px;column-rule:1px solid #17171b;margin-top:10px;font-size:.88em;line-height:1.8}
-.pBody p{margin:0 0 .6em;text-indent:1em}
-.pFacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:3px solid #17171b;border-bottom:3px solid #17171b;margin-top:10px}
-.pFacts div{padding:6px;text-align:center;border-right:1px solid #17171b;display:flex;flex-direction:column;gap:2px}
-.pFacts div:last-child{border-right:none}
-.pFacts span{font-size:.72em}
-.pFacts b{font-family:"Kaisei Tokumin",serif;font-size:1.05em}
-.pSide{margin-top:10px;font-size:.82em;border:1px solid #17171b;padding:6px 8px}
-@media (max-width:420px){ .pBody{column-count:1} .pHead{font-size:1.4em} .pVert{font-size:1.4em} }
 /* 球団の紹介 */
 .teamIntro{text-align:center}
 .teamIntro h4{margin:14px 0 4px}
@@ -1063,51 +1038,8 @@ body.noAnim #seasonFx i{animation:none}
 [data-style=card] h1,[data-style=card] h2,[data-style=card] h3,[data-style=banzuke] h1,[data-style=banzuke] h2,[data-style=banzuke] h3,[data-style=museum] h1,[data-style=museum] h2,[data-style=museum] h3,[data-style=locker] h1,[data-style=locker] h2,[data-style=locker] h3,[data-style=uchiwa] h1,[data-style=uchiwa] h2,[data-style=uchiwa] h3{font-family:var(--display);letter-spacing:.03em}
 .styleSample.card{background-color:#e3dcff;background-image:linear-gradient(115deg,#c9b8ff,#7fe3ff 22%,#fff1a8 40%,#ffb3d9 58%,#9df2c4 76%,#c9b8ff);color:#14161f} .styleSample.banzuke{background:#1a140e;color:#fbf6e8;font-family:"Kaisei Tokumin",serif} .styleSample.museum{background:#2c2a26;color:#e7cf8a} .styleSample.locker{background:#30353b;color:#e9b872} .styleSample.uchiwa{background:#d7263d;color:#fff;border-radius:50%}
 
-/* 新聞の紙面:昭和の新聞・夕刊(金の題字はどのデザインにも重ねる) */
-.paper.pd-showa{background:#efe3c4;background-image:radial-gradient(rgba(90,60,20,.10) 1px,transparent 1px);background-size:5px 5px;color:#2a1c10;padding:8px;border-radius:2px}
-.paper.pd-showa .pMast{background:transparent;border-top:4px double #3b2a17;border-bottom:4px double #3b2a17}
-.paper.pd-showa .pName{background:transparent;color:#2a1c10;letter-spacing:.35em}
-.paper.pd-showa .pDate{color:#3b2a17}
-.paper.pd-showa .pHead{color:#2a1c10}
-.paper.pd-showa .pKicker{color:#7a2a12}
-.paper.pd-showa .pVert{background:#3b2a17;color:#efe3c4;border-color:#3b2a17}
-.paper.pd-showa .pPhoto svg{filter:sepia(.65) contrast(.95)}
-.paper.pd-yukan{background:#f7f9fc;color:#14213d;padding:8px;border-radius:2px}
-.paper.pd-yukan .pMast{background:#1f3f77;border-bottom-color:#14213d}
-.paper.pd-yukan .pName{background:transparent;color:#ffffff}
-.paper.pd-yukan .pDate{color:#ffffff;padding-right:6px}
-.paper.pd-yukan .pHead{color:#1f3f77}
-.paper.pd-yukan .pKicker{color:#b3302b}
-.paper.pd-yukan .pVert{background:#d1a12a;color:#14213d;border-color:#14213d}
-.paper.pd-yukan .pPhoto svg{filter:hue-rotate(200deg) saturate(.4)}
-.paper.goldMast.goldMast .pMast{background:linear-gradient(135deg,#a8761f 0%,#f2d47c 45%,#c8952f 70%,#f6e2a0 100%) !important}
-.paper.goldMast.goldMast .pName,.paper.goldMast.goldMast .pDate{background:transparent !important;color:#1d1608 !important}
 
 
-/* スポーツ紙の組み方・出来事の演出・球団カラー版 */
-.paper.pl-photo .pPhotoWrap{position:relative;margin:6px 0}
-.paper.pl-photo .pPhoto{margin:0}
-.paper.pl-photo .pPhoto svg{min-height:240px}
-.paper.pl-photo .pOverHead{position:absolute;left:0;right:0;bottom:22px;padding:8px 10px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.78) 35%)}
-.paper.pl-photo .pOverHead .pHead,.paper.pl-photo .pOverHead .pSub{color:#fff !important;text-shadow:0 2px 3px rgba(0,0,0,.8)}
-.paper.pl-photo .pOverHead .pKicker{color:#ffd84a !important}
-.paper.pl-photo .pOverHead .pVert{display:none}
-.paper.pl-head .pHead{font-size:2.05em;line-height:1.12;color:#111;-webkit-text-stroke:.5px #111;text-shadow:3px 3px 0 #ffd400}
-.paper.pl-head .pHead::first-line{color:#c8102e}
-.paper.pl-head .pKicker{font-size:1.05em}
-.paper.pe-win{box-shadow:0 0 0 4px #c8102e,0 0 0 8px #fff,0 0 0 10px #c8102e}
-.paper .pName{white-space:nowrap}
-.pIwai{display:inline-block;margin-right:6px;padding:0 6px;background:#fff;color:#c8102e;border:2px solid #c8102e;border-radius:50%;font-size:.75em;vertical-align:middle}
-.paper.pe-retire{filter:grayscale(1)}
-.paper.pe-retire .pMast{box-shadow:0 0 0 3px #111}
-.paper.pe-hof .pMast{box-shadow:inset 0 0 0 3px #d4af37,0 0 0 2px #d4af37}
-.paper.pd-sports.pe-blue .pMast,.paper.pd-sports.pe-blue .pName{background:#1f4e8c}
-.paper.pd-sports.pe-blue .pVert{background:#1f4e8c;color:#fff}
-.paper.pc-team .pMast,.paper.pc-team .pName{background:var(--mastBg)}
-.paper.pc-team .pName,.paper.pc-team .pDate{color:var(--mastInk)}
-/* 号外の日付の欄が細くなりすぎないように */
-.pDate{min-width:6.5em;flex:0 1 auto}
-.pName{flex:1 1 auto;min-width:0}
 /* 季節の図柄は、号外や詳細などの画面の下に */
 html[data-season] header:not(.pMast)::after{z-index:1}
 .modalOverlay{z-index:200}
@@ -1507,10 +1439,6 @@ body.noAnim #playerModal[data-frame=holo] .modalBox{animation:none !important}
 .badge.skBadge.skK{background:#a3471f}
 .badge.skBadge.skT{background:#2a6f86}
 .skBox.kbBox{margin-top:8px}
-/* ===== v1.0.t:号外の青い題字の帯(演出)。日付と題字を白に。球団カラー版も一緒にオンなら球団の色を優先(要望書 261012 の 6) ===== */
-.paper.pd-sports.pe-blue .pName,.paper.pd-sports.pe-blue .pDate{color:#fff}
-.paper.pd-sports.pe-blue.pc-team .pMast,.paper.pd-sports.pe-blue.pc-team .pName{background:var(--mastBg)}
-.paper.pd-sports.pe-blue.pc-team .pName,.paper.pd-sports.pe-blue.pc-team .pDate{color:var(--mastInk)}
 /* ===== v1.0.u:要望書 261012 の 4・8・9 ===== */
 /* 9:文字の基準を16pxに固定(公開ページを包む枠が14pxを指定しているため。手元のファイルと同じ大きさになる) */
 html{font-size:16px} body{font-size:16px}
@@ -1522,7 +1450,6 @@ html{font-size:16px} body{font-size:16px}
 .lineScore{font-size:max(12px,.8em)}
 .pdStat .pdK{font-size:max(12px,.72em)}
 .pdCnt{font-size:max(12px,.78em)}
-.pFacts span{font-size:max(12px,.72em)}
 .tickerHead{font-size:12px}
 .modeBadge{font-size:max(12px,.6em)}
 /* 9:スマホの幅では、上の帯(題字と日付・順位)と試合画面の4つのボタンを今までの大きさに近づける(1行・2行に収める) */
@@ -1636,13 +1563,6 @@ html[lang=en] .slotLabel{font-size:.92em}
   html[lang=en] #lineupSubnav .subTab{font-size:.8em;padding-left:2px;padding-right:2px;line-height:1.15}
   html[lang=en] .rotCard .rotName{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
-/* 英語:号外の縦の見出しは、大文字にして字間を少し空ける(横倒しで上から下へ読む) */
-html[lang=en] .pVert{text-transform:uppercase;letter-spacing:.08em}
-/* 英語:号外の題字(The Daily Pennant)は日本語より長いので、狭い画面では小さくして1行に収める */
-html[lang=en] .paper .pName{white-space:nowrap;font-size:clamp(1.05em,5.4vw,1.6em);letter-spacing:.5px}
-html[lang=en] .paper.pd-showa .pName{letter-spacing:.12em}
-html[lang=en] .paper .pDate{min-width:0}
-html[lang=en] .paper .pVert{max-height:9.5em;font-size:1.25em}
 .pdFam{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:2px 0 6px}
 .famItem{white-space:nowrap}
 .pfWarn{margin:6px 0}
@@ -2354,10 +2274,6 @@ svg .f-line.f-box{fill:none;stroke-width:1}
 @media (max-width:430px){ .mFlag{margin:0;flex:0 0 auto} .mFlag .pflag{width:38px} }
 .sFlag{flex:0 0 auto;line-height:0}
 .sFlag .pflag{width:36px;height:auto}
-.pRight{flex:1 1 auto;display:flex;align-items:center;justify-content:flex-end;gap:4px;min-width:0}   /* 号外の題字の右:旗と日付(スマホは旗の下に日付) */
-.pFlag{display:flex;align-items:center;padding:2px 4px;flex:0 0 auto;line-height:0}
-.pFlag .pflag{width:44px;height:auto}
-@media (max-width:420px){ .pRight{flex-direction:column;align-items:flex-end;justify-content:center;gap:0} .pFlag{padding:2px 0 0} .pFlag .pflag{width:30px} }
 .flagPrev{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:10px 0 6px}
 .flagPrev .pflag.big{width:min(200px,58vw);height:auto}
 .flagInfo{margin:4px 0 8px}
@@ -2636,10 +2552,6 @@ body:has(.modalOverlay:not(.hidden)) #toast.show,body:has(#manageOverlay:not(.hi
 .fcMini svg{display:block;border-radius:4px}
 .sxT td.stk .fcMini{margin-right:3px}
 .sxLn .fcMini{margin-right:3px}
-.pPhoto{position:relative}
-.pFaceIn{position:absolute;right:8px;top:8px;width:72px;line-height:0;border:2px solid #1b1b1b;background:#f4f1e8;padding:2px;z-index:1}
-.pFaceIn svg{display:block;width:100%;height:auto}
-@media (max-width:420px){ .pFaceIn{width:56px} }
 .dcPadFace{float:right;margin:0 0 4px 8px;line-height:0}
 .dcPadFace .fcMini{margin:0}
 .fcNarrow{display:none}
@@ -2737,6 +2649,229 @@ table.dfBoard .me{background:var(--field2);box-shadow:inset 0 0 0 1px var(--gold
 @media (prefers-reduced-motion:reduce){ .dfNew,.dfPop{animation:none} }
 @media (max-width:480px){ table.dfBoard{font-size:.72em} table.dfBoard th,table.dfBoard td{min-width:64px;padding:2px 4px} }
 #playerModal:has(.fcAsk) #playerModalBody+div{display:none}   /* 補償を選ぶ窓では「閉じる」を出さない(選ぶまで閉じない) */
+</style>
+<style id="nlCss">
+/* ===== news-long:号外の紙面(外で作った見本 docs/paper/paper-layout-sample.html を元に、ゲームに合わせて直したもの) =====
+   ・変数は .paper の中だけで決める(--np-…。ゲームの変数と名前がぶつからないように)。body・* の指定はしない
+   ・文字の大きさは紙面の幅(cqw)で決める(紙面は窓の中で最大600px)
+   ・紙面のクラス:pd-sports/pd-showa/pd-yukan(紙の種類)・pl-std/pl-photo/pl-head(スポーツ紙の組み方)・is-long(長い記事)
+     重ねがけ:pc-team(球団カラー版)・pe-win/pe-retire/pe-hof/pe-blue(出来事の演出)・goldMast(金の題字)。英語は html[lang=en] */
+.paper{
+  --np-paper:#f8f2df; --np-edge:#e7dcbc; --np-ink:#23201a; --np-soft:#5c5645; --np-line:#2a271e;
+  --np-accent:#c8102e; --np-accent-soft:#f3d9a4; --np-team:#2e7d4f;
+  --np-mast:linear-gradient(180deg,#e9c96a,#cfa62f); --np-mast-ink:#2a2103; --np-vert:#23201a; --np-vert-ink:#f8f2df;
+  --np-sans:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;
+  --np-serif:"Kaisei Tokumin","Hiragino Mincho ProN","Yu Mincho",YuMincho,"MS Mincho",serif;
+  container-type:inline-size;
+  box-sizing:border-box;max-width:600px;margin:0 auto;background:var(--np-paper);color:var(--np-ink);
+  border:1px solid var(--np-edge);border-radius:4px;padding:14px 16px 16px;box-shadow:0 6px 18px rgba(0,0,0,.28);
+  font-family:var(--np-sans);overflow:hidden;text-align:left;line-height:1.6;
+}
+.paper *,.paper *::before,.paper *::after{box-sizing:border-box}
+/* --- 題字 --- */
+.paper .pMast{display:flex;align-items:center;gap:10px;background:var(--np-mast);color:var(--np-mast-ink);
+  border-bottom:3px solid var(--np-line);border-radius:3px 3px 0 0;padding:8px 12px;margin:-4px -4px 10px}
+.paper .pName{font-family:var(--np-serif);font-weight:700;font-size:clamp(21px,6.2cqw,32px);letter-spacing:.12em;
+  white-space:nowrap;line-height:1.15;color:var(--np-mast-ink);background:transparent;padding:0;flex:0 1 auto;min-width:0}
+.paper .pRight{margin-left:auto;display:flex;align-items:center;gap:8px;flex:0 0 auto;min-width:0}
+.paper .pFlag{flex:none;line-height:0;display:flex;align-items:center;padding:0}
+.paper .pFlag .pflag{width:44px;height:auto}
+.paper .pDate{font-size:11px;line-height:1.45;text-align:right;font-weight:700;color:var(--np-mast-ink);min-width:0}
+.paper .pDate span{display:block;white-space:nowrap}
+/* --- 見出しまわり --- */
+.paper .pTop{display:flex;gap:10px;align-items:stretch}
+.paper .pHeads{flex:1;min-width:0}
+.paper .pKicker{color:var(--np-accent);font-weight:700;font-size:13px;letter-spacing:.1em;margin-bottom:2px}
+.paper .pHead{font-family:var(--np-sans);font-size:clamp(20px,5.2cqw,28px);line-height:1.3;margin:0 0 4px;font-weight:800;
+  color:var(--np-ink);overflow-wrap:anywhere}
+.paper .pSub{margin:0;font-size:14px;font-weight:700;color:var(--np-ink)}
+.paper .pVert{writing-mode:vertical-rl;flex:none;align-self:flex-start;background:var(--np-vert);color:var(--np-vert-ink);
+  font-family:var(--np-serif);font-weight:700;font-size:19px;letter-spacing:.3em;padding:10px 5px 6px;border-radius:2px;
+  min-height:74px;max-height:12em;display:flex;align-items:center;border:none;line-height:1.1}
+.paper .pVert:empty{display:none}
+/* --- 写真の枠(網点の絵 SVG)と似顔 --- */
+.paper .pPhoto{margin:12px 0 0;position:relative;border:none}
+.paper .pPhotoArt{border:1.5px solid var(--np-line);line-height:0;background:#e3dac0}
+.paper .pPhotoArt svg{display:block;width:100%;height:auto}
+.paper .pFaceIn{position:absolute;top:10px;right:10px;width:74px;line-height:0;background:var(--np-paper);
+  border:1.5px solid var(--np-line);border-radius:2px;padding:3px;z-index:1}
+.paper .pFaceIn svg{display:block;width:100%;height:auto}
+.paper .pPhoto figcaption{font-size:12px;color:var(--np-soft);padding:5px 2px 7px;border-bottom:1px solid var(--np-line);border-top:none}
+/* --- リード(長い記事) --- */
+.paper .pLead{margin:12px 0 0;font-weight:700;font-size:15.5px;line-height:1.75;
+  border-left:5px solid var(--np-accent);background:rgba(0,0,0,.045);padding:9px 12px}
+/* --- 本文 --- */
+.paper .pBody{margin-top:11px;font-size:14.5px;line-height:1.85;column-count:2;column-gap:26px;column-rule:1px solid rgba(35,32,26,.35)}
+.paper .pBody p{margin:0 0 .85em;break-inside:avoid;text-indent:0}
+/* --- 見出し付きの区切り(長い記事) --- */
+.paper .pSec{margin-top:16px}
+.paper .pSecTitle{font-family:var(--np-sans);font-size:14px;font-weight:800;letter-spacing:.08em;margin:0 0 7px;color:var(--np-ink);
+  border-bottom:2px solid var(--np-line);padding:0 0 4px;background:none;text-transform:none}
+/* --- 試合の流れの表(列は3〜4つ。中身は折り返すので横にははみ出さない) --- */
+.paper .pFlowWrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1.5px solid var(--np-line);max-width:100%}
+.paper .pFlow{border-collapse:collapse;width:100%;font-size:13.5px;background:rgba(255,255,255,.35);color:var(--np-ink);margin:0}
+.paper .pFlow th,.paper .pFlow td{border:1px solid rgba(35,32,26,.4);padding:6px 9px;text-align:left;line-height:1.5;color:var(--np-ink);background:transparent;font-weight:400;vertical-align:top}
+.paper .pFlow th{background:rgba(35,32,26,.08);font-size:12px;letter-spacing:.06em;white-space:nowrap;font-weight:700}
+.paper .pFlow .c{text-align:center;white-space:nowrap;width:3.6em}
+.paper .pFlow .res{white-space:nowrap}
+.paper .pFlow tr.hit td{background:rgba(200,16,46,.07)}
+.paper .pFlow tr.hit td.res{font-weight:800;color:var(--np-accent)}
+.paper .pFlow .pRbi{margin-left:.5em;font-size:.92em;color:var(--np-soft)}
+.paper .pFlow .pMark{display:inline-block;margin-left:.5em;font-weight:800;color:var(--np-accent)}
+.paper .pFlow .pOuts span+span::before{content:" / ";color:var(--np-soft)}
+/* --- 記録の重みの帯 --- */
+.paper .pNote{margin-top:14px;border:1.5px solid var(--np-line);padding:8px 12px;font-size:13.5px;line-height:1.7;background:rgba(0,0,0,.04)}
+.paper .pNote .pNoteH{font-weight:700;margin-right:.6em}
+.paper .pNote b{color:var(--np-accent);font-weight:800}
+.paper .pNote b+b::before{content:"/";color:var(--np-soft);font-weight:400;margin:0 .45em}
+/* --- 談話 --- */
+.paper .pQuotes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.paper .pQuote{margin:0;border:none;border-top:3px solid var(--np-ink);padding:8px 2px 0;font-family:var(--np-serif);font-size:14px;line-height:1.8;color:var(--np-ink);background:none}
+.paper .pQuote .who{display:block;font-family:var(--np-sans);font-size:11.5px;font-weight:700;color:var(--np-accent);letter-spacing:.08em;margin-bottom:3px}
+/* --- 歩み --- */
+.paper .pBio{font-size:13.5px;line-height:1.85}
+.paper .pBio p{margin:0 0 .7em}
+/* --- 数字の欄(個数で段を決める:1〜4個は1段、6個は3個ずつ2段) --- */
+.paper .pFacts{margin-top:14px;border-top:2.5px solid var(--np-line);border-bottom:2.5px solid var(--np-line);display:grid;grid-template-columns:repeat(var(--np-fc,3),minmax(0,1fr))}
+.paper .pFacts.n1{--np-fc:1} .paper .pFacts.n2{--np-fc:2} .paper .pFacts.n4{--np-fc:4} .paper .pFacts.n5,.paper .pFacts.n6{--np-fc:3}
+.paper .pFacts div{padding:7px 6px 8px;text-align:center;border:none;border-left:1px solid rgba(35,32,26,.35);display:block;min-width:0}
+.paper .pFacts div:first-child,.paper .pFacts.n5 div:nth-child(3n+1),.paper .pFacts.n6 div:nth-child(3n+1){border-left:none}
+.paper .pFacts.n5 div:nth-child(n+4),.paper .pFacts.n6 div:nth-child(n+4){border-top:1px solid rgba(35,32,26,.35)}
+.paper .pFacts span{display:block;font-size:max(12px,11.5px);color:var(--np-soft);letter-spacing:.06em}
+.paper .pFacts b{display:block;font-family:var(--np-sans);font-size:17px;margin-top:2px;overflow-wrap:anywhere;line-height:1.3}
+.paper .pSide{margin-top:12px;font-size:13px;border:1px solid var(--np-line);padding:6px 9px;background:rgba(0,0,0,.03)}
+.paper .exSeal{font-size:.42em}
+
+/* ===== スポーツ紙 ===== */
+/* 大写真:見出しを写真の下の方に重ねる(写真の説明の上。写真の中に収める) */
+.paper.pl-photo .pPhoto{margin:2px 0 0}
+.paper.pl-photo .pPhotoArt{position:relative}
+.paper.pl-photo .pPhotoArt svg{min-height:240px;object-fit:cover}
+.paper.pl-photo .pOverHead{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:26px 10px 8px;line-height:1.6;
+  background:linear-gradient(180deg,rgba(20,18,10,0),rgba(20,18,10,.8) 45%)}
+.paper.pl-photo .pOverHead .pTop{margin:0}
+.paper.pl-photo .pOverHead .pKicker{color:#ffd83d}
+.paper.pl-photo .pOverHead .pHead,.paper.pl-photo .pOverHead .pSub{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.paper.pl-photo .pOverHead .pVert{background:#ffd83d;color:#23201a;min-height:60px}
+.paper.pl-photo .pFaceIn{top:12px}
+/* 大見出し */
+.paper.pl-head .pHead{font-size:clamp(30px,8.2cqw,46px);line-height:1.22;letter-spacing:.01em;text-shadow:3px 3px 0 var(--np-accent-soft)}
+.paper.pl-head .pVert{background:#ffd83d;color:#23201a;border:1.5px solid var(--np-line)}
+.paper.pl-head .pKicker{font-size:14px}
+
+/* ===== 昭和の新聞 ===== */
+.paper.pd-showa{--np-paper:#f2ead6;--np-edge:#d9cdb0;--np-ink:#262219;--np-soft:#6a6046;--np-line:#3b2a17;--np-accent:#7a2d1d;
+  --np-mast:transparent;--np-mast-ink:#262219;--np-vert:#3d2c1c;--np-vert-ink:#f2ead6;font-family:var(--np-serif);
+  background-image:radial-gradient(rgba(38,34,25,.05) 1px,transparent 1.3px);background-size:5px 5px;border-radius:2px}
+.paper.pd-showa .pMast{border-top:4px double var(--np-line);border-bottom:4px double var(--np-line);border-radius:0;padding:4px 2px 6px;margin:0 0 10px}
+.paper.pd-showa .pName{letter-spacing:.28em;font-size:clamp(20px,5.8cqw,30px)}
+.paper.pd-showa .pHead{font-family:var(--np-serif);font-weight:700}
+.paper.pd-showa .pVert{letter-spacing:.34em}
+.paper.pd-showa .pPhotoArt{border-width:1px;outline:1px solid var(--np-line);outline-offset:3px;margin:4px}
+.paper.pd-showa .pPhotoArt svg{filter:sepia(.65) contrast(.95)}
+.paper.pd-showa .pFacts{border-top:4px double var(--np-line);border-bottom:1px solid var(--np-line)}
+.paper.pd-showa .pLead{border-left:none;border-top:1.5px solid var(--np-line);border-bottom:1.5px solid var(--np-line);background:transparent}
+.paper.pd-showa .pQuote{border-top:1.5px solid var(--np-line)}
+.paper.pd-showa .pFlowWrap{border-width:1px}
+
+/* ===== 夕刊 ===== */
+.paper.pd-yukan{--np-paper:#f2f4f2;--np-edge:#cfd6d4;--np-ink:#1d2733;--np-soft:#5a6672;--np-line:#1d2733;--np-accent:#b03a2e;
+  --np-mast:linear-gradient(180deg,#2c4258,#1d2f42);--np-mast-ink:#f2f4f2;--np-vert:#1d3a6e;--np-vert-ink:#fff}
+.paper.pd-yukan .pMast{border-bottom:3px solid var(--np-accent)}
+.paper.pd-yukan .pHead{color:#1d3a6e}
+.paper.pd-yukan .pPhotoArt svg{filter:hue-rotate(200deg) saturate(.4)}
+
+/* ===== 出来事の演出(設定でオン) ===== */
+.paper.pe-win{box-shadow:0 0 0 4px #c8102e,0 0 0 8px #fff,0 0 0 10px #c8102e}
+.paper .pIwai{display:inline-block;margin-right:6px;padding:0 6px;background:#fff;color:#c8102e;border:2px solid #c8102e;border-radius:50%;font-size:.75em;vertical-align:middle;letter-spacing:0}
+.paper.pe-retire{filter:grayscale(1)}
+.paper.pe-retire .pMast{box-shadow:0 0 0 3px #111}
+.paper.pe-hof .pMast{box-shadow:inset 0 0 0 3px #d4af37,0 0 0 2px #d4af37}
+.paper.pd-sports.pe-blue{--np-mast:#1f4e8c;--np-mast-ink:#fff;--np-vert:#1f4e8c;--np-vert-ink:#fff}
+/* ===== 球団カラー版(スポーツ紙。設定でオン)。演出の青い題字より球団の色を優先 ===== */
+.paper.pd-sports.pc-team,.paper.pd-sports.pe-blue.pc-team{--np-mast:var(--mastBg);--np-mast-ink:var(--mastInk);--np-team:var(--mastBg)}
+.paper.pc-team .pMast{border-bottom-color:rgba(0,0,0,.55)}
+.paper.pc-team .pLead{border-left-color:var(--np-team)}
+.paper.pc-team .pQuote .who{color:var(--np-team)}
+.paper.pc-team .pFlag .pflag{filter:drop-shadow(0 0 1px rgba(255,255,255,.7))}
+/* ===== 金の題字(どの紙面にも重ねる。いちばん強い) ===== */
+.paper.goldMast{--np-mast:linear-gradient(135deg,#a8761f 0%,#f2d47c 45%,#c8952f 70%,#f6e2a0 100%);--np-mast-ink:#1d1608}
+.paper.goldMast .pMast{background:var(--np-mast) !important;border-radius:4px}
+.paper.goldMast .pName,.paper.goldMast .pDate{color:#1d1608 !important;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.paper.goldMast .exSeal{border-color:#7a1f18;color:#7a1f18}
+.paper.pd-showa.goldMast .pMast{padding:6px 8px}
+
+/* ===== 英語 ===== */
+html[lang=en] .paper .pHead{font-size:clamp(18px,4.8cqw,25px);line-height:1.35}
+html[lang=en] .paper.pl-head .pHead{font-size:clamp(24px,6.6cqw,36px)}
+html[lang=en] .paper .pVert{writing-mode:horizontal-tb;min-height:0;max-height:none;letter-spacing:.14em;text-transform:uppercase;
+  font-size:13px;padding:6px 9px;font-family:var(--np-sans);align-self:flex-start;max-width:9.5em;text-align:center;line-height:1.3}
+html[lang=en] .paper .pName{letter-spacing:.04em;font-size:clamp(18px,5.2cqw,30px)}
+html[lang=en] .paper.pd-showa .pName{letter-spacing:.08em}
+html[lang=en] .paper .pBody{font-size:14px}
+html[lang=en] .paper .pDate{font-size:10.5px}
+html[lang=en] .paper .pKicker,html[lang=en] .paper .pSecTitle,html[lang=en] .paper .pQuote .who{letter-spacing:.04em}
+html[lang=en] .paper .pFlow .res{white-space:normal}
+
+@media (max-width:480px){ .paper{padding:11px 12px 13px} }
+/* ===== 狭い紙面(スマホ 390px など。紙面の幅で決める) ===== */
+@container (max-width:470px){
+  .paper .pMast{gap:7px;padding:7px 9px}
+  .paper .pFlag .pflag{width:32px}
+  .paper .pDate{font-size:10px}
+  .paper .pBody{column-count:1}
+  .paper .pQuotes{grid-template-columns:1fr}
+  .paper .pFaceIn{width:58px}
+  .paper .pFacts b{font-size:15px}
+  .paper .pFacts.n4{--np-fc:2}
+  .paper .pFacts.n4 div:nth-child(3){border-left:none}
+  .paper .pFacts.n4 div:nth-child(n+3){border-top:1px solid rgba(35,32,26,.35)}
+  .paper .pFlow{font-size:13px}
+  .paper .pFlow th,.paper .pFlow td{padding:5px 6px}
+  .paper.pd-showa .pName{letter-spacing:.16em}
+  .paper.pl-photo .pPhotoArt svg{min-height:200px}
+  .paper.pl-photo .pVert{display:none}
+  /* 英語:題字の名前と日付が1行に入らないので、日付(と旗)を2行目に回す */
+  html[lang=en] .paper .pMast{flex-wrap:wrap;row-gap:2px}
+  html[lang=en] .paper .pRight{flex:1 0 100%;justify-content:flex-end;margin-left:0}
+  html[lang=en] .paper .pDate span{display:inline;white-space:nowrap}
+  html[lang=en] .paper .pDate span+span::before{content:" · "}
+}
+@container (max-width:340px){
+  .paper .pRight{flex-direction:column;align-items:flex-end;gap:0}
+}
+.paper .pQuote .say{display:block}
+
+</style>
+<style id="nl2Css">
+/* ===== news-long2:題字の色(金・銀・ふつう)と、長い記事の表 =====
+   ふつう(スポーツ紙):v1.7.x の題字に戻す(紙の上に赤い札の題字・下に太い黒い線)。演出の青い題字・球団カラー版は今までどおり帯の色
+   金(goldMast):優勝・日本一の号外(と、実績の「金の題字」をオンにしたとき)。銀(silverMast):長い記事。金と銀は球団カラー版・演出の青より強い */
+.paper.pd-sports{--np-name-bg:#d0161c;--np-name-ink:#fff}
+.paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue){--np-mast:transparent;--np-mast-ink:#17171b}
+.paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .pMast{background:transparent;border-bottom:4px solid #17171b;border-radius:0;padding:0;margin:0 0 10px;align-items:stretch}
+.paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .pName{background:var(--np-name-bg);color:var(--np-name-ink);padding:5px 12px 3px;display:flex;align-items:center}
+.paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .pRight{padding:4px 0}
+.paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .exSeal{border-color:#fff;color:#fff}
+/* 金(news-long の金をそのまま。球団カラー版よりも強く) */
+.paper.goldMast .pMast,.paper.pd-sports.pc-team.goldMast .pMast,.paper.pd-sports.pe-blue.goldMast .pMast{background:linear-gradient(135deg,#a8761f 0%,#f2d47c 45%,#c8952f 70%,#f6e2a0 100%) !important;border-radius:4px}
+/* 銀 */
+.paper.silverMast{--np-mast:linear-gradient(135deg,#7d838b 0%,#eef1f4 45%,#a3a9b1 70%,#f6f8fa 100%);--np-mast-ink:#1b2027}
+.paper.silverMast .pMast,.paper.pd-sports.pc-team.silverMast .pMast,.paper.pd-sports.pe-blue.silverMast .pMast{background:linear-gradient(135deg,#7d838b 0%,#eef1f4 45%,#a3a9b1 70%,#f6f8fa 100%) !important;border-radius:4px;border-bottom-color:#4a5058}
+.paper.silverMast .pName,.paper.silverMast .pDate{color:#1b2027 !important;background:transparent !important;text-shadow:0 1px 0 rgba(255,255,255,.55)}
+.paper.silverMast .exSeal{border-color:#3a4049;color:#3a4049}
+.paper.pd-showa.silverMast .pMast{padding:6px 8px}
+.paper.goldMast .pName{background:transparent !important}
+/* 長い記事の表(通算成績・年度別・シリーズの流れ・記録の比べ・連勝の試合) */
+.paper .pTab td.pK{white-space:normal;font-weight:700}
+.paper .pTab td.c{width:auto}
+.paper .pTab th.c{width:auto}
+@container (max-width:470px){
+  .paper .pTab th,.paper .pTab td{padding:5px 4px;font-size:12.5px}
+  .paper .pTab td.c{white-space:normal;overflow-wrap:anywhere}
+  .paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .pName{padding:4px 9px 2px}
+}
+
 </style>
 </head>
 <body class="preLeague">
@@ -3492,7 +3627,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.7.x";
+const APP_VERSION="v1.7.z";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -10608,18 +10743,20 @@ function renderPaperSetting(){ const sel=document.getElementById("paperSel"); if
   [["paperFxChk",paperFxUnlocked(),paperFxOn(),"出来事に合わせた演出(優勝・引退・殿堂入り・ドラフト/FA)","下剋上"],["paperTeamChk",paperTeamUnlocked(),paperTeamOn(),"球団カラー版(スポーツ紙の題字を主役の球団の色に)","雑草魂"]].forEach(([id,u,on,label,a])=>{ const c=document.getElementById(id); if(!c) return; c.disabled=!u; c.checked=on; const t=c.parentElement.querySelector("span"); if(t) t.textContent= u? label : `${label}(解禁:実績「${a}」)`; });
   sel.innerHTML=Object.entries(PAPER_DESIGNS).map(([k,d])=>{ const u=paperUnlocked(k), a=d.ach&&ACHS.find(x=>x.id===d.ach); return `<option value="${k}"${u?"":" disabled"}${paperDesign()===k?" selected":""}>${d.label}${u?"":`(解禁:実績「${a?a.name:""}」)`}</option>`; }).join(""); }
 function newsPaperHtml(n){
-  const facts=(n.facts||[]).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("");
+  const L=nlLong(n);
+  const fl=(L && Array.isArray(L.facts) && L.facts.length)? L.facts : (n.facts||[]);
+  const facts=fl.map(f=>Array.isArray(f)? `<div><span>${esc(f[0])}</span><b>${esc(f[1])}</b></div>` : "").join("");
   const rp=resolvePaper(n), pd=rp.base;
   const fx= paperFxOn()? paperEventClass(n) : "";
   const tc= pd==="sports" && paperTeamOn() && n.team && teamColorMap[n.team]? teamColorMap[n.team] : null;
   const tcStyle= tc? ` style="--mastBg:${esc(tc)};--mastInk:${isLight(tc)? "#111":"#fff"}"` : "";
   const heads=`<div class="pTop"><div class="pHeads"><div class="pKicker">${esc(n.kicker||"")}</div><h2 class="pHead">${esc(n.headline)}</h2><p class="pSub">${esc(n.sub||"")}</p></div><div class="pVert">${esc(n.vertical||"")}</div></div>`;
-  const photo=`<figure class="pPhoto">${newsSceneSvg(n.scene||{})}<figcaption>${esc((n.scene&&n.scene.caption)||"")}</figcaption></figure>`;
-  return `<article class="paper pd-${pd} pl-${rp.layout}${fx? " "+fx : ""}${tc? " pc-team" : ""}${goldMastOn()?" goldMast":""}"${tcStyle}>
-    <header class="pMast"><div class="pName">${fx==="pe-win"? '<span class="pIwai">祝</span>' : ""}${pd==="yukan"? "夕刊ペナント" : "日刊ペナント"}${n.mode==="ex"? '<span class="exSeal">EX</span>' : n.mode==="special"? '<span class="exSeal sp">SP</span>' : ""}</div><div class="pRight">${newsFlagHtml(n)}<div class="pDate">${n.year}年目 ${esc(n.date)}<br>${esc(n.league||"")} 号外</div></div></header>
-    ${rp.layout==="photo"? `<div class="pPhotoWrap">${photo}<div class="pOverHead">${heads}</div></div>` : heads+photo}
-    <div class="pBody">${(n.body||[]).map(t=>`<p>${esc(t)}</p>`).join("")}</div>
-    ${facts?`<div class="pFacts">${facts}</div>`:""}
+  const photo=`<figure class="pPhoto"><div class="pPhotoArt">${newsSceneSvg(n.scene||{})}${rp.layout==="photo"? `<div class="pOverHead">${heads}</div>` : ""}</div><figcaption>${esc((n.scene&&n.scene.caption)||"")}</figcaption></figure>`;
+  return `<article class="paper pd-${pd} pl-${rp.layout}${L? " is-long" : ""}${fx? " "+fx : ""}${tc? " pc-team" : ""}${nl2MastCls(n,L)}"${tcStyle}>
+    <header class="pMast"><div class="pName">${fx==="pe-win"? '<span class="pIwai">祝</span>' : ""}${pd==="yukan"? "夕刊ペナント" : "日刊ペナント"}${n.mode==="ex"? '<span class="exSeal">EX</span>' : n.mode==="special"? '<span class="exSeal sp">SP</span>' : ""}</div><div class="pRight">${newsFlagHtml(n)}<div class="pDate"><span>${esc(n.year)}年目 ${esc(n.date)}</span><span>${esc(n.league||"")} 号外</span></div></div></header>
+    ${rp.layout==="photo"? photo : heads+photo}
+    ${L? nlLongHtml(L) : `<div class="pBody">${(n.body||[]).map(t=>`<p>${esc(t)}</p>`).join("")}</div>`}
+    ${facts?`<div class="pFacts n${fl.length}">${facts}</div>`:""}
     ${n.side?`<aside class="pSide"><b>${esc(n.side.title)}</b> ${esc(n.side.text)}</aside>`:""}
   </article>`;
 }
@@ -23788,6 +23925,810 @@ function ntUnpack(n){
 { const orig=applyState; applyState=function(st){ const r=orig.apply(this,arguments);
     try{ if(Array.isArray(notices)) notices.forEach(ntUnpack); }catch(e){}
     return r; }; }
+let nlGame=null, nlDay="", nlTmp=null;
+function nlDateNow(back){
+  try{
+    if(typeof post!=="undefined" && post && post.active) return "";
+    if(typeof cupBusy==="function" && cupBusy()) return "";
+    const i=gameIdx-(back||0), d=(i>=0 && i<schedule.length && gameDates)? gameDates[i] : null;
+    return d? formatDate(d) : "";
+  }catch(e){ return ""; }
+}
+{ const o=featsDetect; featsDetect=function(r){ const g=nlGame, d=nlDay; nlGame=r; nlDay=nlDateNow(0); try{ return o.apply(this,arguments); } finally{ nlGame=g; nlDay=d; } }; }
+{ const o=mgAfterGame; mgAfterGame=function(r){
+    const g=nlGame, d=nlDay, H=r&&r.homeTeam, pre=H? H.clinchY : undefined;
+    nlGame=r; nlDay=nlDateNow(1);
+    try{ return o.apply(this,arguments); }
+    finally{
+      try{ if(H && league && H!==league[myTeam] && H.clinchY===year && pre!==year && nlWalkoff(r)) nlBook().sy.push([year,H.name,nlWalkoff(r).batter]); }catch(e){}
+      nlGame=g; nlDay=d;
+    } }; }
+{ const o=storyNews; storyNews=function(issue){ try{ if(nlGame && issue && issue.kind==="feat" && !issue.lg) nlBuild(issue,nlGame); }catch(e){ if(typeof console!=="undefined") console.error("nlBuild",e); } return o.apply(this,arguments); }; }
+{ const o=recRename; recRename=function(what,old,nw){ const r=o.apply(this,arguments); try{ const B=leagueRecords && leagueRecords.nl; if(B) Object.values(B).forEach(a=>(a||[]).forEach(x=>{ if(what==="team"? x[1]===old : x[2]===old){ if(what==="team") x[1]=nw; else x[2]=nw; } })); }catch(e){} return r; }; }
+
+function nlSeed(){
+  const b={cyc:[],nh:[],pg:[],sy:[]};
+  try{ (newsArchive||[]).forEach(n=>{ if(!n || n.kind!=="feat") return; const h=String(n.headline||""), nm=h.split("、")[0];
+    const k= n.vertical==="サイクル"? "cyc" : n.vertical==="完全試合"? "pg" : (n.vertical==="快投" && /ノーヒットノーラン$/.test(h))? "nh" : null;
+    if(k) b[k].push([n.year,String(n.team||""),nm]); }); }catch(e){}
+  return b;
+}
+function nlBook(){
+  const R=(typeof leagueRecords!=="undefined" && leagueRecords && typeof leagueRecords==="object")? leagueRecords : null;
+  if(R){ if(!R.nl || typeof R.nl!=="object") R.nl=nlSeed(); ["cyc","nh","pg","sy"].forEach(k=>{ if(!Array.isArray(R.nl[k])) R.nl[k]=[]; }); return R.nl; }
+  return nlTmp||(nlTmp=nlSeed());
+}
+function nlWeigh(list,t,n){
+  const k=list.length+1, prev=list.length? list[list.length-1][0] : null;
+  const same=list.filter(x=>x[0]===year).length, team=list.filter(x=>x[1]===t).length, self=list.filter(x=>x[1]===t && x[2]===n).length;
+  return {k, gap: prev===null? null : year-prev, same, team, self};
+}
+function nlWeighNotes(w,pre){
+  const out=[];
+  out.push(w.k===1? "リーグで初めて" : `リーグで${w.k}人目`);
+  if(w.k>1) out.push(w.same>0? `今季${w.same+1}人目` : `${w.gap}年ぶり`);
+  out.push(w.team? `球団で${w.team+1}人目` : "球団で初めて");
+  if(w.self) out.push(`自身${w.self+1}度目`);
+  return (pre||[]).concat(out);
+}
+function nlWeighLead(w){
+  return w.k===1? "リーグで初めての快挙となった。" : w.same>0? `リーグで${w.k}人目、今季${w.same+1}人目の快挙となった。` : `リーグで${w.k}人目、${w.gap}年ぶりの快挙となった。`;
+}
+const nlPick=(arr,key)=>arr[forteHash(key)%arr.length];
+
+const NL_POS={"投":"投手","捕":"捕手","一":"一塁","二":"二塁","三":"三塁","遊":"遊撃","左":"左翼","中":"中堅","右":"右翼"};
+const NL_HIT={"安":"単打","二":"二塁打","三":"三塁打","本":"本塁打"};
+function nlPa(c){
+  const F={"三振":["三振","三振"],"四球":["四球","四球を選ぶ"],"死球":["死球","死球で出塁"],"犠打":["犠打","送りバントを決める"],"野選":["野選","野選で出塁"]}[c];
+  if(F) return {cat:F[0], txt:F[1], out:F[0], h:null};
+  const m=/^(.)(安|二|三|本|失|犠飛|併|ゴ|飛)$/.exec(String(c||""));
+  if(!m) return {cat:String(c||""), txt:String(c||""), out:String(c||""), h:null};
+  const pw=NL_POS[m[1]]||m[1];
+  if(NL_HIT[m[2]]) return {cat:NL_HIT[m[2]], txt:`${pw}への${NL_HIT[m[2]]}`, out:`${pw}への${NL_HIT[m[2]]}`, h:m[2]};
+  if(m[2]==="失") return {cat:"失策", txt:`${pw}の失策で出塁`, out:`${pw}失策`, h:null};
+  if(m[2]==="犠飛") return {cat:"犠飛", txt:`${pw}への犠牲フライ`, out:`${pw}への犠牲フライ`, h:null};
+  if(m[2]==="併") return {cat:"併殺打", txt:`${pw}併殺`, out:`${pw}併殺`, h:null};
+  return {cat:"凡退", txt:`${pw}${m[2]==="ゴ"? "ゴロ" : "フライ"}`, out:`${pw}${m[2]==="ゴ"? "ゴロ" : "フライ"}`, h:null};
+}
+function nlBatRow(S,name){
+  let ord=0; for(const b of (S&&S.b)||[]){ if(!b[11]) ord++; if(b[0]===name) return {row:b, ord: b[11]? 0 : ord}; }
+  return null;
+}
+function nlPlayer(t,name){ try{ return bxPool(t).find(p=>p.name===name) || null; }catch(e){ return null; } }
+function nlIp(x){ const v=Math.round((Number(x)||0)*3), w=Math.floor(v/3), f=v%3; return f? `${w}回${f}/3` : `${w}回`; }
+function nlScoreLine(t,o,rs,ra){ return rs>ra? `試合は${t}が${rs}対${ra}で${o}に勝った。` : rs<ra? `試合は${t}が${rs}対${ra}で${o}に敗れた。` : `試合は${rs}対${ra}の引き分けに終わった。`; }
+
+function nlBio(p){
+  const out=[]; if(!p) return out;
+  const isPit=p.velo!==undefined;
+  try{ const h=homeOf(p);
+    if(h && h.pref){ const via=NB_BG[(typeof usRules==="function" && usRules() && p.background==="社会人")? "独立リーグ" : p.background];
+      out.push(via? `${p.name}は${h.pref}出身の${p.age}歳。${via}。` : `${p.name}は${h.pref}出身の${p.age}歳。`); }
+    else if(p.imp) out.push(`${p.name}は${p.age}歳。海外から加わった助っ人。`);
+  }catch(e){}
+  let sv=0;
+  try{ sv= typeof p.svcYears==="number"? p.svcYears : clamp(p.age-entryAge(p.background),0,15);
+    if(!p.imp) out.push(sv<=0? "今季がプロ1年目のシーズン。" : `プロ${sv+1}年目のシーズン。`); }catch(e){}
+  const farmLast=()=> year>1 && sv>0 && !p.imp && (Array.isArray(p.yr)? p.yr : []).some(r=>r && r.farm && r.y===year-1);
+  try{
+    const y=(Array.isArray(p.yr)? p.yr : []).filter(r=>r && !r.farm && r.y===year-1).slice(-1)[0];
+    if(!isPit){
+      const L=batLine(p);
+      if(y && (y.pa||0)>=30){ const L0=batLine(y); out.push(`${p.name}の昨季は、打率${fmtRate(L0.avg)}、${y.hr||0}本塁打、${y.rbi||0}打点。`);
+        if((p.pa||0)>=30){ const d=L.avg-L0.avg; out.push(d>=0.02? `今季は打率を${fmtRate(L.avg)}まで上げ、昨季から大きく伸びている。` : d<=-0.02? `今季は打率${fmtRate(L.avg)}。昨季の数字を追いかけている。` : `今季も打率${fmtRate(L.avg)}と、安定した成績を残している。`); } }
+      else if(farmLast()) out.push("昨季は1軍での出場が少なく、今季が飛躍の年になっている。");
+    } else {
+      const e1=(p.er*9/Math.max(1,p.ip));
+      if(y && (y.ip||0)>=10){ const e0=(y.er*9/Math.max(1,y.ip)); out.push(`${p.name}の昨季は、${y.g||0}試合に登板して${y.w||0}勝${y.l||0}敗、防御率${e0.toFixed(2)}。`);
+        if((p.ip||0)>=20) out.push(e1<=e0-0.5? `今季は防御率${e1.toFixed(2)}と、昨季から大きく良くなっている。` : e1>=e0+0.5? `今季は防御率${e1.toFixed(2)}。この快投で流れを変えたい。` : `今季も防御率${e1.toFixed(2)}と、安定した投球を続けている。`); }
+      else if(farmLast()) out.push("昨季は1軍での登板が少なく、今季が飛躍の年になっている。");
+    }
+  }catch(e){}
+  try{ const c=(Array.isArray(p.feats)? p.feats : []).filter(f=>f && (f.k==="mvpb" || f.k==="mvpp")).length; if(c>0) out.push(`${p.name}は、これまでに月間MVPを${c}回受けている。`); }catch(e){}
+  return out;
+}
+const NL_Q={
+  cyc:{s:["最後の打席は、単打だけを考えて入りました。決まった瞬間は、ベンチの声しか聞こえませんでした。",
+          "記録は意識していないつもりでしたが、最後は手が震えました。一生の思い出です。",
+          "つないでいこうと思った結果です。前の打者がつないでくれたおかげです。",
+          "途中から周りがざわついて、気づきました。今日は球がよく見えていました。",
+          "まさか自分がという気持ちです。家族にいい報告ができます。"],
+       m:["一日で4種類そろえるのは簡単なことではない。日ごろの準備がそのまま出た。",
+          "見ていて楽しかった。こういう日があるから野球はおもしろい。",
+          "記録もうれしいが、どの打席も粘っていたのがいちばん良かった。",
+          "あの集中力を、明日からも続けてほしい。"]},
+  nh:{s:["後ろを守る仲間を信じて投げました。最後の打者を打ち取った瞬間は、頭が真っ白でした。",
+         "途中から記録は分かっていました。とにかく1球ずつ、それだけでした。",
+         "捕手のサインどおりに投げただけです。今日は捕手のおかげです。",
+         "ベンチで誰も話しかけてこなかったので、気づいていました。最後まで投げ切れてよかったです。",
+         "調子は良くなかったんです。だからこそ丁寧に投げられたのかもしれません。"],
+      m:["9回のマウンドも任せると決めていた。見事な投球だった。",
+         "守りも最後までよく集中していた。全員でつかんだ記録だ。",
+         "ベンチで見ていて、こちらの方が緊張した。立派なものだ。",
+         "これを自信にして、次の登板にもつなげてほしい。"]},
+  pg:{s:["四球も出さずに投げ切れたのは初めてです。守ってくれた仲間に感謝しかありません。",
+         "最後の打者のときは、さすがに足が震えました。夢のようです。",
+         "1人も塁に出さないことだけを考えていました。最後まで集中が切れませんでした。",
+         "捕手と最後まで同じ考えで投げられました。二人で取った記録です。"],
+      m:["27人で終わらせるのは、めったにできることではない。最高の投球だった。",
+         "後ろの守りも完璧だった。全員の記録だ。",
+         "言うことは何もない。今日は見ているだけだった。"]},
+  sy:{s:["打った瞬間、決まったと思いました。この打席のために一年やってきました。",
+         "みんなでつないだ打席でした。最後に回ってきたのは運がよかっただけです。",
+         "頭の中は真っ白でした。ホームに戻ってきたら、もうみんなに囲まれていました。",
+         "ファンのみなさんの声が背中を押してくれました。最高の一日です。"]}
+};
+function nlQuotes(k,name,key,mgrLine){
+  const Q=NL_Q[k]; if(!Q) return [];
+  return [[name, nlPick(Q.s,name+"|"+key+"|s")], ["監督", mgrLine || nlPick(Q.m,name+"|"+key+"|m")]];
+}
+
+function nlBuild(issue,r){
+  if(!r || !r.box || !r.homeTeam || !r.awayTeam) return;
+  const v=issue.vertical, h=String(issue.headline||"");
+  if(v==="サイクル") return nlBuildCyc(issue,r);
+  if(v==="完全試合" || (v==="快投" && /ノーヒットノーラン$/.test(h))) return nlBuildNh(issue,r, v==="完全試合");
+  if(v==="優勝決定" && r.clinch && league && r.homeTeam===league[myTeam]) return nlBuildSy(issue,r);
+}
+function nlFeat(r,k,head){ return (r.feats||[]).find(x=>x.k===k && head.startsWith(x.n+"、")) || null; }
+function nlSides(r,tName){ const home=r.homeTeam.name===tName; return {T:home? r.homeTeam : r.awayTeam, O:home? r.awayTeam : r.homeTeam, S:home? r.box.h : r.box.a, OS:home? r.box.a : r.box.h, rs:home? r.hScore : r.aScore, ra:home? r.aScore : r.hScore}; }
+function nlBatFlow(pas,markAt,markTxt){
+  return pas.map((a,i)=>{ const x=nlPa(a.c); return [a.i, x.cat, x.txt, a.r||0, i===markAt? markTxt : "", x.h? 1 : 0]; });
+}
+function nlBuildCyc(issue,r){
+  const x=nlFeat(r,"cyc",String(issue.headline||"")); if(!x) return;
+  const {T,O,S,rs,ra}=nlSides(r,x.t), br=nlBatRow(S,x.n); if(!br) return;
+  const pas=bxPaList(br.row[10]), p=nlPlayer(T,x.n), key=year+"|"+(nlDay||issue.date||"");
+  const got=new Set(), order=[]; let doneAt=-1;
+  pas.forEach((a,i)=>{ const q=nlPa(a.c); if(q.h && !got.has(q.h)){ got.add(q.h); order.push(q.cat); if(got.size===4 && doneAt<0) doneAt=i; } });
+  if(doneAt<0) return;
+  const B=nlBook(), w=nlWeigh(B.cyc,x.t,x.n);
+  const [ab,hh,hr,rbi]=x.v, last=order[3], lastInn=pas[doneAt].i;
+  const lead=[nlPick([`${x.t}の${x.n}が${x.o}戦でサイクルヒットを達成した。`, `${x.o}戦で、${x.t}の${x.n}がサイクルヒットを決めた。`], x.n+"|"+key+"|l"),
+    `${order[0]}、${order[1]}、${order[2]}と重ね、最後に残った${last}を${lastInn}回に放った。`, nlWeighLead(w)].join("");
+  const body=[];
+  body.push(br.ord? `${x.n}は${x.o}戦に${br.ord}番で出場し、${ab}打数${hh}安打${rbi}打点。` : `${x.n}は${x.o}戦に途中から出場し、${ab}打数${hh}安打${rbi}打点。`);
+  body.push(`あと${last}を残して迎えた${lastInn}回の打席で、${nlPa(pas[doneAt].c).txt}を放って記録を完成させた。`);
+  body.push(nlScoreLine(x.t,x.o,rs,ra));
+  if(p && (p.pa||0)>=10){ const L=batLine(p); body.push(`${x.n}は今季、打率${fmtRate(L.avg)}、${p.hr||0}本塁打、${p.rbi||0}打点。`); }
+  const L= p? batLine(p) : null;
+  const facts= p? [["打率",fmtRate(L.avg)],["本塁打",String(p.hr||0)],["打点",String(p.rbi||0)],["この日",`${hh}安打`],["達成",w.k===1? "リーグ初" : `${w.k}人目`],["年齢",`${p.age}歳`]]
+                : [["この日",`${hh}安打`],["本塁打",String(hr)],["打点",String(rbi)],["達成",w.k===1? "リーグ初" : `${w.k}人目`]];
+  issue.lg={v:1, k:"cyc", lead, body, flow:{t:"b", rows:nlBatFlow(pas,doneAt,"サイクル達成")}, note:nlWeighNotes(w), q:nlQuotes("cyc",x.n,key), bio:nlBio(p), facts};
+  B.cyc.push([year,x.t,x.n]);
+}
+function nlBuildNh(issue,r,perfect){
+  const x=nlFeat(r,perfect? "pg" : "nh",String(issue.headline||"")); if(!x) return;
+  const {T,O,S,OS,rs,ra}=nlSides(r,x.t), q=(S.p||[])[0]; if(!q || q[0]!==x.n) return;
+  const p=nlPlayer(T,x.n), key=year+"|"+(nlDay||issue.date||"");
+  const oppSet=new Set(); try{ bxPool(O).forEach(b=>oppSet.add(b)); }catch(e){}
+  const oppNames=new Set(((OS&&OS.b)||[]).map(b=>b[0]));
+  const pas=((r.log&&r.log.pas)||[]).filter(a=>a && a.c && a.b && (oppSet.size? oppSet.has(a.b) : oppNames.has(a.b.name)));
+  if(!pas.length) return;
+  const inns=new Map(); pas.forEach(a=>{ if(!inns.has(a.i)) inns.set(a.i,[]); inns.get(a.i).push(a); });
+  const lastInn=Math.max(...inns.keys());
+  const rows=[...inns.entries()].sort((a,b)=>a[0]-b[0]).map(([i,arr])=>{ const outs=arr.map(a=>nlPa(a.c).out), k=arr.filter(a=>a.c==="三振").length;
+    return [i, arr.length, outs, k, (i===lastInn || (k===3 && arr.length===3))? 1 : 0]; });
+  const B=nlBook(), all=B.nh.concat(B.pg).sort((a,b)=>a[0]-b[0]), w=nlWeigh(all,x.t,x.n);
+  const ip=nlIp(q[1]), ipN=ip.replace(/回$/,"").replace("回"," "), bf=q[2], so=q[4], bb=q[5], runners=pas.filter(a=>/^(四球|死球|野選)$/.test(a.c) || /失$/.test(a.c)).length;
+  const what= perfect? "完全試合" : "ノーヒットノーラン";
+  const lead=[nlPick([`${x.t}の${x.n}が${x.o}戦で${what}を達成した。`, `${x.o}戦で、${x.t}の${x.n}が${what}を成し遂げた。`], x.n+"|"+key+"|l"),
+    bb>0? `${ipN}回を投げて${so}奪三振、与四球${bb}。` : `${ipN}回を投げて${so}奪三振。`, nlWeighLead(w)].join("");
+  const body=[];
+  body.push(perfect? `打者${bf}人を相手に、1人も塁に出さなかった。` : runners? `打者${bf}人に対し、許した走者は${runners}人だけだった。` : `打者${bf}人に対し、安打を1本も許さなかった。`);
+  const k3=rows.find(r0=>r0[3]===3 && r0[1]===3); if(k3) body.push(`${k3[0]}回には三者三振を奪った。`);
+  const fin=pas[pas.length-1]; if(fin && fin.b && fin.b.name) body.push(`最後は${fin.b.name}を${nlPa(fin.c).out}に打ち取り、マウンドに歓喜の輪ができた。`);
+  body.push(nlScoreLine(x.t,x.o,rs,ra));
+  if(p && (p.ip||0)>=3) body.push(`${x.n}は今季${p.gp||0}試合に登板し、${p.w||0}勝${p.l||0}敗、防御率${(p.er*9/Math.max(1,p.ip)).toFixed(2)}。`);
+  const note=nlWeighNotes(w, perfect? [B.pg.length? `完全試合はリーグで${B.pg.length+1}人目` : "完全試合はリーグで初めて"] : []);
+  const facts=[["投球回",ip],["奪三振",String(so)],["与四球",String(bb)],["打者",`${bf}人`]].concat(p? [["今季",`${p.w||0}勝${p.l||0}敗`],["防御率",(p.er*9/Math.max(1,p.ip)).toFixed(2)]] : []);
+  issue.lg={v:1, k:perfect? "pg" : "nh", lead, body, flow:{t:"p", rows}, note, q:nlQuotes(perfect? "pg" : "nh",x.n,key), bio:nlBio(p), facts};
+  (perfect? B.pg : B.nh).push([year,x.t,x.n]);
+}
+function nlWalkoff(r){
+  if(!r || r.isTie || !(r.hScore>r.aScore) || !r.homeTeam) return null;
+  const ev=(r.log&&r.log.events)||[], hn=r.homeTeam.name;
+  for(let i=ev.length-1;i>=0;i--){ const e=ev[i];
+    if(!e || e.kind==="pitch_change" || !e.batter || e.team!==hn || !(e.runs>0) || !e.before || !e.after) continue;
+    return (e.half==="裏" && e.inn>=9 && e.before.h<=e.before.a && e.after.h>e.after.a)? e : null; }
+  return null;
+}
+const NL_SY_HIT={"HR":"サヨナラ本塁打","1B":"サヨナラ安打","2B":"サヨナラ二塁打","3B":"サヨナラ三塁打","SF":"サヨナラ犠牲フライ","E":"サヨナラの失策","OUT":"サヨナラの内野ゴロ","FC":"サヨナラの野選","SH":"サヨナラスクイズ"};
+function nlBuildSy(issue,r){
+  const e=nlWalkoff(r); if(!e) return;
+  const me=league[myTeam], O=r.awayTeam, S=r.box.h, hero=e.batter, br=nlBatRow(S,hero), p=nlPlayer(me,hero), key=year+"|"+(nlDay||"");
+  const hw= (e.orig==="BB")? (e.hp? "押し出しの死球" : "押し出しの四球") : (e.rp==="sq")? "サヨナラスクイズ" : (NL_SY_HIT[e.orig]||"サヨナラの一打");
+  const B=nlBook(), wk=B.sy.length+1;
+  const ys=new Set(); (newsArchive||[]).forEach(n=>{ if(n && n.team===me.name && n.year<year && (n.kind==="pennant" || (n.kind==="feat" && n.vertical==="優勝決定"))) ys.add(n.year); });
+  const lastY= ys.size? Math.max(...ys) : null; let streak=1; while(ys.has(year-streak)) streak++;
+  const m=(()=>{ try{ return magicCalc(magicRows(magicGroup(me))); }catch(_){ return null; } })(), rem= m? m.rem : Math.max(0,magicTotal(me)-(me.w+me.l+(me.t||0)));
+  const hi=r.homeInnings||[], hb=hi.slice(0,-1).reduce((a,b)=>a+(Number(b)||0),0), aS=r.aScore;
+  const lead=`${me.name}が${O.name}にサヨナラ勝ちし、本拠地で優勝を決めた。`+`${e.inn}回裏、${hero}の${hw}で試合に決着をつけた。`;
+  const body=[];
+  body.push(hb===aS? `${e.inn}回裏を迎えた時点で、${hb}対${aS}の同点だった。` : hb<aS? `${e.inn}回裏を迎えた時点で、${me.name}は${aS-hb}点を追っていた。` : `${e.inn}回裏、${me.name}が試合を決めた。`);
+  body.push(`${hero}の${hw}で${e.runs}点が入り、${r.hScore}対${r.aScore}で試合が終わった。`);
+  body.push(`ここまでの成績は${mgSub(me)}。胴上げの輪の中で、監督が宙を舞った。`);
+  if(p && (p.pa||0)>=10){ const L=batLine(p); body.push(`${hero}は今季、打率${fmtRate(L.avg)}、${p.hr||0}本塁打、${p.rbi||0}打点。`); }
+  const note=[wk===1? "サヨナラでの優勝決定はリーグで初めて" : `サヨナラでの優勝決定はリーグで${wk}度目`];
+  if(lastY!==null) note.push(lastY===year-1? `${streak}年連続の優勝` : `${year-lastY}年ぶりの優勝`);
+  note.push("本拠地で胴上げ"); if(rem>0) note.push(`残り${rem}試合で決定`);
+  const pas= br? bxPaList(br.row[10]) : [];
+  const mgr=(typeof MGR_LINES!=="undefined" && MGR_LINES.length)? MGR_LINES[forteHash(me.name+"|"+year)%MGR_LINES.length] : null;
+  issue.lg={v:1, k:"sy", lead, body, flow: pas.length? {t:"b", rows:nlBatFlow(pas,pas.length-1,"サヨナラ")} : null, note,
+    q:nlQuotes("sy",hero,key,mgr), bio:nlBio(p),
+    facts:[["成績",mgSub(me)],["残り試合",String(rem)],["スコア",`${r.hScore}-${r.aScore}`],["決めた選手",hero],["決めた回",`${e.inn}回裏`],["打点",String(e.runs||0)]]};
+  B.sy.push([year,me.name,hero]);
+}
+
+function nlLong(n){ const L=n && n.lg; return (L && typeof L==="object" && L.v===1)? L : null; }
+function nlLongHtml(L){
+  const S=x=>esc(String(x==null? "" : x)), A=a=>Array.isArray(a)? a : [];
+  let h="";
+  if(L.lead) h+=`<p class="pLead">${S(L.lead)}</p>`;
+  if(A(L.body).length) h+=`<div class="pBody">${A(L.body).map(t=>`<p>${S(t)}</p>`).join("")}</div>`;
+  const F=L.flow && typeof L.flow==="object"? L.flow : null, rows=F? A(F.rows) : [];
+  if(rows.length){
+    const P=F.t==="p";
+    const head= P? `<tr><th class="c">回</th><th class="c">打者</th><th>内容</th><th class="c">三振</th></tr>` : `<tr><th class="c">回</th><th>結果</th><th>内容</th></tr>`;
+    const body= rows.map(r=>{ r=A(r);
+      return P? `<tr class="${r[4]? "hit" : ""}"><td class="c pInn">${S(r[0])}回</td><td class="c">${S(r[1])}人</td><td class="pOuts">${A(r[2]).map(o=>`<span>${S(o)}</span>`).join("")}</td><td class="c">${S(r[3])}</td></tr>`
+               : `<tr class="${r[5]? "hit" : ""}"><td class="c pInn">${S(r[0])}回</td><td class="res">${S(r[1])}</td><td><span>${S(r[2])}</span>${Number(r[3])>0? `<span class="pRbi">${S(r[3])}打点</span>` : ""}${r[4]? `<span class="pMark">${S(r[4])}</span>` : ""}</td></tr>`; }).join("");
+    h+=`<section class="pSec"><h3 class="pSecTitle">${P? "試合の流れ(回ごと)" : "試合の流れ(打席ごと)"}</h3><div class="pFlowWrap"><table class="pFlow"><thead>${head}</thead><tbody>${body}</tbody></table></div></section>`;
+  }
+  if(A(L.note).length) h+=`<div class="pNote"><span class="pNoteH">記録の重み</span>${A(L.note).map(t=>`<b>${S(t)}</b>`).join("")}</div>`;
+  if(A(L.q).length) h+=`<section class="pSec"><h3 class="pSecTitle">談話</h3><div class="pQuotes">${A(L.q).map(q=>{ q=A(q); return `<blockquote class="pQuote"><span class="who">${S(q[0])}</span><span class="say">${S(q[1])}</span></blockquote>`; }).join("")}</div></section>`;
+  if(A(L.bio).length) h+=`<section class="pSec"><h3 class="pSecTitle">選手の歩み</h3><div class="pBio">${A(L.bio).map(t=>`<p>${S(t)}</p>`).join("")}</div></section>`;
+  return h;
+}
+
+(function(){ try{ if(typeof I18N==="undefined" || !I18N.add) return;
+  const P=I18N.pack("en"), o={}, have=k=> P.exact.has(k) || P.pats.some(x=>x[0]===k), put=(k,v)=>{ if(!have(k)) o[k]=v; };
+  const POS_EN={"投手":["the pitcher","P"],"捕手":["the catcher","C"],"一塁":["first","1B"],"二塁":["second","2B"],"三塁":["third","3B"],"遊撃":["short","SS"],"左翼":["left","LF"],"中堅":["center","CF"],"右翼":["right","RF"]};
+  const POS_EN2={"投手":"pitcher","捕手":"catcher","一塁":"first baseman","二塁":"second baseman","三塁":"third baseman","遊撃":"shortstop","左翼":"left fielder","中堅":"center fielder","右翼":"right fielder"};
+  const HIT_EN={"単打":"Single","二塁打":"Double","三塁打":"Triple","本塁打":"Home run"};
+  Object.keys(POS_EN).forEach(pw=>{ const [en,ab]=POS_EN[pw];
+    Object.keys(HIT_EN).forEach(hk=>put(`${pw}への${hk}`,`${HIT_EN[hk]} to ${en}`));
+    put(`${pw}の失策で出塁`,`Reached on an error by the ${POS_EN2[pw]}`); put(`${pw}失策`,`Error by the ${POS_EN2[pw]}`);
+    put(`${pw}への犠牲フライ`,`Sacrifice fly to ${en}`); put(`${pw}併殺`,`Double-play ball to ${en}`);
+    put(`${pw}ゴロ`,`Groundout to ${en}`); put(`${pw}フライ`,`Flyout to ${en}`); });
+  Object.entries({"単打":"Single","二塁打":"Double","三塁打":"Triple","本塁打":"Home run","四球":"Walk","死球":"HBP","犠打":"Sac bunt","野選":"Fielder's choice","失策":"Error","犠飛":"Sac fly","併殺打":"Double play","凡退":"Out","三振":"Strikeout",
+    "四球を選ぶ":"Drew a walk","死球で出塁":"Hit by a pitch","送りバントを決める":"Sacrifice bunt","野選で出塁":"Reached on a fielder’s choice",
+    "サイクル達成":"Cycle complete","サヨナラ":"Walk-off","記録の重み":"How rare","談話":"In their words","選手の歩み":"The road so far",
+    "試合の流れ(打席ごと)":"How it happened (each trip to the plate)","試合の流れ(回ごと)":"How it happened (inning by inning)",
+    "リーグで初めて":"A league first","球団で初めて":"A club first","完全試合はリーグで初めて":"The league’s first perfect game","本拠地で胴上げ":"Celebrated at home",
+    "サヨナラでの優勝決定はリーグで初めて":"The league’s first walk-off clinch",
+    "この日":"This game","リーグ初":"League first","達成":"Feat","投球回":"IP","打者":"Batters","今季":"This season","残り試合":"Games left","スコア":"Score","決めた選手":"Hero","決めた回":"Inning",
+    "サヨナラ本塁打":"walk-off home run","サヨナラ安打":"walk-off single","サヨナラ二塁打":"walk-off double","サヨナラ三塁打":"walk-off triple","サヨナラ犠牲フライ":"walk-off sacrifice fly",
+    "サヨナラの失策":"walk-off error","サヨナラの内野ゴロ":"walk-off groundout","サヨナラの野選":"walk-off fielder’s choice","サヨナラスクイズ":"walk-off squeeze","サヨナラの一打":"walk-off hit",
+    "押し出しの四球":"bases-loaded walk","押し出しの死球":"bases-loaded hit-by-pitch",
+    "今季がプロ1年目のシーズン。":"This is the first pro season.","昨季は1軍での出場が少なく、今季が飛躍の年になっている。":"After little top-team action last season, this has been a breakout year.",
+    "昨季は1軍での登板が少なく、今季が飛躍の年になっている。":"After few top-team outings last season, this has been a breakout year.",
+    "リーグで初めての快挙となった。":"It is a first in league history."}).forEach(([k,v])=>put(k,v));
+  Object.entries({
+    "最後の打席は、単打だけを考えて入りました。決まった瞬間は、ベンチの声しか聞こえませんでした。":"In that last at-bat I was only thinking single. When it dropped, all I could hear was the dugout.",
+    "記録は意識していないつもりでしたが、最後は手が震えました。一生の思い出です。":"I told myself not to think about it, but my hands were shaking at the end. I will never forget this.",
+    "つないでいこうと思った結果です。前の打者がつないでくれたおかげです。":"I just tried to keep the line moving. The hitters ahead of me set it up.",
+    "途中から周りがざわついて、気づきました。今日は球がよく見えていました。":"The crowd started buzzing and that is when I knew. I was seeing the ball really well today.",
+    "まさか自分がという気持ちです。家族にいい報告ができます。":"I still can’t believe it was me. I have good news for my family.",
+    "一日で4種類そろえるのは簡単なことではない。日ごろの準備がそのまま出た。":"Getting all four in one day is not easy. The daily work showed.",
+    "見ていて楽しかった。こういう日があるから野球はおもしろい。":"It was fun to watch. Days like this are why baseball is great.",
+    "記録もうれしいが、どの打席も粘っていたのがいちばん良かった。":"The record is great, but the best part was the grind in every at-bat.",
+    "あの集中力を、明日からも続けてほしい。":"I want to see that focus again tomorrow.",
+    "後ろを守る仲間を信じて投げました。最後の打者を打ち取った瞬間は、頭が真っ白でした。":"I trusted the defense behind me. When the last out came, my mind went blank.",
+    "途中から記録は分かっていました。とにかく1球ずつ、それだけでした。":"I knew about it midway through. One pitch at a time, that was all.",
+    "捕手のサインどおりに投げただけです。今日は捕手のおかげです。":"I just threw what the catcher called. Today belongs to the catcher.",
+    "ベンチで誰も話しかけてこなかったので、気づいていました。最後まで投げ切れてよかったです。":"Nobody in the dugout would talk to me, so I knew. I am glad I finished it.",
+    "調子は良くなかったんです。だからこそ丁寧に投げられたのかもしれません。":"My stuff was not great. Maybe that is why I was so careful.",
+    "9回のマウンドも任せると決めていた。見事な投球だった。":"The ninth was always going to be theirs. A brilliant outing.",
+    "守りも最後までよく集中していた。全員でつかんだ記録だ。":"The defense stayed locked in to the end. Everyone earned this one.",
+    "ベンチで見ていて、こちらの方が緊張した。立派なものだ。":"I was more nervous in the dugout than anyone on the field. Outstanding.",
+    "これを自信にして、次の登板にもつなげてほしい。":"I hope this builds confidence for the next start.",
+    "四球も出さずに投げ切れたのは初めてです。守ってくれた仲間に感謝しかありません。":"It is the first time I have gone the distance without a walk. All thanks to the defense.",
+    "最後の打者のときは、さすがに足が震えました。夢のようです。":"My legs were shaking for the last batter. It feels like a dream.",
+    "1人も塁に出さないことだけを考えていました。最後まで集中が切れませんでした。":"All I thought about was keeping everyone off base. I never lost focus.",
+    "捕手と最後まで同じ考えで投げられました。二人で取った記録です。":"The catcher and I were on the same page all game. We did this together.",
+    "27人で終わらせるのは、めったにできることではない。最高の投球だった。":"Twenty-seven up, twenty-seven down almost never happens. A perfect performance.",
+    "後ろの守りも完璧だった。全員の記録だ。":"The defense was perfect too. This belongs to everyone.",
+    "言うことは何もない。今日は見ているだけだった。":"Nothing to add. I just watched today.",
+    "打った瞬間、決まったと思いました。この打席のために一年やってきました。":"I knew it as soon as I hit it. I worked all year for that at-bat.",
+    "みんなでつないだ打席でした。最後に回ってきたのは運がよかっただけです。":"Everyone kept the inning going. I was just lucky to be up last.",
+    "頭の中は真っ白でした。ホームに戻ってきたら、もうみんなに囲まれていました。":"My mind went blank. By the time I got home, everyone was around me.",
+    "ファンのみなさんの声が背中を押してくれました。最高の一日です。":"The fans carried me. What a day."}).forEach(([k,v])=>put(k,v));
+  Object.entries({
+    "{0}回":"{0o}","{0}回裏":"Bottom {0o}","{0}人":"{0#}","{0}打点":"{0#} RBI","{0}安打":"{0#} {0|hit|hits}","{0}人目":"{0o}","{0}歳":"{0#}",
+    "リーグで{0}人目":"{0o} in league history","今季{0}人目":"{0o} this season","{0}年ぶり":"First in {0#} {0|year|years}","球団で{0}人目":"{0o} in club history","自身{0}度目":"{0o} of career",
+    "完全試合はリーグで{0}人目":"League perfect game No. {0#}","サヨナラでの優勝決定はリーグで{0}度目":"League walk-off clinch No. {0#}",
+    "{0}年連続の優勝":"{0o} straight title","{0}年ぶりの優勝":"First title in {0#} {0|year|years}","残り{0}試合で決定":"Clinched with {0#} {0|game|games} left",
+    "リーグで{0}人目、{1}年ぶりの快挙となった。":"It is the {0o} in league history, and the first in {1#} {1|year|years}.",
+    "リーグで{0}人目、今季{1}人目の快挙となった。":"It is the {0o} in league history and the {1o} this season.",
+    "{0}の{1}が{2}戦でサイクルヒットを達成した。":"{1} of the {0} hit for the cycle against the {2}.",
+    "{0}戦で、{1}の{2}がサイクルヒットを決めた。":"Against the {0}, {2} of the {1} hit for the cycle.",
+    "{0}、{1}、{2}と重ね、最後に残った{3}を{4}回に放った。":"After a {0l}, a {1l} and a {2l}, the missing {3l} came in the {4o} inning.",
+    "{0}は{1}戦に{2}番で出場し、{3}打数{4}安打{5}打点。":"Batting {2o} against the {1}, {0} went {4#} for {3#} with {5#} RBI.",
+    "{0}は{1}戦に途中から出場し、{2}打数{3}安打{4}打点。":"Coming off the bench against the {1}, {0} went {3#} for {2#} with {4#} RBI.",
+    "あと{0}を残して迎えた{1}回の打席で、{2}を放って記録を完成させた。":"Needing only a {0l}, the {1o}-inning at-bat finished it: {2l}.",
+    "試合は{0}が{1}対{2}で{3}に勝った。":"The {0} beat the {3}, {1#}-{2#}.","試合は{0}が{1}対{2}で{3}に敗れた。":"The {0} lost to the {3}, {1#}-{2#}.","試合は{0}対{1}の引き分けに終わった。":"The game ended in a {0#}-{1#} tie.",
+    "{0}の{1}が{2}戦で{3}を達成した。":"{1} of the {0} threw a {3l} against the {2}.",
+    "{0}戦で、{1}の{2}が{3}を成し遂げた。":"Against the {0}, {2} of the {1} threw a {3l}.",
+    "{0}回を投げて{1}奪三振、与四球{2}。":"Over {0!} innings: {1#} {1|strikeout|strikeouts}, {2#} {2|walk|walks}.","{0}回を投げて{1}奪三振。":"Over {0!} innings: {1#} {1|strikeout|strikeouts}.",
+    "打者{0}人を相手に、1人も塁に出さなかった。":"{0#} batters came up, and not one reached base.",
+    "打者{0}人に対し、許した走者は{1}人だけだった。":"Of {0#} batters faced, only {1#} reached base.","打者{0}人に対し、安打を1本も許さなかった。":"{0#} batters faced, and not a single hit.",
+    "{0}回には三者三振を奪った。":"The {0o} inning was three up, three strikeouts.",
+    "最後は{0}を{1}に打ち取り、マウンドに歓喜の輪ができた。":"The last out was {0}: {1l}. Teammates mobbed the mound.",
+    "{0}が{1}にサヨナラ勝ちし、本拠地で優勝を決めた。":"The {0} walked off the {1} to clinch the title at home.",
+    "{0}回裏、{1}の{2}で試合に決着をつけた。":"In the bottom of the {0o}, {1} ended it with a {2l}.",
+    "{0}回裏を迎えた時点で、{1}対{2}の同点だった。":"Going to the bottom of the {0o}, the game was tied {1#}-{2#}.",
+    "{0}回裏を迎えた時点で、{1}は{2}点を追っていた。":"Going to the bottom of the {0o}, the {1} trailed by {2#}.",
+    "{0}回裏、{1}が試合を決めた。":"In the bottom of the {0o}, the {1} finished it.",
+    "{0}の{1}で{2}点が入り、{3}対{4}で試合が終わった。":"{0}’s {1l} brought in {2#} {2|run|runs}, and it ended {3#}-{4#}.",
+    "{0}は{1}歳。海外から加わった助っ人。":"{0}, {1#}, joined from overseas.","プロ{0}年目のシーズン。":"This is pro season No. {0#}.",
+    "今季は打率を{0}まで上げ、昨季から大きく伸びている。":"The average is up to {0!} this season, a big jump.",
+    "今季は打率{0}。昨季の数字を追いかけている。":"This season the average is {0!}, chasing last year’s numbers.",
+    "今季も打率{0}と、安定した成績を残している。":"Steady again this season at {0!}.",
+    "今季は防御率{0}と、昨季から大きく良くなっている。":"The ERA is down to {0!} this season, a big improvement.",
+    "今季は防御率{0}。この快投で流れを変えたい。":"The ERA is {0!} this season, and this gem could turn things around.",
+    "今季も防御率{0}と、安定した投球を続けている。":"Steady again this season with a {0!} ERA.",
+    "{0}は、これまでに月間MVPを{1}回受けている。":"{0} has been Player of the Month {1#} {1|time|times}."
+  }).forEach(([k,v])=>put(k,v));
+  I18N.add("en",o);
+  { const inn={}, ipm={}; for(let i=1;i<=30;i++){ inn[i+"回"]=i18nOrd(i); ipm[i+"回"]=String(i); ipm[i+"回1/3"]=i+" 1/3"; ipm[i+"回2/3"]=i+" 2/3"; inn[i+"回裏"]="Bottom "+i18nOrd(i); ipm[i+"回裏"]="Bottom "+i18nOrd(i); }
+    I18N.ctx("en",".pFlow .pInn",inn); I18N.ctx("en",".pFacts b",ipm); }
+  I18N.ctx("en",".pFlow th",{"回":"Inn","結果":"Result","内容":"Play","打者":"BF","三振":"K"});
+  I18N.ctx("en",".pQuote .who",{"監督":"The manager"});
+}catch(e){} })();
+
+let nl2Pre=null, nl2RecPrev=null;
+function nl2Win(n){ const k=n && n.kind; return k==="pennant" || k==="champion" || k==="world_win" || k==="cup_win" || (k==="feat" && n.vertical==="優勝決定"); }
+function nl2MastCls(n,L){ try{ if(goldMastOn() || nl2Win(n)) return " goldMast"; if(L) return " silverMast"; }catch(e){} return ""; }
+
+function nl2Book(){
+  const B=nlBook();
+  if(!Array.isArray(B.hr3)){ B.hr3=[];
+    try{ allTeamsEverywhere().forEach(t=>[...oneGun(t),...((t.farm&&t.farm.bat)||[]),...(t.il||[])].forEach(p=>{ (Array.isArray(p.feats)? p.feats : []).forEach(f=>{ if(f && f.k==="hr3" && typeof f.y==="number") B.hr3.push([f.y,t.name,p.name]); }); }));
+      B.hr3.sort((a,b)=>a[0]-b[0]); }catch(e){} }
+  if(!Array.isArray(B.st)){ B.st=[];
+    try{ (newsArchive||[]).forEach(n=>{ if(n && n.kind==="feat" && (n.vertical==="10連勝" || n.vertical==="10連敗")) B.st.push([n.year,String(n.team||""),n.vertical==="10連勝"? 1 : -1]); }); }catch(e){} }
+  return B;
+}
+{ const o=recRename; recRename=function(what,old,nw){ const r=o.apply(this,arguments); try{ const B=leagueRecords && leagueRecords.nl; if(B && what==="team") (B.st||[]).forEach(x=>{ if(x[1]===old) x[1]=nw; }); }catch(e){} return r; }; }
+
+function nl2After(fn,kinds,build){
+  return function(){
+    const a=(typeof newsArchive!=="undefined" && newsArchive)? newsArchive[newsArchive.length-1] : null;
+    const r=fn.apply(this,arguments);
+    try{ const n=newsArchive[newsArchive.length-1]; if(n && n!==a && kinds.includes(n.kind) && !n.lg) build(n,...arguments); }catch(e){ if(typeof console!=="undefined") console.error("nl2",e); }
+    return r;
+  };
+}
+{ const o=noSnapBeforeAge; noSnapBeforeAge=function(){ try{ const me=league[myTeam]; nl2Pre=new Map(); [...oneGun(me),...me.farm.bat,...me.farm.pit,...(me.il||[])].forEach(p=>{ if(p && p.name) nl2Pre.set(p.name,p); }); }catch(e){ nl2Pre=null; } return o.apply(this,arguments); }; }
+{ const o=checkRecords; checkRecords=function(){ try{ nl2RecPrev= leagueRecords? JSON.parse(JSON.stringify({s:leagueRecords.s||{}, c:leagueRecords.c||{}})) : null; }catch(e){ nl2RecPrev=null; } return o.apply(this,arguments); }; }
+newsPostseason=nl2After(newsPostseason,["champion"],(n,winner)=>nl2BuildPs(n,winner));
+newsRetire=nl2After(newsRetire,["retire"],(n,list)=>nl2BuildRet(n,list));
+newsHallOfFame=nl2After(newsHallOfFame,["hof"],(n,p,reason)=>nl2BuildHof(n,p,reason));
+newsRecords=nl2After(newsRecords,["award"],(n,list)=>nl2BuildRec(n,list));
+{ const o=streakNews; streakNews=function(t,dir){ try{ nl2Book(); }catch(e){} return nl2After(o,["feat"],(n)=>nl2BuildSt(n,t,dir)).apply(this,arguments); }; }
+{ const o=featsDetect; featsDetect=function(r,counts){
+    try{ if(league) nl2Book(); }catch(e){}
+    const g=nlGame, d=nlDay; nlGame=r; nlDay=nlDateNow(0);
+    try{ const x=o.apply(this,arguments);
+      try{ nl2Hr3(r,counts); }catch(e){ if(typeof console!=="undefined") console.error("nl2Hr3",e); }
+      return x; }
+    finally{ nlGame=g; nlDay=d; } }; }
+function nl2Hr3(r,counts){
+  if(!r || !r.feats || r._nl2h || !league) return; const home=r.homeTeam, away=r.awayTeam;
+  if(!(league.includes(home) || league.includes(away))) return;
+  if(!(counts || (storyReal(home) && storyReal(away)))) return;
+  r._nl2h=1;
+  r.feats.filter(x=>x.k==="hr3").forEach(x=>{
+    if(r.feats.some(y=>y.k==="cyc" && y.n===x.n && y.t===x.t)) return;
+    const [hr,rbi]=x.v, sc=`${away.name} ${r.aScore} - ${r.hScore} ${home.name}`, w= hr>=4? `${hr}本塁打` : "3本塁打";
+    const issue={kind:"feat", date:"試合後", kicker:"記録", vertical:hr>=4? `${hr}発` : "3発", team:x.t, headline:`${x.n}、1試合${w}`, sub:`${x.t}が${x.o}に(${sc})`,
+      body:[`${x.t}の${x.n}が${x.o}戦で、1試合${w}を放った。`, `この日は${hr}本塁打${rbi}打点。打球がスタンドに消えるたびに、球場が大きく沸いた。`],
+      facts:[["選手",x.n],["本塁打",`${hr}本`],["打点",String(rbi)]], side:null, scene:{type:"hr", caption:`${w}の${x.n}`}};
+    try{ nl2BuildHr3(issue,r,x); }catch(e){ if(typeof console!=="undefined") console.error("nl2BuildHr3",e); }
+    storyNews(issue);
+  });
+}
+
+function nl2Date(d){ try{ if(!d) return ""; const x= d instanceof Date? d : new Date(d); return isNaN(x.getTime())? "" : formatDate(x); }catch(e){ return ""; } }
+const nl2Pick=(arr,key)=>arr[forteHash(key)%arr.length];
+function nl2Quotes(k,name,key,who2){ const Q=NL2_Q[k]; if(!Q) return []; const out=[]; if(Q.s && name) out.push([name, nl2Pick(Q.s,name+"|"+key+"|s")]); if(Q.m) out.push([who2||"監督", nl2Pick(Q.m,(name||"")+"|"+key+"|m")]); return out; }
+function nl2Era(c){ return ((c.er||0)*9/Math.max(1,c.ip||0)).toFixed(2); }
+function nl2Avg(c){ return fmtRate((c.ab||0)? (c.h||0)/c.ab : 0); }
+function nl2PlayerAny(name){ let hit=null; try{ allTeamsEverywhere().some(t=>[...oneGun(t),...((t.farm&&t.farm.bat)||[]),...((t.farm&&t.farm.pit)||[]),...(t.il||[])].some(p=>{ if(p && p.name===name){ hit=p; return true; } return false; })); }catch(e){} return hit; }
+function nl2Rank(k,isPit,v,self){
+  let n=0;
+  try{ (isPit? retiredPitchers : retiredBatters).forEach(r=>{ if(r && r.career && r.name!==self && (r.career[k]||0)>v) n++; });
+    allTeamsEverywhere().forEach(t=>[...oneGun(t),...((t.farm&&t.farm.bat)||[]),...((t.farm&&t.farm.pit)||[]),...(t.il||[])].forEach(p=>{ if(!p || p.name===self || (p.velo!==undefined)!==isPit) return; if(careerPlus(p,k)>v) n++; })); }catch(e){}
+  return n+1;
+}
+function nl2Years(p,isPit,cur){
+  const rows=(Array.isArray(p && p.yr)? p.yr : []).filter(r=>r && !r.farm).slice();
+  if(cur){ try{ const c=ymCurRow(p,isPit); if(c && !(rows.length && rows[rows.length-1].y===year)) rows.push(c); }catch(e){} }
+  return rows;
+}
+function nl2YearTab(rows,isPit){
+  if(!rows.length) return null;
+  const sc=r=> isPit? (r.w||0)*3+(r.sv||0)+(r.ip||0)/20 : (r.hr||0)*2+(r.h||0)/10+(r.rbi||0)/10;
+  let best=0; rows.forEach((r,i)=>{ if(sc(r)>sc(rows[best])) best=i; });
+  const body=rows.map(r=> isPit? [`${r.y}年目`, String(r.g||0), `${r.w||0}勝${r.l||0}敗`, String(r.sv||0), nl2Era(r)]
+                               : [`${r.y}年目`, String(r.g||0), nl2Avg(r), String(r.hr||0), String(r.rbi||0)]);
+  return {t:"年度別の成績", h: isPit? ["年","登板","勝敗","セーブ","防御率"] : ["年","試合","打率","本塁打","打点"], r:body, hl:[best], best:rows[best]};
+}
+function nl2CareerTab(c,isPit,self){
+  const K= isPit? [["登板","gp"],["勝利","w"],["敗戦","l"],["セーブ","sv"],["ホールド","hold"],["奪三振","so"],["投球回","ip"]] : [["試合","g"],["安打","h"],["本塁打","hr"],["打点","rbi"],["盗塁","sb"],["四球","bb"]];
+  const rk=new Set(isPit? ["w","sv","so"] : ["h","hr","rbi","sb"]);
+  const rows=K.map(([n,k])=>{ const v= k==="ip"? Math.round((c.ip||0)*10)/10 : (c[k]||0); const q= rk.has(k) && v>0? nl2Rank(k,isPit,v,self) : 0; return [n, String(v), q && q<=30? `${q}位` : "—"]; });
+  rows.push(isPit? ["防御率", nl2Era(c), "—"] : ["打率", nl2Avg(c), "—"]);
+  return {t:"通算成績", h:["項目","通算","歴代"], r:rows, hl:[]};
+}
+function nl2Honors(p){
+  const cnt=new Map(); (Array.isArray(p && p.honors)? p.honors : []).forEach(h=>{ if(h && h.t && h.t!=="世界一") cnt.set(h.t,(cnt.get(h.t)||0)+1); });
+  return [...cnt.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4);
+}
+function nl2Road(p,rec,isPit,best,startY){
+  const out=[]; if(!p && !rec) return out;
+  const nm=(p||rec).name;
+  try{ const h=p? homeOf(p) : null, bg=(p && p.background) || (rec && rec.background) || "", via=NB_BG[(typeof usRules==="function" && usRules() && bg==="社会人")? "独立リーグ" : bg];
+    if(h && h.pref) out.push(via? `${nm}は${h.pref}出身。${via}。` : `${nm}は${h.pref}出身。`);
+    else if(p && p.imp) out.push(`${nm}は海外から加わった助っ人。`); }catch(e){}
+  if(startY) out.push(`${startY}年目に1軍の舞台を踏んだ。`);
+  const path=(p && Array.isArray(p.path) && p.path.length)? p.path : (rec && Array.isArray(rec.path))? rec.path : [];
+  if(path.length>=2) out.push(`${path.join("、")}と球団を渡り歩いた。`);
+  else if(path.length===1) out.push(`${path[0]}ひと筋でプレーした。`);
+  const hn=nl2Honors(p); if(hn.length) out.push(`主なタイトルは${hn.map(([t,n])=> n>1? `${t}×${n}` : t).join("、")}。`);
+  if(best) out.push(isPit? `自己最高のシーズンは${best.y}年目で、${best.w||0}勝${best.l||0}敗、防御率${nl2Era(best)}。` : `自己最高のシーズンは${best.y}年目で、打率${nl2Avg(best)}、${best.hr||0}本塁打、${best.rbi||0}打点。`);
+  if(p && p.hof && typeof p.hof.y==="number" && p.hof.y!==year) out.push(`${p.hof.y}年目に${p.hof.reason||"通算の記録"}でペナント殿堂入りを果たした。`);
+  return out;
+}
+
+function nl2BuildHr3(issue,r,x){
+  if(!r.box) return;
+  const {T,O,S,rs,ra}=nlSides(r,x.t), br=nlBatRow(S,x.n); if(!br) return;
+  const pas=bxPaList(br.row[10]), p=nlPlayer(T,x.n), key=year+"|"+(nlDay||issue.date||"");
+  const [hr,rbi]=x.v, ab=br.row[2], hh=br.row[4];
+  let k=0; const rows=pas.map(a=>{ const q=nlPa(a.c); const h=q.h==="本"; if(h) k++; return [a.i, q.cat, q.txt, a.r||0, h? `${k}本目` : "", h? 1 : 0]; });
+  const inns=pas.filter(a=>nlPa(a.c).h==="本").map(a=>a.i);
+  const B=nl2Book(), w=nlWeigh(B.hr3,x.t,x.n);
+  const lead=[nl2Pick([`${x.t}の${x.n}が${x.o}戦で${hr}本の本塁打を放った。`, `${x.o}戦で、${x.t}の${x.n}が1試合${hr}本塁打の大暴れを見せた。`], x.n+"|"+key+"|l"),
+    inns.length>=3? `${inns.slice(0,-1).map(i=>`${i}回`).join("、")}、そして${inns[inns.length-1]}回にスタンドへ運んだ。` : "",
+    w.k===1? "記録が残る中では、リーグで初めての1試合3本塁打となった。" : w.same>0? `今季${w.same+1}人目の1試合3本塁打となった。` : `リーグでは${w.gap}年ぶりの1試合3本塁打となった。`].join("");
+  const body=[];
+  body.push(br.ord? `${x.n}は${x.o}戦に${br.ord}番で出場し、${ab}打数${hh}安打${rbi}打点。` : `${x.n}は${x.o}戦に途中から出場し、${ab}打数${hh}安打${rbi}打点。`);
+  body.push(`${hr}本の本塁打で${rbi}打点を挙げ、打線を引っ張った。`);
+  body.push(nlScoreLine(x.t,x.o,rs,ra));
+  if(p && (p.pa||0)>=10){ const L=batLine(p); body.push(`${x.n}は今季、打率${fmtRate(L.avg)}、${p.hr||0}本塁打、${p.rbi||0}打点。`); }
+  const L= p? batLine(p) : null;
+  const note=nlWeighNotes(w); if(hr>=4) note.unshift(`1試合${hr}本塁打`);
+  issue.lg={v:1, k:"hr3", lead, body, flow:{t:"b", rows}, note, q:nl2Quotes("hr3",x.n,key), bio:nlBio(p),
+    facts: p? [["この日",`${hr}本塁打`],["打点",String(rbi)],["今季本塁打",String(p.hr||0)],["打率",fmtRate(L.avg)],["達成",w.k===1? "リーグ初" : `${w.k}人目`],["年齢",`${p.age}歳`]]
+             : [["この日",`${hr}本塁打`],["打点",String(rbi)],["安打",String(hh)],["達成",w.k===1? "リーグ初" : `${w.k}人目`]]};
+  B.hr3.push([year,x.t,x.n]);
+}
+
+function nl2BuildPs(n,winner){
+  const me=league[myTeam]; if(!me || winner!==me) return;
+  const log=((post && post.seriesLog)||[]).filter(s=>s.a===me.name || s.b===me.name); if(!log.length) return;
+  const g=(allResults||[]).filter(x=>x && x.year===year+0.5 && (x.home===me.name || x.away===me.name));
+  const grp=[]; g.forEach(x=>{ const opp= x.home===me.name? x.away : x.home; if(!grp.length || grp[grp.length-1].opp!==opp) grp.push({opp,games:[]}); grp[grp.length-1].games.push(x); });
+  const ser=log.map(s=>{ const A=s.a===me.name; return {stage:s.stage||"ポストシーズン", opp:A? s.b : s.a, w:A? s.wa : s.wb, l:A? s.wb : s.wa, adv:s.adv||0}; });
+  const rows=[]; let gi=0, W=0, L=0, RS=0, RA=0, oneRun=0;
+  ser.forEach(s=>{ while(gi<grp.length && grp[gi].opp!==s.opp) gi++; const G=gi<grp.length? grp[gi].games : []; gi++;
+    G.forEach((x,i)=>{ const h=x.home===me.name, ms=h? x.h : x.a, os=h? x.a : x.h, res= ms>os? "○" : ms<os? "●" : "△";
+      if(ms>os) W++; else if(ms<os) L++; RS+=ms; RA+=os; if(Math.abs(ms-os)===1) oneRun++;
+      rows.push([`${s.stage} 第${i+1}戦`, s.opp, `${ms}-${os}`, res]); }); });
+  const fin=ser[ser.length-1], last=rows.length? rows[rows.length-1] : null, key=year+"|"+me.name;
+  const mvp=(post.mvp && post.mvp.year===year && post.mvp.team===me.name)? post.mvp : null, mp= mvp? nl2PlayerAny(mvp.name) : null;
+  const prevY=new Set(); (newsArchive||[]).forEach(x=>{ if(x && x.kind==="champion" && x.team===me.name && x.year<year) prevY.add(x.year); });
+  const lastY= prevY.size? Math.max(...prevY) : null; let streak=1; while(prevY.has(year-streak)) streak++;
+  const lead=[`${me.name}がポストシーズンを勝ち抜き、${year}年目の頂点に立った。`, `${fin.stage}では${fin.opp}を${fin.w}勝${fin.l}敗で下した。`,
+    mvp? `ポストシーズンMVPには${mvp.name}が選ばれた。` : ""].join("");
+  const body=[];
+  ser.forEach((s,i)=>{ if(i===ser.length-1) return; body.push(`${s.stage}は${s.opp}と戦い、${s.w}勝${s.l}敗で勝ち上がった。`); });
+  if(last) body.push(`最後の試合は${last[1]}に${last[2].replace("-","対")}で${last[3]==="○"? "勝ち" : "決め"}、歓喜の輪ができた。`);
+  if(rows.length) body.push(`ポストシーズンの${rows.length}試合で${W}勝${L}敗、${RS}得点・${RA}失点。${oneRun? `1点差の試合は${oneRun}つあった。` : ""}`);
+  body.push(`レギュラーシーズンは${recOf(me)}だった。`);
+  if(mvp) body.push(`MVPの${mvp.name}は${mvp.line}。`);
+  const note=[champCount>1? `ポストシーズン制覇は通算${champCount}度目` : "ポストシーズン初制覇"];
+  if(lastY!==null) note.push(lastY===year-1? `${streak}年連続の制覇` : `${year-lastY}年ぶりの制覇`);
+  if(rows.length) note.push(`ポストシーズン${W}勝${L}敗`);
+  const q=[]; if(mvp) q.push([mvp.name, nl2Pick(NL2_Q.ps.s, mvp.name+"|"+key)]); q.push(["監督", nl2Pick(NL2_Q.ps.m, me.name+"|"+key)]);
+  const bio= mp? nlBio(mp) : [];
+  n.lg={v:1, k:"ps", lead, body, flow:null, tabs: rows.length? [{t:"シリーズの流れ(試合ごと)", h:["試合","相手","スコア","結果"], r:rows, hl:rows.map((r,i)=>r[3]==="○" && i===rows.length-1? i : -1).filter(i=>i>=0)}] : [],
+    note, q, bio, bioT: mvp? "MVPの歩み" : "", facts:[["シーズン",recOf(me)],[fin.stage,`${fin.w}勝${fin.l}敗`],["PS通算",`${W}勝${L}敗`],["得点",String(RS)],["失点",String(RA)],["MVP",mvp? mvp.name : "—"]]};
+}
+
+function nl2BuildRet(n,list){
+  const nm=String(n.headline||"").replace(/、現役引退$/,""), rec=(list||[]).find(x=>x && x.name===nm); if(!rec || !rec.career) return;
+  const me=league[myTeam], c=rec.career, isPit=c.ip!==undefined && !(c.ab>0), p=(nl2Pre && nl2Pre.get(nm)) || null;
+  const yrs=nl2Years(p,isPit,false), yt=nl2YearTab(yrs,isPit), ct=nl2CareerTab(c,isPit,nm), key=year+"|"+nm;
+  const pro= (p && typeof p.svcYears==="number")? p.svcYears+1 : yrs.length;
+  const mk= isPit? [["w","勝"],["so","奪三振"],["sv","セーブ"]] : [["h","安打"],["hr","本塁打"],["rbi","打点"]];
+  const ranks=mk.filter(([k])=>(c[k]||0)>0).map(([k,u])=>[k,u,c[k]||0,nl2Rank(k,isPit,c[k]||0,nm)]).filter(x=>x[3]<=30).sort((a,b)=>a[3]-b[3]);
+  const top=ranks[0], fw=String(n.vertical||"")==="花道";
+  const stat= isPit? `通算${c.w||0}勝${c.l||0}敗${c.sv? `${c.sv}セーブ` : ""}、防御率${nl2Era(c)}` : `通算${c.h||0}安打、${c.hr||0}本塁打、打率${nl2Avg(c)}`;
+  const lead=[`${me.name}の${nm}が、ユニフォームを脱ぐ。`, pro>0? `プロ${pro}年で、${stat}の成績を残した。` : `${stat}の成績を残した。`,
+    top? `通算${top[2]}${top[1]}は、記録が残る中で歴代${top[3]}位。` : ""].join("");
+  const body=[];
+  if(fw) body.push("引退を予告して迎えた最後のシーズンを、ユニフォームで締めくくった。");
+  if(yt && yt.best) body.push(isPit? `いちばん輝いたのは${yt.best.y}年目。${yt.best.w||0}勝を挙げ、防御率${nl2Era(yt.best)}の成績を残した。` : `いちばん輝いたのは${yt.best.y}年目。打率${nl2Avg(yt.best)}、${yt.best.hr||0}本塁打を記録した。`);
+  if(yrs.length){ const l=yrs[yrs.length-1]; body.push(isPit? `最後のシーズンは${l.g||0}試合に登板し、${l.w||0}勝${l.l||0}敗だった。` : `最後のシーズンは${l.g||0}試合に出場し、打率${nl2Avg(l)}だった。`); }
+  body.push("長年チームを支えたベテランに、スタンドから惜しみない拍手が送られた。");
+  const note=ranks.slice(0,2).map(([k,u,v,rk])=>`通算${v}${u}は歴代${rk}位`);
+  if(pro>0) note.push(`プロ${pro}年`); if(p && p.hof) note.push("殿堂入り選手"); if(fw) note.push("予告した最後の年");
+  const yb=yt&&yt.best, tabs=[ct]; if(yt){ delete yt.best; tabs.push(yt); }
+  n.lg={v:1, k:"ret", lead, body, flow:null, tabs, note, q:nl2Quotes("ret",nm,key), bio:nl2Road(p,rec,isPit,yb,yrs.length? yrs[0].y : 0), bioT:"入団からの歩み",
+    facts: isPit? [["プロ",`${pro}年`],["登板",String(c.gp||0)],["勝利",String(c.w||0)],["セーブ",String(c.sv||0)],["奪三振",String(c.so||0)],["防御率",nl2Era(c)]]
+                : [["プロ",`${pro}年`],["試合",String(c.g||0)],["安打",String(c.h||0)],["本塁打",String(c.hr||0)],["打点",String(c.rbi||0)],["打率",nl2Avg(c)]]};
+}
+function nl2BuildHof(n,p,reason){
+  if(!p) return; const me=league[myTeam], isPit=p.velo!==undefined, nm=p.name, key=year+"|"+nm;
+  const c={}; (isPit? PIT_KEYS : BAT_KEYS).forEach(k=>{ c[k]=careerPlus(p,k); });
+  const yrs=nl2Years(p,isPit,true), yt=nl2YearTab(yrs,isPit), ct=nl2CareerTab(c,isPit,nm);
+  const mk= isPit? [["w","勝"],["sv","セーブ"],["so","奪三振"]] : [["h","安打"],["hr","本塁打"],["rbi","打点"]];
+  const ranks=mk.filter(([k])=>(c[k]||0)>0).map(([k,u])=>[k,u,c[k]||0,nl2Rank(k,isPit,c[k]||0,nm)]).filter(x=>x[3]<=30).sort((a,b)=>a[3]-b[3]);
+  const pro=(typeof p.svcYears==="number")? p.svcYears+1 : yrs.length, top=ranks[0];
+  const lead=[`${me.name}の${nm}が${reason}を達成し、ペナント殿堂入りを果たした。`, `${p.age}歳、プロ${pro}年目での到達となった。`, top? `通算${top[2]}${top[1]}は、記録が残る中で歴代${top[3]}位。` : ""].join("");
+  const body=[];
+  body.push(isPit? `ここまで通算${c.w||0}勝${c.l||0}敗${c.sv? `${c.sv}セーブ` : ""}、防御率${nl2Era(c)}。` : `ここまで通算${c.h||0}安打、${c.hr||0}本塁打、${c.rbi||0}打点、打率${nl2Avg(c)}。`);
+  if(yt && yt.best) body.push(isPit? `いちばん輝いたのは${yt.best.y}年目。${yt.best.w||0}勝を挙げ、防御率${nl2Era(yt.best)}の成績を残した。` : `いちばん輝いたのは${yt.best.y}年目。打率${nl2Avg(yt.best)}、${yt.best.hr||0}本塁打を記録した。`);
+  if(isPit && (p.ip||0)>=10) body.push(`今季は${p.w||0}勝${p.l||0}敗、防御率${nl2Era(p)}。`); else if(!isPit && (p.pa||0)>=30) body.push(`今季は打率${fmtRate(batLine(p).avg)}、${p.hr||0}本塁打、${p.rbi||0}打点。`);
+  body.push("長年の積み重ねに、スタンドから大きな拍手が送られた。");
+  const note=[`殿堂入りは球団で${(hallOfFame||[]).filter(h=>h && h.team===me.name).length}人目`].concat(ranks.slice(0,2).map(([k,u,v,rk])=>`通算${v}${u}は歴代${rk}位`));
+  note.push(`殿堂入りはリーグで${(hallOfFame||[]).length}人目`);
+  const yb=yt&&yt.best, tabs=[ct]; if(yt){ delete yt.best; tabs.push(yt); }
+  n.lg={v:1, k:"hof", lead, body, flow:null, tabs, note, q:nl2Quotes("hof",nm,key), bio:nl2Road(p,null,isPit,yb,yrs.length? yrs[0].y : 0), bioT:"入団からの歩み",
+    facts: isPit? [["達成",reason],["年齢",`${p.age}歳`],["プロ",`${pro}年目`],["勝利",String(c.w||0)],["奪三振",String(c.so||0)],["防御率",nl2Era(c)]]
+                : [["達成",reason],["年齢",`${p.age}歳`],["プロ",`${pro}年目`],["本塁打",String(c.hr||0)],["打点",String(c.rbi||0)],["打率",nl2Avg(c)]]};
+}
+
+function nl2BuildRec(n,list){
+  let L=(list||[]).filter(x=>x && x.p && x.r);
+  if(typeof wlOn!=="undefined" && wlOn && typeof wltRealLv==="function") L=L.filter(x=>!wltRealLv(x.r.lv));
+  if(!L.length) return;
+  const rank={mlb:3,npb:2,lg:1}; L=L.slice().sort((a,b)=>(rank[b.r.lv]-rank[a.r.lv]) || (a.r.kind<b.r.kind? 1 : -1));
+  { const seen=new Set(); L=L.filter(x=>{ const k=x.p.name+"|"+x.r.kind+"|"+x.r.k; if(seen.has(k)) return false; seen.add(k); return true; }); }
+  const me=league[myTeam], top=L[0], p=top.p, r=top.r, key=year+"|"+p.name, P=nl2RecPrev||{s:{},c:{}};
+  const prev=x=>{ const c=(P[x.r.kind]||{})[x.r.k]; return (c && typeof c.v==="number")? c : null; };
+  const d0=(r.kind==="s"? REC_S : REC_C).find(d=>d.k===r.k)||{}, pv=prev(top);
+  const diff=(a,b,d)=>{ const v=Math.abs(a-b); return d.rate? (d.k==="avg"? fmtRate(v).replace(/^\./,".") : v.toFixed(2)) : String(Math.round(v*10)/10); };
+  const lead=[`${me.name}の${p.name}が、${recName(r.kind,r.k)}で${recFmt(r.kind,r.k,r.v)}を記録した。`,
+    r.lv==="lg"? "リーグの歴代1位を塗り替えた。" : `${REC_LV[r.lv]}の数字となった。`,
+    pv && pv.name!==p.name? `これまでの1位は、${pv.year}年目に${pv.name}(${pv.team})が残した${recFmt(r.kind,r.k,pv.v)}だった。` : pv? `自身の持つ${recFmt(r.kind,r.k,pv.v)}を更新した。` : ""].join("");
+  const body=[];
+  if(pv && pv.name!==p.name) body.push(`${year-pv.year>0? `${year-pv.year}年ぶりの更新で、` : ""}前の記録を${diff(r.v,pv.v,d0)}上回った。`);
+  if(r.lv!=="lg"){ const ln=recLine(r.kind,r.k,r.lv==="mlb"? 1 : 0); if(ln!==null) body.push(`このゲームの試合数と数字の出かたに直した${r.lv==="mlb"? "メジャー" : "プロ野球"}の記録は${recFmt(r.kind,r.k,ln)}。`); }
+  if(L.length>1) body.push(`今季は${L.length}つの記録を手にした。`);
+  if(p.velo===undefined && (p.pa||0)>=30){ const B=batLine(p); body.push(`${p.name}の今季は、打率${fmtRate(B.avg)}、${p.hr||0}本塁打、${p.rbi||0}打点。`); }
+  else if(p.velo!==undefined && (p.ip||0)>=10) body.push(`${p.name}の今季は、${p.w||0}勝${p.l||0}敗${p.sv? `${p.sv}セーブ` : ""}、防御率${nl2Era(p)}。`);
+  const rows=L.map(x=>{ const c=prev(x), d=(x.r.kind==="s"? REC_S : REC_C).find(y=>y.k===x.r.k)||{};
+    return [recName(x.r.kind,x.r.k), recFmt(x.r.kind,x.r.k,x.r.v), c? `${recFmt(x.r.kind,x.r.k,c.v)}(${c.name}・${c.year}年目)` : "—", REC_LV[x.r.lv]||""]; });
+  const note=[REC_LV[r.lv]]; if(pv && pv.name!==p.name && year-pv.year>0) note.push(`${year-pv.year}年ぶりの更新`); if(pv && pv.name===p.name) note.push("自身の記録を更新");
+  if(L.length>1) note.push(`今季の記録は${L.length}つ`);
+  n.lg={v:1, k:"rec", lead, body, flow:null, tabs:[{t:"記録の比べ", h:["記録","今回","前の1位","印"], r:rows, hl:[0]}], note, q:nl2Quotes("rec",p.name,key), bio:nlBio(p),
+    facts:[["記録",recName(r.kind,r.k)],["数字",recFmt(r.kind,r.k,r.v)],["前の1位",pv? recFmt(r.kind,r.k,pv.v) : "—"],["更新の幅",pv? diff(r.v,pv.v,d0) : "—"],["前の記録",pv? `${pv.year}年目` : "—"],["年齢",`${p.age}歳`]]};
+}
+
+function nl2BuildSt(n,t,dir){
+  if(!t || !t.name) return; const nm=t.name, win=dir>0, key=year+"|"+nm+"|"+(nlDay||"")+"|"+(win? "w" : "l");
+  const games=[];
+  const add=(x,date)=>{ const h=x.home===nm, ms=h? x.h : x.a, os=h? x.a : x.h; games.push({date:date||"", opp:h? x.away : x.home, ms, os, h, tie:!!x.isTie || ms===os}); };
+  const r=nlGame; if(r && (r.homeTeam===t || r.awayTeam===t)) add({home:r.homeTeam.name, away:r.awayTeam.name, h:r.hScore, a:r.aScore, isTie:r.isTie}, nlDay);
+  let dec=games.filter(g=>!g.tie).length;
+  for(let i=(allResults||[]).length-1; i>=0 && dec<10; i--){ const x=allResults[i]; if(!x || x.year!==year || (x.home!==nm && x.away!==nm)) continue; add(x, nl2Date(x.date)); if(!games[games.length-1].tie) dec++; }
+  games.reverse();
+  const RS=games.reduce((a,g)=>a+g.ms,0), RA=games.reduce((a,g)=>a+g.os,0), one=games.filter(g=>!g.tie && Math.abs(g.ms-g.os)===1).length, sho=games.filter(g=> win? g.os===0 : g.ms===0).length;
+  let big=0; games.forEach((g,i)=>{ if(Math.abs(g.ms-g.os)>Math.abs(games[big].ms-games[big].os)) big=i; });
+  const rows=games.map(g=>[g.date||"—", g.opp, `${g.ms}-${g.os}`, g.tie? "△" : g.ms>g.os? "○" : "●"]);
+  const B=nl2Book(), prev=B.st.filter(x=>x[1]===nm && x[2]===dir), same=B.st.filter(x=>x[0]===year && x[2]===dir).length, rk=(()=>{ try{ return teamRank(t); }catch(e){ return 0; } })();
+  const lead=[ win? `${nm}が10連勝を飾った。` : `${nm}の連敗が10に伸びた。`,
+    games.length? (win? `この間の10試合で${RS}得点・${RA}失点と、投打がかみ合っている。` : `この間の10試合で${RS}得点・${RA}失点と、苦しい戦いが続く。`) : "",
+    rk? `${mgSub(t)}で、順位は${rk}位。` : ""].join("");
+  const body=[];
+  if(games.length){ const g=games[big]; body.push(win? `いちばん大きな勝ちは、${g.opp}に${g.ms}対${g.os}で勝った試合。` : `いちばん大きな負けは、${g.opp}に${g.ms}対${g.os}で敗れた試合。`); }
+  if(one) body.push(win? `1点差の試合を${one}つ勝ち切った。` : `1点差で落とした試合が${one}つあった。`);
+  if(sho) body.push(win? `完封勝ちは${sho}試合。` : `完封負けは${sho}試合。`);
+  if(games.length) body.push(`1試合の平均は${(RS/games.length).toFixed(1)}得点・${(RA/games.length).toFixed(1)}失点。`);
+  const note=[prev.length? `球団で${prev.length+1}度目の10${win? "連勝" : "連敗"}` : `記録が残る中で球団初の10${win? "連勝" : "連敗"}`];
+  if(same) note.push(`今季のリーグで${same+1}度目`);
+  if(prev.length){ const ly=prev[prev.length-1][0]; if(ly<year) note.push(`${year-ly}年ぶり`); }
+  const q=[["監督", nl2Pick(win? NL2_Q.stw.m : NL2_Q.stl.m, key)]];
+  n.lg={v:1, k:win? "stw" : "stl", lead, body, flow:null, tabs: rows.length? [{t:"この間の試合", h:["日付","相手","スコア","結果"], r:rows, hl:[big]}] : [], note, q, bio:[],
+    facts:[["この間",win? "10勝" : "10敗"],["得点",String(RS)],["失点",String(RA)],["1点差",`${one}試合`],["順位",rk? `${rk}位` : "—"],["成績",mgSub(t)]]};
+  B.st.push([year,nm,dir]);
+}
+
+const NL2_Q={
+  hr3:{s:["3本目は、打った瞬間に入ったと分かりました。今日はバットがよく振れていました。",
+          "ねらっていたわけではありません。甘い球を、迷わず振り抜けました。",
+          "1本目でいい感覚がつかめました。あとは同じスイングを続けるだけでした。",
+          "スタンドの声がすごくて、3本目のあとは足が震えました。"],
+       m:["あれだけ振れていれば、相手も投げる所がない。見事な打撃だった。",
+          "今日は打線の主役だった。この勢いを続けてほしい。",
+          "どの打席も思い切りのいいスイングだった。"]},
+  ps:{s:["一年の最後に、みんなで笑えてよかったです。",
+         "苦しい試合もありましたが、ベンチの全員で勝ち取った頂点です。",
+         "大きな舞台で力を出せたのは、準備をしてきたからだと思います。",
+         "ファンのみなさんの声が力になりました。最高のシーズンでした。"],
+      m:["選手たちを誇りに思う。全員でつかんだ頂点だ。",
+         "長いシーズンの最後に、いちばん強い野球ができた。",
+         "苦しい時期を乗り越えたからこそ、この日がある。"]},
+  ret:{s:["ここまで続けられたのは、支えてくれたみなさんのおかげです。悔いはありません。",
+          "最後まで野球を好きなままでいられました。幸せな選手生活でした。",
+          "思うように動けない日も増えましたが、やり切ったと胸を張って言えます。",
+          "このユニフォームで過ごした日々は、一生の宝物です。"],
+       m:["長い間、本当にお疲れさまと言いたい。チームの支えだった。",
+          "あの背中を見て育った若手がたくさんいる。それがいちばんの財産だ。",
+          "数字以上に、チームに残したものが大きい選手だった。"]},
+  hof:{s:["この場に立てるとは、入団したころは思ってもいませんでした。",
+          "一つ一つの積み重ねです。支えてくれた全員に感謝しています。",
+          "記録よりも、チームが勝つことだけを考えてきました。その結果だと思います。",
+          "ここは通過点です。もっと数字を伸ばしたいと思います。"],
+       m:["球団の歴史に残る選手だ。同じユニフォームで戦えて光栄に思う。",
+          "毎日の準備を欠かさない姿勢が、この数字につながった。",
+          "若い選手たちのいいお手本になってくれている。"]},
+  rec:{s:["記録は意識していませんでしたが、いい区切りになりました。",
+          "先輩たちが残した数字を超えられて、うれしく思います。",
+          "チームのみんなのおかげで、ここまで来られました。",
+          "数字よりも、一試合一試合を大事にしてきた結果です。"],
+       m:["歴史に名前を刻んだ。誇らしく思う。",
+          "シーズンを通して崩れなかったことが、何よりすごい。",
+          "これからも記録を伸ばしていってほしい。"]},
+  stw:{m:["選手たちが一つになっている。この流れを大事にしたい。",
+          "連勝は気にしていない。明日の試合に集中するだけだ。",
+          "誰かが打てなくても、誰かが返してくれる。いい形で戦えている。"]},
+  stl:{m:["苦しいが、下を向いている時間はない。一つ勝てば流れは変わる。",
+          "責任は監督にある。選手たちは必死に戦ってくれている。",
+          "もう一度、基本から見直す。ファンのみなさんには申し訳ない。"]}
+};
+
+function nl2TabsHtml(L){
+  const S=x=>esc(String(x==null? "" : x)), A=a=>Array.isArray(a)? a : [];
+  return A(L.tabs).map(T=>{ if(!T || typeof T!=="object") return ""; const hl=new Set(A(T.hl).map(Number)), rows=A(T.r); if(!rows.length) return "";
+    return `<section class="pSec"><h3 class="pSecTitle">${S(T.t)}</h3><div class="pFlowWrap"><table class="pFlow pTab"><thead><tr>${A(T.h).map((h,i)=>`<th class="${i? "c" : ""}">${S(h)}</th>`).join("")}</tr></thead><tbody>${
+      rows.map((r,i)=>`<tr class="${hl.has(i)? "hit" : ""}">${A(r).map((c,j)=>`<td class="${j? "c" : "pK"}">${S(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></section>`; }).join("");
+}
+{ const o=nlLongHtml; nlLongHtml=function(L){
+    if(!L || (!Array.isArray(L.tabs) && !L.bioT)) return o.apply(this,arguments);
+    const pre=o.call(this,Object.assign({},L,{note:null,q:null,bio:null})), post=o.call(this,{v:1,note:L.note,q:L.q,bio:L.bio});
+    const p2= L.bioT? post.replace('<h3 class="pSecTitle">選手の歩み</h3>',`<h3 class="pSecTitle">${esc(String(L.bioT))}</h3>`) : post;
+    return pre+nl2TabsHtml(L)+p2; }; }
+
+(function(){ try{ if(typeof I18N==="undefined" || !I18N.add) return;
+  const P=I18N.pack("en"), o={}, have=k=> P.exact.has(k) || P.pats.some(x=>x[0]===k), put=(k,v)=>{ if(!have(k)) o[k]=v; };
+  Object.entries({
+    "3発":"3 HR","シリーズの流れ(試合ごと)":"The series, game by game","年度別の成績":"Year by year","通算成績":"Career totals","記録の比べ":"Against the old mark","この間の試合":"The run, game by game",
+    "入団からの歩み":"The career so far","MVPの歩み":"The MVP’s road","ポストシーズン初制覇":"First postseason title","殿堂入り選手":"Hall of Famer","予告した最後の年":"Announced farewell season",
+    "自身の記録を更新":"Broke their own mark","リーグの歴代1位を塗り替えた。":"It is a new league record.","この日":"This game","今季本塁打":"HR this season","PS通算":"Postseason","MVP":"MVP",
+    "前の1位":"Old mark","更新の幅":"Margin","前の記録":"Old mark set","この間":"The run","1点差":"One-run games","順位":"Standing","成績":"Record","プロ":"Pro years","10勝":"10–0","10敗":"0–10",
+    "引退を予告して迎えた最後のシーズンを、ユニフォームで締めくくった。":"The announced farewell season was played to the very end.",
+    "長年チームを支えたベテランに、スタンドから惜しみない拍手が送られた。":"The crowd gave the longtime veteran a warm ovation.",
+    "長年の積み重ねに、スタンドから大きな拍手が送られた。":"The crowd saluted years of hard work with a long ovation.",
+    "記録が残る中では、リーグで初めての1試合3本塁打となった。":"It is the first three-homer game in the league’s records."
+  }).forEach(([k,v])=>put(k,v));
+  Object.entries({
+    "1試合{0}本塁打":"{0#} HR in a game","{0}本目":"HR No. {0#}","{0}年目":"Year {0#}","{0}試合":"{0#} {0|game|games}",
+    "{0}、1試合{1}本塁打":"{0} hits {1#} home runs in one game",
+    "{0}の{1}が{2}戦で、1試合{3}本塁打を放った。":"{1} of the {0} hit {3#} home runs against the {2}.",
+    "この日は{0}本塁打{1}打点。打球がスタンドに消えるたびに、球場が大きく沸いた。":"{0#} HR and {1#} RBI. The park roared every time.",
+    "{0}本塁打の{1}":"{1}, {0#} home runs",
+    "{0}の{1}が{2}戦で{3}本の本塁打を放った。":"{1} of the {0} hit {3#} home runs against the {2}.",
+    "{0}戦で、{1}の{2}が1試合{3}本塁打の大暴れを見せた。":"Against the {0}, {2} of the {1} went deep {3#} times.",
+    "{0}、そして{1}回にスタンドへ運んだ。":"The home runs came in the {0}, and the {1o}.",
+    "今季{0}人目の1試合3本塁打となった。":"It is the {0o} three-homer game this season.",
+    "リーグでは{0}年ぶりの1試合3本塁打となった。":"It is the league’s first three-homer game in {0#} {0|year|years}.",
+    "{0}本の本塁打で{1}打点を挙げ、打線を引っ張った。":"{0#} home runs drove in {1#} {1|run|runs} and carried the lineup.",
+    "{0}がポストシーズンを勝ち抜き、{1}年目の頂点に立った。":"The {0} won the postseason and are the Year {1#} champions.",
+    "{0}では{1}を{2}勝{3}敗で下した。":"In the {0} they beat the {1}, {2#} games to {3#}.",
+    "{0}は{1}と戦い、{2}勝{3}敗で勝ち上がった。":"In the {0} they beat the {1}, {2#} games to {3#}.",
+    "最後の試合は{0}に{1}対{2}で勝ち、歓喜の輪ができた。":"The clincher was a {1#}-{2#} win over the {0}, and the celebration began.",
+    "最後の試合は{0}に{1}対{2}で決め、歓喜の輪ができた。":"The last game against the {0} ended {1#}-{2#}, and the celebration began.",
+    "ポストシーズンの{0}試合で{1}勝{2}敗、{3}得点・{4}失点。":"In {0#} postseason games: {1#}–{2#}, {3#} runs scored, {4#} allowed.",
+    "1点差の試合は{0}つあった。":"{0#} of them {0|was|were} one-run games.",
+    "レギュラーシーズンは{0}だった。":"The regular-season record was {0}.",
+    "MVPの{0}は{1}。":"MVP {0}: {1}.",
+    "ポストシーズン制覇は通算{0}度目":"Postseason title No. {0#}","{0}年連続の制覇":"{0o} straight title","{0}年ぶりの制覇":"First title in {0#} {0|year|years}","ポストシーズン{0}勝{1}敗":"{0#}–{1#} in the postseason",
+    "{0} 第{1}戦":"{0}, Game {1#}","{0}勝{1}敗":"{0#}–{1#}",
+    "{0}の{1}が、ユニフォームを脱ぐ。":"{1} of the {0} is retiring.",
+    "プロ{0}年で、{1}の成績を残した。":"Over {0#} pro {0|season|seasons}: {1}.",
+    "{0}の成績を残した。":"Career line: {0}.",
+    "通算{0}勝{1}敗{2}セーブ、防御率{3}":"{0#}–{1#}, {2#} saves, {3!} ERA","通算{0}勝{1}敗、防御率{2}":"{0#}–{1#}, {2!} ERA",
+    "通算{0}安打、{1}本塁打、打率{2}":"{0#} hits, {1#} HR, {2!} average",
+    "通算{0}{1}は、記録が残る中で歴代{2}位。":"The career total of {0#} {1l} ranks No. {2#} in the league’s records.",
+    "通算{0}{1}は歴代{2}位":"{0#} career {1l}: No. {2#} all-time",
+    "いちばん輝いたのは{0}年目。{1}勝を挙げ、防御率{2}の成績を残した。":"The best year was Year {0#}: {1#} wins and a {2!} ERA.",
+    "いちばん輝いたのは{0}年目。打率{1}、{2}本塁打を記録した。":"The best year was Year {0#}: a {1!} average and {2#} HR.",
+    "最後のシーズンは{0}試合に登板し、{1}勝{2}敗だった。":"The final season: {0#} appearances, {1#}–{2#}.",
+    "最後のシーズンは{0}試合に出場し、打率{1}だった。":"The final season: {0#} games, a {1!} average.",
+    "プロ{0}年":"{0#} pro {0|season|seasons}","プロ{0}年目":"Pro season {0#}",
+    "{0}は{1}出身。{2}。":"{0} is from {1}. {2}.",
+    "高校から入団した":"Turned pro straight out of high school","大学を経て入団した":"Turned pro after college","社会人野球を経て入団した":"Turned pro after corporate-league ball","独立リーグを経て入団した":"Turned pro by way of the independent leagues","{0}は{1}出身。":"{0} is from {1}.","{0}は海外から加わった助っ人。":"{0} joined from overseas.",
+    "{0}年目に1軍の舞台を踏んだ。":"The top-team debut came in Year {0#}.",
+    "{0}と球団を渡り歩いた。":"Career path: {0}.","{0}ひと筋でプレーした。":"A one-club career with the {0}.",
+    "主なタイトルは{0}。":"Major titles: {0}.",
+    "自己最高のシーズンは{0}年目で、{1}勝{2}敗、防御率{3}。":"The best season was Year {0#}: {1#}–{2#}, {3!} ERA.",
+    "自己最高のシーズンは{0}年目で、打率{1}、{2}本塁打、{3}打点。":"The best season was Year {0#}: {1!}, {2#} HR, {3#} RBI.",
+    "{0}年目に{1}でペナント殿堂入りを果たした。":"Entered the Pennant Hall of Fame in Year {0#} ({1}).",
+    "{0}の{1}が{2}を達成し、ペナント殿堂入りを果たした。":"{1} of the {0} reached {2} and entered the Pennant Hall of Fame.",
+    "{0}歳、プロ{1}年目での到達となった。":"It came at age {0#}, in pro season {1#}.",
+    "ここまで通算{0}勝{1}敗{2}セーブ、防御率{3}。":"Career so far: {0#}–{1#}, {2#} saves, {3!} ERA.","ここまで通算{0}勝{1}敗、防御率{2}。":"Career so far: {0#}–{1#}, {2!} ERA.",
+    "ここまで通算{0}安打、{1}本塁打、{2}打点、打率{3}。":"Career so far: {0#} hits, {1#} HR, {2#} RBI, {3!} average.",
+    "今季は{0}勝{1}敗、防御率{2}。":"This season: {0#}–{1#}, {2!} ERA.","今季は打率{0}、{1}本塁打、{2}打点。":"This season: {0!}, {1#} HR, {2#} RBI.",
+    "殿堂入りは球団で{0}人目":"Club Hall of Famer No. {0#}","殿堂入りはリーグで{0}人目":"League Hall of Famer No. {0#}",
+    "{0}の{1}が、{2}で{3}を記録した。":"{1} of the {0} set a mark of {3} ({2l}).",
+    "{0}の数字となった。":"That makes it {0l}.",
+    "これまでの1位は、{0}年目に{1}({2})が残した{3}だった。":"The old mark was {3}, set by {1} ({2}) in Year {0#}.",
+    "自身の持つ{0}を更新した。":"It beats the player’s own {0}.",
+    "{0}年ぶりの更新で、前の記録を{1}上回った。":"The first new mark in {0#} {0|year|years}, by a margin of {1!}.","前の記録を{0}上回った。":"It beats the old mark by {0!}.",
+    "このゲームの試合数と数字の出かたに直した{0}の記録は{1}。":"Adjusted to this game’s schedule and scoring, the {0} mark is {1}.",
+    "今季は{0}つの記録を手にした。":"{0#} records fell this season.",
+    "{0}の今季は、打率{1}、{2}本塁打、{3}打点。":"{0} this season: {1!}, {2#} HR, {3#} RBI.",
+    "{0}の今季は、{1}勝{2}敗{3}セーブ、防御率{4}。":"{0} this season: {1#}–{2#}, {3#} saves, {4!} ERA.","{0}の今季は、{1}勝{2}敗、防御率{3}。":"{0} this season: {1#}–{2#}, {3!} ERA.",
+    "{0}({1}・{2}年目)":"{0} ({1}, Year {2#})","{0}年ぶりの更新":"First new mark in {0#} {0|year|years}","今季の記録は{0}つ":"{0#} records this season",
+    "{0}が10連勝を飾った。":"The {0} have won 10 straight.","{0}の連敗が10に伸びた。":"The {0} have lost 10 straight.",
+    "この間の10試合で{0}得点・{1}失点と、投打がかみ合っている。":"Over the run: {0#} runs scored, {1#} allowed. Everything is clicking.",
+    "この間の10試合で{0}得点・{1}失点と、苦しい戦いが続く。":"Over the skid: {0#} runs scored, {1#} allowed. The struggle goes on.",
+    "{0}で、順位は{1}位。":"At {0}, they sit {1o}.",
+    "いちばん大きな勝ちは、{0}に{1}対{2}で勝った試合。":"The biggest win: {1#}-{2#} over the {0}.","いちばん大きな負けは、{0}に{1}対{2}で敗れた試合。":"The worst loss: {1#}-{2#} to the {0}.",
+    "1点差の試合を{0}つ勝ち切った。":"{0#} {0|win was a one-run game|wins were one-run games}.","1点差で落とした試合が{0}つあった。":"{0#} {0|loss was|losses were} by one run.",
+    "完封勝ちは{0}試合。":"{0#} {0|shutout win|shutout wins}.","完封負けは{0}試合。":"Shut out {0#} {0|time|times}.",
+    "1試合の平均は{0}得点・{1}失点。":"Per game: {0!} runs scored, {1!} allowed.",
+    "球団で{0}度目の10連勝":"Club’s 10-game win streak No. {0#}","球団で{0}度目の10連敗":"Club’s 10-game losing streak No. {0#}",
+    "記録が残る中で球団初の10連勝":"Club’s first 10-game win streak on record","記録が残る中で球団初の10連敗":"Club’s first 10-game losing streak on record",
+    "今季のリーグで{0}度目":"No. {0#} in the league this season","{0}年ぶり":"First in {0#} {0|year|years}"
+  }).forEach(([k,v])=>put(k,v));
+  Object.entries({
+    "3本目は、打った瞬間に入ったと分かりました。今日はバットがよく振れていました。":"I knew the third one was gone off the bat. The swing felt great today.",
+    "ねらっていたわけではありません。甘い球を、迷わず振り抜けました。":"I was not trying for it. I just did not miss the mistakes.",
+    "1本目でいい感覚がつかめました。あとは同じスイングを続けるだけでした。":"The first one gave me the feel. After that I kept the same swing.",
+    "スタンドの声がすごくて、3本目のあとは足が震えました。":"The crowd was so loud that my legs were shaking after the third.",
+    "あれだけ振れていれば、相手も投げる所がない。見事な打撃だった。":"Swinging like that, there was nowhere to pitch. Outstanding hitting.",
+    "今日は打線の主役だった。この勢いを続けてほしい。":"The star of the lineup today. Keep it going.",
+    "どの打席も思い切りのいいスイングだった。":"Every at-bat was a full, fearless swing.",
+    "一年の最後に、みんなで笑えてよかったです。":"I am so glad we all got to end the year smiling.",
+    "苦しい試合もありましたが、ベンチの全員で勝ち取った頂点です。":"There were tough games, but the whole bench won this together.",
+    "大きな舞台で力を出せたのは、準備をしてきたからだと思います。":"Coming through on the big stage came from the preparation.",
+    "ファンのみなさんの声が力になりました。最高のシーズンでした。":"The fans gave us strength. What a season.",
+    "選手たちを誇りに思う。全員でつかんだ頂点だ。":"I am proud of the players. Everyone earned this title.",
+    "長いシーズンの最後に、いちばん強い野球ができた。":"At the end of a long season, we played our best baseball.",
+    "苦しい時期を乗り越えたからこそ、この日がある。":"We got through the hard stretch, and that is why this day came.",
+    "ここまで続けられたのは、支えてくれたみなさんのおかげです。悔いはありません。":"I lasted this long thanks to everyone who supported me. No regrets.",
+    "最後まで野球を好きなままでいられました。幸せな選手生活でした。":"I loved the game to the very end. It was a happy career.",
+    "思うように動けない日も増えましたが、やり切ったと胸を張って言えます。":"The body did not always cooperate lately, but I can say I gave it everything.",
+    "このユニフォームで過ごした日々は、一生の宝物です。":"My days in this uniform will always be a treasure.",
+    "長い間、本当にお疲れさまと言いたい。チームの支えだった。":"Thank you for all those years. A pillar of this team.",
+    "あの背中を見て育った若手がたくさんいる。それがいちばんの財産だ。":"So many young players grew up watching that example. That is the real legacy.",
+    "数字以上に、チームに残したものが大きい選手だった。":"What this player gave the team was even bigger than the numbers.",
+    "この場に立てるとは、入団したころは思ってもいませんでした。":"When I turned pro, I never imagined standing here.",
+    "一つ一つの積み重ねです。支えてくれた全員に感謝しています。":"It was built one day at a time. Thank you to everyone who helped.",
+    "記録よりも、チームが勝つことだけを考えてきました。その結果だと思います。":"I only ever thought about winning, not records. This is what came of it.",
+    "ここは通過点です。もっと数字を伸ばしたいと思います。":"This is just a milestone. I want to keep adding to it.",
+    "球団の歴史に残る選手だ。同じユニフォームで戦えて光栄に思う。":"A player for the club’s history books. An honor to share the uniform.",
+    "毎日の準備を欠かさない姿勢が、この数字につながった。":"Never skipping the daily work is what built these numbers.",
+    "若い選手たちのいいお手本になってくれている。":"A great example for the young players.",
+    "記録は意識していませんでしたが、いい区切りになりました。":"I was not thinking about the record, but it is a nice milestone.",
+    "先輩たちが残した数字を超えられて、うれしく思います。":"I am happy to pass the numbers the greats left behind.",
+    "チームのみんなのおかげで、ここまで来られました。":"I got here thanks to everyone on the team.",
+    "数字よりも、一試合一試合を大事にしてきた結果です。":"I focused on each game, not the numbers. This is the result.",
+    "歴史に名前を刻んだ。誇らしく思う。":"A name in the history books. I am proud.",
+    "シーズンを通して崩れなかったことが、何よりすごい。":"Staying strong for the whole season is the most impressive part.",
+    "これからも記録を伸ばしていってほしい。":"I hope the records keep coming.",
+    "選手たちが一つになっている。この流れを大事にしたい。":"The players are as one. We want to keep this going.",
+    "連勝は気にしていない。明日の試合に集中するだけだ。":"We are not thinking about the streak. Just tomorrow’s game.",
+    "誰かが打てなくても、誰かが返してくれる。いい形で戦えている。":"When one bat goes quiet, another picks it up. We are playing the right way.",
+    "苦しいが、下を向いている時間はない。一つ勝てば流れは変わる。":"It is hard, but there is no time to hang our heads. One win changes everything.",
+    "責任は監督にある。選手たちは必死に戦ってくれている。":"The responsibility is mine. The players are fighting hard.",
+    "もう一度、基本から見直す。ファンのみなさんには申し訳ない。":"We will go back to basics. I am sorry to our fans."
+  }).forEach(([k,v])=>put(k,v));
+  [["安打","hits"],["本塁打","home runs"],["打点","RBI"],["勝","wins"],["セーブ","saves"],["奪三振","strikeouts"]].forEach(([u,e])=>{
+    put(`通算{0}${u}は、記録が残る中で歴代{1}位。`,`The career total of {0#} ${e} ranks No. {1#} in the league’s records.`);
+    put(`通算{0}${u}は歴代{1}位`,`{0#} career ${e}: No. {1#} all-time`); });
+  I18N.add("en",o);
+  I18N.ctx("en",".pTab th",{"年":"Year","試合":"G","登板":"G","打率":"AVG","本塁打":"HR","打点":"RBI","勝敗":"W-L","セーブ":"SV","防御率":"ERA","項目":"Stat","通算":"Career","歴代":"All-time",
+    "相手":"Opponent","スコア":"Score","結果":"Result","日付":"Date","記録":"Record","今回":"New","前の1位":"Old mark","印":"Level"});
+  I18N.ctx("en",".pTab td.pK",{"試合":"Games","安打":"Hits","本塁打":"Home runs","打点":"RBI","盗塁":"Steals","四球":"Walks","打率":"Average","登板":"Appearances","勝利":"Wins","敗戦":"Losses","セーブ":"Saves","ホールド":"Holds","奪三振":"Strikeouts","投球回":"Innings","防御率":"ERA"});
+}catch(e){} })();
+
 let csMode="champ";
 function csOn(){
   return csMode==="top3" && !proRules() && leagueFormat==="roundrobin" && (typeof playTier==="undefined" || playTier!=="chaos")
