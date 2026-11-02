@@ -1147,6 +1147,7 @@ html[data-season] header:not(.pMast)::after{z-index:1}
 .stamp{transform-box:fill-box;transform-origin:center;animation:hlStamp .4s cubic-bezier(.3,1.6,.5,1) .35s both}
 @keyframes hlStamp{0%{transform:scale(2.6);opacity:0}100%{transform:none;opacity:1}}
 .popIn{transform-box:fill-box;transform-origin:center;opacity:0;animation:hlPopT .4s cubic-bezier(.3,1.5,.5,1) both}
+.hlsEnd *{animation-delay:0s!important;animation-duration:.01s!important}
 @keyframes hlPopT{0%{transform:scale(.3);opacity:0}100%{transform:none;opacity:1}}
 .batRing{fill:none;stroke:var(--gold);stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:hlPulse 1.4s ease-out infinite}
 body.noAnim .hlBox *{animation:none !important}
@@ -2877,6 +2878,25 @@ html[lang=en] .paper .pFlow .res{white-space:normal}
 }
 
 </style>
+<style id="sqsCss">
+/* sq-show:作戦の印・作戦の行・チームの作戦の表・リーグ作成の一言 */
+.bxPa .sqsMk{font-size:.78em;font-weight:normal;opacity:.85;margin-left:1px}
+.sqsNote .sqsLine{display:block}
+.sqsNote .sqsTm{font-weight:bold;margin-right:.3em}
+.sqsNote .sqsIt{display:inline-block;margin-right:.8em;white-space:nowrap}
+.sqsNote .sqsT{display:inline-block;padding:0 .35em;border-radius:4px;border:1px solid currentColor;font-size:.9em;line-height:1.35;opacity:.9}
+.sqsNote .sqsIt.ok .sqsT{font-weight:bold;opacity:1}
+.sqsTeam{margin-top:12px}
+.sqsTeam .sqsH{margin:0 0 4px}
+.sqsTbl td,.sqsTbl th{text-align:center}
+.sqsTbl td.l,.sqsTbl th.l{text-align:left}
+.sqsTbl .sqsSl{opacity:.55;margin:0 1px}
+.sqsFoot{margin:4px 0 0}
+p.sqsOff{margin:0;font-size:.85em;font-weight:bold;opacity:.85}
+.formRow>p.sqsOff{grid-column:2/-1}
+p.sqsOff[hidden]{display:none}
+
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -2993,6 +3013,7 @@ html[lang=en] .paper .pFlow .res{white-space:normal}
       <p class="formHint">じっくり采配の継投の場面で、休みの先発を救援に出せます(2回まで)。代わりに、その投手は調子が下がり、次の数試合は疲れが残り、ケガもしやすくなります。他球団も、優勝争いの終盤の接戦ではエースを救援に出します。「なし」にするとできません。</p></div>
     <div class="formRow"><label for="tacSel">作戦と走塁</label>
       <select id="tacSel"><option value="on" selected>あり</option><option value="off">なし</option></select>
+      <p class="sqsOff" id="sqsOffNote" hidden>スクイズ・エンドランなどは AI も使いません</p>
       <p class="formHint">内野ゴロの間に三塁走者が還る(ゴロゴー)、ゴロで走者が進む(進塁打)ようになり、守りのシフト(前進守備・ゲッツーシフト・バントシフト・外野前進・長打警戒・引っ張り警戒)と攻めの作戦(ゴロゴー・右打ち・バスター・スクイズ・エンドラン・セーフティバント)が使われます。じっくり采配では自分で選べます。「なし」にすると、凡打で走者は進みません(今までどおり)。</p></div>
     <div class="formRow"><label for="cupSel">銀河杯</label>
       <select id="cupSel"><option value="on" selected>あり</option><option value="off">なし</option></select>
@@ -3631,7 +3652,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.8.c";
+const APP_VERSION="v1.8.e";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -4771,7 +4792,7 @@ function ageTeamRoster(t){
   t.il=t.il.filter(p=>{ if(p.velo!==undefined){ agePitcher(p); if(maybeRetirePitcher(p)){ retiredPitchers.push({name:p.name,team:t.name,pos:p.pos,career:{...p.career},peak:peakOf(p)}); return false; } }
     else { ageBatter(p); if(maybeRetireBatter(p)){ retiredBatters.push({name:p.name,team:t.name,fielding:p.fielding,career:{...p.career},peak:peakOf(p)}); return false; } } return true; });
   [...oneGun(t),...t.farm.bat,...t.farm.pit,...t.ikusei.map(x=>x.p),...t.il].forEach(p=>{ p.farmGrowth=0; p.dereg=0; });
-  t.w=0;t.l=0;t.t=0;t.rs=0;t.ra=0;t.last5=[];t.rotIdx=0;t.streak=0;
+  t.w=0;t.l=0;t.t=0;t.rs=0;t.ra=0;t.last5=[];t.rotIdx=0;t.streak=0; if(t.sqs) delete t.sqs;
   repairLineupPositions(t);
 }
 function showLiteEnd(){
@@ -5076,7 +5097,7 @@ function bxBuild(home,away,start,snap,log,hScore,aScore,homeState,awayState){
     ent.sort((a,b)=>(a.slot-b.slot)||(a.ord-b.ord));
     const bat=ent.map(x=>{ const p=x.p, pas=paBy.get(p)||[];
       const row=[p.name, x.pos, d(p,"ab"),d(p,"r")+(log.ghostRuns||[]).filter(g=>g===p).length,d(p,"h"),d(p,"rbi"),d(p,"so"),d(p,"bb"),d(p,"sb"),d(p,"hr"),
-        pas.map(a=>`${a.i}${a.c}${a.r? "#"+a.r : ""}`).join(","), x.sub, p.ab? Math.round((p.h||0)/p.ab*1000) : 0];
+        pas.map(a=>`${a.i}${a.c}${a.r? "#"+a.r : ""}${sqsMk(a)}`).join(","), x.sub, p.ab? Math.round((p.h||0)/p.ab*1000) : 0];
       byName.set(p.name,p); allRows.push({p,row}); return row; });
     const pit=state.history.map(h=>h.p).filter((p,i,a)=>a.indexOf(p)===i).map(p=>{
       const dec= d(p,"w")>0? "W" : d(p,"l")>0? "L" : d(p,"sv")>0? "S" : d(p,"hold")>0? "H" : "";
@@ -5095,7 +5116,7 @@ function bxBuild(home,away,start,snap,log,hScore,aScore,homeState,awayState){
   return {v:1, a:A, h:H, n:notes};
 }
 let bxMode="simple", bxCur=null, bxLast=null;
-function bxPaList(s){ return s? s.split(",").map(x=>{ const m=/^(\d+)(.+?)(?:#(\d+))?$/.exec(x); return m? {i:+m[1],c:m[2],r:+(m[3]||0)} : null; }).filter(Boolean) : []; }
+function bxPaList(s){ return s? s.split(",").map(x=>{ const m=/^(\d+)(.+?)(?:#(\d+))?(?:~(sq|hr|sf)([01]))?$/.exec(x); return m? {i:+m[1],c:m[2],r:+(m[3]||0),t:m[4]||undefined,ok:m[4]? m[5]==="1" : undefined} : null; }).filter(Boolean) : []; }
 function bxSubLabel(x){ return x==="H"? "代打" : x==="R"? "代走" : x==="D"? "守備固め" : ""; }
 function bxDecMark(c){ return c==="W"? "勝" : c==="L"? "敗" : c==="S"? "S" : c==="H"? "H" : ""; }
 function bxSimpleTeam(name,S){
@@ -5109,7 +5130,7 @@ function bxSimpleTeam(name,S){
 function bxNewsTeam(name,S){
   const bat=S.b.map(r=>{ const pas=bxPaList(r[10]);
     const pos= r[11]==="H"? "打" : r[11]==="R"? "走" : r[1];
-    return `<div class="bxLine${r[11]? " bxSub":""}"><span class="bxPos">(${esc(pos)})</span><span class="bxNm">${esc(r[0])}</span><span>${r[2]}</span><span>${r[4]}</span><span>${r[5]}</span><span class="bxRes">${pas.map(a=>`<span class="bxPa${a.r? " rbi":""}" title="${a.i}">${esc(a.c)}</span>`).join("")}</span></div>`; }).join("");
+    return `<div class="bxLine${r[11]? " bxSub":""}"><span class="bxPos">(${esc(pos)})</span><span class="bxNm">${esc(r[0])}</span><span>${r[2]}</span><span>${r[4]}</span><span>${r[5]}</span><span class="bxRes">${pas.map(a=>`<span class="bxPa${a.r? " rbi":""}${a.t? " sqsPa" : ""}" title="${a.i}">${esc(a.c)}${sqsPaMk(a)}</span>`).join("")}</span></div>`; }).join("");
   const pit=S.p.map(r=>`<div class="bxLine bxLineP"><span class="bxNm">${esc(r[0])}${r[9]? `<span class="bxDec">${bxDecMark(r[9])}</span>` : ""}</span><span>${r[1]}</span><span>${r[3]}</span><span>${r[4]}</span><span>${r[5]}</span><span>${r[6]}</span><span>${r[7]}</span></div>`).join("");
   return `<div class="bxPaper"><div class="bxNT">${esc(name)}</div><div class="bxLine bxHdr"><span></span><span class="bxNm">選手</span><span>打数</span><span>安打</span><span>打点</span><span class="bxRes">打席の結果</span></div>${bat}`+
     `<div class="bxLine bxLineP bxHdr bxHdrP"><span class="bxNm">投手</span><span>投球回</span><span>被安打</span><span>奪三振</span><span>与四球</span><span>失点</span><span>自責</span></div>${pit}</div>`;
@@ -5131,7 +5152,7 @@ function bxHtml(e){
   const bx=e.bx; if(!bx) return "";
   const tabs=`<div class="subTabs bxTabs" role="tablist"><button type="button" class="subTab${bxMode==="simple"? " active":""}" role="tab" aria-selected="${bxMode==="simple"}" onclick="bxSetMode('simple')">ふつうの表</button><button type="button" class="subTab${bxMode==="news"? " active":""}" role="tab" aria-selected="${bxMode==="news"}" onclick="bxSetMode('news')">詳細(新聞の形)</button></div>`;
   const body= bxMode==="news"? bxNewsTeam(e.away,bx.a)+bxNewsTeam(e.home,bx.h) : bxSimpleTeam(e.away,bx.a)+bxSimpleTeam(e.home,bx.h);
-  return `<h3>テーブルスコア</h3><div class="small bxHead">${teamDot(e.away)}${esc(e.away)} <b>${e.a}</b> - <b>${e.h}</b> ${teamDot(e.home)}${esc(e.home)}${e.isTie? " (引分)" : ""}</div>${lineScoreHtml({away:e.away,home:e.home,a:e.a,h:e.h,ai:e.ai||[],hi:e.hi||[],ah:e.ah,hh:e.hh})}${tabs}${body}${bxNotesHtml(bx)}`;
+  return `<h3>テーブルスコア</h3><div class="small bxHead">${teamDot(e.away)}${esc(e.away)} <b>${e.a}</b> - <b>${e.h}</b> ${teamDot(e.home)}${esc(e.home)}${e.isTie? " (引分)" : ""}</div>${lineScoreHtml({away:e.away,home:e.home,a:e.a,h:e.h,ai:e.ai||[],hi:e.hi||[],ah:e.ah,hh:e.hh})}${tabs}${body}${bxNotesHtml(bx)}${sqsNoteHtml(e.away,e.home,bx)}`;
 }
 function showBox(e){
   if(!e || !e.bx){ showToast("この試合のテーブルスコアは残っていません"); return; }
@@ -6374,7 +6395,7 @@ function* simHalfInningGen(lineArr,getBatter,advance,pitcher,verbose,log,inn,hal
     }
     if(scored>0 && rbiOk) batter.rbi+=scored;
     const vsS=vsRec(batter,pitcher,res,log.ctx,half,inn,runs,scored);
-    if(log.pas) log.pas.push({b:batter,i:inn,c:bxCode(hbpNow? "HBP" : (tacEv.hOut? "FC" : res),bip,(res==="OUT" && outs-outsPA>=2),batter,inn),r:(scored>0 && rbiOk)? scored : 0});
+    if(log.pas) log.pas.push({b:batter,i:inn,c:bxCode(hbpNow? "HBP" : (tacEv.hOut? "FC" : res),bip,(res==="OUT" && outs-outsPA>=2),batter,inn),r:(scored>0 && rbiOk)? scored : 0, h:half, t:(tacEnabled && (tacD||tacO))? (tacD||"")+"|"+(tacO||"") : undefined, x:sbRes? sbRes.x : undefined});
     if(log && log.ctx && log.ctx.mgr && log.ctx.showNext){ const sn=log.ctx.showNext; log.ctx.showNext=null;
       if(sn.inn===inn && sn.half===half){ const c2=log.ctx, cur2={a:c2.a+(half==="表"?runs:0), h:c2.h+(half==="裏"?runs:0)};
         yield mgrSituation(log,{kind:"result", from:sn.from, res, hp:hbpNow, scored, po:outsPA, dp:(res==="OUT" && outs-outsPA>=2), runnerOut:((res==="1B" && outs>outsPA && !runOut3) || runOutH), runnerOut3:runOut3, tac:tacEv, tacD, tacO, sb:sbRes? sbRes.x : undefined, sbh:tacO==="hre"? sbHreWhere(preO,bases,scL) : undefined, outs:Math.min(3,outs), rn:bases.map(b=>b&&b.name||null), cur:cur2, batter:batter.name, pitcher:pitcher.name, def:defNames(defense)}); } }
@@ -8184,7 +8205,7 @@ function hlRenderPre(r,ev){
   hlSetProgress();
 }
 function hlRenderPlay(r,ev){
-  hlStageName="play"; hlPlayDone=false;
+  hlStageName="play"; hlPlayDone=false; hlPlayFin=null;
   const rich= HLO.fx==="on" && animEnabled() && Array.isArray(ev.mv), w=hlWeight(ev), cls= (HLO.fx==="on")? (w>=80? "big" : w>=60? "mid" : "") : "";
   const seed=highlightIdx+ev.inn*7+(ev.runs||0), isPc=ev.kind==="pitch_change";
   hlCurRich=rich;
@@ -8219,15 +8240,18 @@ function hlRenderPlay(r,ev){
   { const bx=document.querySelector(".hlBox"); if(bx) bx.scrollTop=0; }
   hlId("hlOuts").innerHTML=hlOutsHtml(isPc? (ev.outs||0) : po);
   hlSetScore(r,ev.before,false); hlSetLine(r,ev,"before",false); hlSetBanner("","");
-  hlLater(()=>hlSetBanner(hlBanner(ev),cls), (isPc||ev.kind==="pinch")? .35 : (hlWalkoffEv(r,ev)? Math.max(.9,re) : .9));
-  hlLater(()=>{ document.querySelectorAll("#highlightOverlay .hlCutin.l").forEach(c=>c.classList.add("out")); },.85);
-  hlLater(()=>{
+  const fBan=()=>hlSetBanner(hlBanner(ev),cls), fCut=()=>{ document.querySelectorAll("#highlightOverlay .hlCutin.l").forEach(c=>c.classList.add("out")); };
+  hlLater(fBan, (isPc||ev.kind==="pinch")? .35 : ((hlWalkoffEv(r,ev)||hlsSync(ev))? Math.max(.9,re) : .9));
+  hlLater(fCut,.85);
+  const fEnd=()=>{ hlPlayFin=null;
     hlId("hlOuts").innerHTML=hlOutsHtml(ev.outs);
     hlId("hlSvg").firstElementChild.outerHTML=hlSitBarS(r,ev,ev.outs||0,ev.rn||(ev.bases||[]).map(b=>!!b),ev.after);
     hlSetScore(r,ev.after,true); hlSetLine(r,ev,"after",true);
     const st=hlId("hlStage"); if(cls==="big" && st){ st.classList.remove("shake"); void st.offsetWidth; st.classList.add("shake"); }
     hlPlayDone=true; hlSetProgress();
-  }, re);
+  };
+  hlLater(fEnd, re);
+  hlPlayFin=()=>{ hlClearTimers(); fBan(); fCut(); fEnd(); hlsSkipAnim(); hlAfterPlay(r,ev); };
   hlSetProgress();
   hlAfterPlay(r,ev);
 }
@@ -8613,7 +8637,7 @@ function hlRenderCount(r,ev,done){
 }
 function renderHighlightScene(){
   const r=highlightGameResult, nb=hlId("hlNextBtn");
-  hlClearTimers(); sndStop();
+  hlClearTimers(); sndStop(); hlPlayFin=null;
   if(highlightIdx>=highlightQueue.length){ if(hlId("highlightOverlay").classList.contains("mgReel")){ mgReelEnd(); return; } hlRenderFinal(r); return; }
   const ev=highlightQueue[highlightIdx];
   nb.textContent="次へ ▶"; nb.onclick=nextHighlight; hlPrevSync();
@@ -8624,6 +8648,7 @@ function renderHighlightScene(){
 function nextHighlight(){
   if(highlightIdx>=highlightQueue.length) return;
   if(hlStageName==="inter" || hlStageName==="pre" || hlStageName==="count"){ hlClearTimers(); sndStop(); hlRenderPlay(highlightGameResult,highlightQueue[highlightIdx]); return; }
+  if(hlsPending()){ hlPlayFin(); return; }
   highlightIdx++; renderHighlightScene();
 }
 function toggleHlAuto(){
@@ -21315,7 +21340,7 @@ if(typeof pickHighlights==="function"){ const orig=pickHighlights;
       while(sel.length+add.length>MM.max){
         let k=-1; sel.forEach((e,i)=>{ if(mmMineEv(e,myName)) return; if(k<0 || hlWeight(e)<hlWeight(sel[k])) k=i; }); if(k<0) break; sel.splice(k,1); }
       const out=sel.map((e,i)=>({e,o:i,k:mmKey(e),t:0})).concat(add.map((e,i)=>({e,o:i,k:mmKey(e),t:1})));
-      out.sort((a,b)=>a.k-b.k || a.t-b.t || a.o-b.o);
+      out.sort((a,b)=>a.k-b.k || ((typeof a.e.sq==="number" && typeof b.e.sq==="number")? a.e.sq-b.e.sq : 0) || a.t-b.t || a.o-b.o);
       return out.map(x=>x.e);
     }catch(e){ return sel; }
   };
@@ -24894,6 +24919,105 @@ if(typeof wtHtml==="function"){ const orig=wtHtml; wtHtml=function(s){ let out=o
     if(i>=0) out=out.slice(0,i)+sec+out.slice(i);
   } }catch(e){}
   return out; }; }
+
+const HLS={sync:1};
+let hlPlayFin=null;
+function hlsScores(ev){ return !!(ev && ev.before && ev.after && (ev.before.a!==ev.after.a || ev.before.h!==ev.after.h)); }
+function hlsSync(ev){ return !!HLS.sync && hlsScores(ev); }
+function hlsPending(){
+  if(hlStageName!=="play" || hlPlayDone || !hlPlayFin) return false;
+  const ev=highlightQueue && highlightQueue[highlightIdx];
+  return !!(ev && ev.after && (ev.after.a!==hlShown.a || ev.after.h!==hlShown.h));
+}
+function hlsSkipAnim(){
+  const st=hlId("hlStage"); if(!st) return;
+  st.classList.add("hlsEnd");
+  const sv=st.querySelector("svg"); try{ if(sv && sv.setCurrentTime) sv.setCurrentTime(60); }catch(e){}
+}
+
+const SQS_K={sq:"sq",hre:"hr",sfb:"sf"};
+const SQS_NM={sq:"スクイズ",hr:"エンドラン",sf:"セーフティ"};
+const SQS_IX={sq:0,hr:2,sf:4};
+function sqsCode(a){
+  if(!a || !a.t) return null;
+  const o=String(a.t).split("|")[1]||"", k=SQS_K[o]; if(!k) return null;
+  const ok= o==="sq"? (a.x==="sq-ok"||a.x==="sq-bh") : o==="sfb"? a.x==="sf-hit" : /[安二三本]$/.test(a.c||"");
+  return k+(ok? 1 : 0);
+}
+function sqsMk(a){ try{ const c=sqsCode(a); return c? "~"+c : ""; }catch(e){ return ""; } }
+function sqsPaMk(a){ return (a && a.t && SQS_NM[a.t])? `<small class="sqsMk">(${esc(SQS_NM[a.t])})</small>` : ""; }
+function sqsBoxList(S){
+  const L=[]; ((S && S.b)||[]).forEach(r=>{ bxPaList(r[10]).forEach(a=>{ if(a.t) L.push({n:r[0],i:a.i,t:a.t,ok:!!a.ok}); }); });
+  return L.sort((x,y)=>x.i-y.i);
+}
+function sqsNoteHtml(away,home,bx){
+  try{
+    if(!bx) return "";
+    const one=(name,S)=>{ const L=sqsBoxList(S); if(!L.length) return "";
+      return `<div class="sqsLine"><span class="sqsTm">${teamDot(name)}${esc(name)}</span> ${L.map(x=>`<span class="sqsIt${x.ok? " ok" : ""}"><span class="sqsT">${esc(SQS_NM[x.t])}</span> ${esc(x.n)}<span class="sqsW">(${x.i}回・${x.ok? "成功" : "失敗"})</span></span>`).join("")}</div>`; };
+    const a=one(away,bx.a), h=one(home,bx.h);
+    return (a||h)? `<div class="bxNotes small sqsNote"><b>作戦</b>${a}${h}</div>` : "";
+  }catch(e){ return ""; }
+}
+{ const o=boxBtnHtml; boxBtnHtml=function(r){ let s="";
+  try{ if(r && r.box && r.awayTeam && r.homeTeam) s=sqsNoteHtml(r.awayTeam.name,r.homeTeam.name,r.box); }catch(e){}
+  return s+o.apply(this,arguments); }; }
+
+function sqsArr(t){ if(!Array.isArray(t.sqs) || t.sqs.length!==6) t.sqs=[0,0,0,0,0,0]; return t.sqs; }
+function sqsTally(r){
+  if(!tacEnabled || !r || !r.log || !r.log.pas) return;
+  r.log.pas.forEach(a=>{ const c=sqsCode(a); if(!c) return;
+    const t= a.h==="表"? r.awayTeam : a.h==="裏"? r.homeTeam : null; if(!t) return;
+    const s=sqsArr(t), i=SQS_IX[c.slice(0,2)]; s[i]++; if(c[2]==="1") s[i+1]++; });
+}
+{ const o=featsAttach; featsAttach=function(r,counts){ try{ if(counts) sqsTally(r); }catch(e){} return o.apply(this,arguments); }; }
+function sqsTeamHtml(){
+  if(LITE || !tacEnabled) return "";
+  const lg=getActiveLeague(); if(!lg || !lg.length) return "";
+  const sel=document.getElementById("teamStatsYearSelect"), v= statsLeagueView!=="main"? "current" : (sel? sel.value : "current");
+  if(v && v!=="current") return "";
+  const cell=(s,i)=> `${s[i+1]}<span class="sqsSl">/</span>${s[i]}`;
+  const rows=lg.map(t=>{ const s=Array.isArray(t.sqs)? t.sqs : [0,0,0,0,0,0], mine= statsLeagueView==="main" && t===league[myTeam];
+    return `<tr class="${mine? "you" : ""}"><td class="l">${teamDot(t.name)}${esc(t.name)}</td><td>${cell(s,0)}</td><td>${cell(s,2)}</td><td>${cell(s,4)}</td></tr>`; }).join("");
+  return `<div class="sqsTeam"><h4 class="sqsH">作戦(今季)</h4><div class="overflow"><table class="stTable sqsTbl"><tr><th class="l">チーム</th><th>スクイズ</th><th>エンドラン</th><th>セーフティ</th></tr>${rows}</table></div>`+
+    `<p class="small sqsFoot">成功/企図。スクイズは三塁走者が還ったら、エンドランは安打なら、セーフティバントは内野安打なら成功。</p></div>`;
+}
+{ const o=renderTeamStats; renderTeamStats=function(){ const r=o.apply(this,arguments);
+  try{ const el=document.getElementById("teamStatsTable"), h=sqsTeamHtml(); if(el && h) el.insertAdjacentHTML("beforeend",h); }catch(e){}
+  return r; }; }
+
+{ const o=sbBanner; sbBanner=function(ev,b){
+  try{ if(ev && ev.rp==="er" && ev.runs>0 && typeof b==="string"){ const p=RP_PRE.find(x=>b.startsWith(x)); if(p) return p+"エンドラン成功!"; } }catch(e){}
+  return o.apply(this,arguments); }; }
+(function(){ try{
+  const R=(t,k,i,ja,en)=>{ if(SBT_TXT[t] && SBT_TXT[t][k] && SBT_TXT[t][k][i]) SBT_TXT[t][k][i]=[ja,en]; };
+  R("sx","banHome",0,"スクイズを本塁で刺した!","Squeeze runner out at the plate!");
+  R("sx","banPop",0,"スクイズを小フライで併殺!","Squeeze popped up - double play!");
+  R("sx","banWl",0,"スクイズを封じた!","Squeeze shut down!");
+  R("ek","ban",0,"エンドランを三振ゲッツー!","Hit-and-run turned into a strikeout double play!");
+  R("ek","banWl",0,"エンドランを読み切った!","Read the hit-and-run!");
+  R("el","ban",0,"エンドランの走者を刺した!","Doubled off on the hit-and-run!");
+  R("el","ban",1,"エンドランがライナーで併殺!","Hit-and-run lines into a double play!");
+  R("el","banWl",0,"エンドランの裏をかいた!","Turned the hit-and-run around!");
+  R("eo","ban",1,"エンドランで併殺を防いだ!","Hit-and-run avoids the double play!");
+  R("eo","banWl",0,"機動力のエンドラン!","Speed game hit-and-run!");
+}catch(e){} })();
+
+try{ if(SEL_TIPS.tacSel) SEL_TIPS.tacSel.off="凡打で走者は進みません。スクイズ・エンドランなどは AI も使いません"; }catch(e){}
+function sqsOffSync(){ const s=document.getElementById("tacSel"), n=document.getElementById("sqsOffNote"); if(s && n) n.hidden= LITE || s.value!=="off"; }
+{ const o=markSetupChanges; markSetupChanges=function(){ const r=o.apply(this,arguments); try{ sqsOffSync(); }catch(e){} return r; }; }
+try{ const s=document.getElementById("tacSel"); if(s) s.addEventListener("change",sqsOffSync); sqsOffSync(); }catch(e){}
+
+(function(){ try{ if(typeof I18N==="undefined" || !I18N.add) return;
+  const o={"作戦":"Strategy","作戦(今季)":"Strategy plays (this season)","セーフティ":"Safety bunt",
+    "(スクイズ)":"(Sqz)","(エンドラン)":"(H&R)","(セーフティ)":"(Bunt)",
+    "成功/企図。スクイズは三塁走者が還ったら、エンドランは安打なら、セーフティバントは内野安打なら成功。":"Successes / attempts. A squeeze succeeds when the runner from third scores, a hit-and-run when the batter gets a hit, and a safety bunt when the batter beats it out.",
+    "({0}回・成功)":"(inn. {0#}, success)","({0}回・失敗)":"(inn. {0#}, failed)",
+    "スクイズ・エンドランなどは AI も使いません":"The AI won't use squeezes, hit-and-runs and the like either",
+    "凡打で走者は進みません。スクイズ・エンドランなどは AI も使いません":"Runners don't advance on outs. The AI won't use squeezes, hit-and-runs and the like either"};
+  RP_PRE.forEach(p=>{ const e={"先制":"First run on the hit-and-run!","同点":"Game-tying hit-and-run!","勝ち越し":"Go-ahead hit-and-run!","逆転":"The hit-and-run puts them in front!","サヨナラ":"Walk-off hit-and-run!"}[p]; if(e) o[p+"エンドラン成功!"]=e; });
+  Object.values(SBT_TXT).forEach(t=>Object.keys(t).forEach(k=>{ if(/^ban/.test(k)) t[k].forEach(([a,b])=>{ if(!(a in o)) o[a]=b; }); }));
+  I18N.add("en",o); }catch(e){} })();
 
 let csMode="champ";
 function csOn(){
