@@ -2896,17 +2896,7 @@ p.sqsOff{margin:0;font-size:.85em;font-weight:bold;opacity:.85}
 .formRow>p.sqsOff{grid-column:2/-1}
 p.sqsOff[hidden]{display:none}
 
-/* v1.8.f:タイトル画面の「おすすめ」欄(広告)。文字の色は .titleNote に任せる(スタイルごとの色が付く) */
-.afBox{max-width:32em;width:100%;box-sizing:border-box;border:1px solid rgba(128,128,128,.4);border-radius:10px;padding:10px 12px;font-size:.82em;opacity:1;text-align:left;line-height:1.6}
-.afBox.hidden{display:none}
-.afHead{display:flex;align-items:center;gap:8px;font-weight:700;margin-bottom:4px}
-.afTag{display:inline-block;padding:0 8px;border:1px solid currentColor;border-radius:4px;font-size:.85em;font-weight:700;letter-spacing:.05em}
-.afList{list-style:none;margin:4px 0 6px;padding:0;display:grid;gap:2px}
-.afList a{display:block;min-height:44px;box-sizing:border-box;padding:8px 6px;color:inherit;text-decoration:underline;text-underline-offset:3px;border-radius:6px}
-.afList a:hover,.afList a:focus-visible{background:rgba(128,128,128,.15)}
-.afNote{display:block;font-size:.85em;opacity:.75;text-decoration:none}
-.afDisc{margin:0;font-size:.82em;opacity:.75}
-/* v1.8.g:編成の打順の右端をそろえる(幅 860px 以上)。カードが中身の幅で枠からはみ出し、行ごとに右端がばらばらだった */
+/* v1.8.f:編成の打順の右端をそろえる(幅 860px 以上)。カードが中身の幅で枠からはみ出し、行ごとに右端がばらばらだった */
 @media (min-width:860px){
   #lineupSlots .slotRow .playerCard{min-width:0}
   #lineupSlots .playerCard .ymLine{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2939,7 +2929,6 @@ p.sqsOff[hidden]{display:none}
     <button class="sec titleStart" id="scenarioBtn" onclick="openScenarioMenu()">🎯 シナリオ</button>
     <button class="sec titleStart hidden" id="practiceBtn" onclick="openPracticeMenu()">🔧 練習モード</button>
   </div>
-  <section id="afBox" class="afBox titleNote hidden fullOnly" aria-label="おすすめ(広告)"></section>
   <p class="titleNote">本作の球団・選手・リーグ・記録はすべて架空のもので、実在の球団・選手・団体とは関係ありません。試合結果や成績はすべて乱数によるシミュレーションです。</p>
   <p class="titleNote">コール音声:VOICEVOX:ずんだもん</p>
   <p class="titleNote verLabel" id="titleVersion"></p>
@@ -3428,10 +3417,6 @@ p.sqsOff[hidden]{display:none}
       <input type="checkbox" id="faceListChk" checked onchange="setFaceList(this.checked)" style="width:22px;height:22px;accent-color:var(--gold)">
       <span>一覧・表・号外にも似顔を出す(編成・ドラフト候補・成績の表・順位表の球団の顔・号外の網点)</span>
     </label>
-    <label id="afRow" style="display:none;align-items:center;gap:10px;min-height:44px;cursor:pointer;margin:2px 0 2px" title="タイトル画面の下に出る、野球の本などの紹介(広告)です。リンクを押すと外のサイトが開きます。">
-      <input type="checkbox" id="afChk" checked onchange="afSet(this.checked)" style="width:22px;height:22px;accent-color:var(--gold)">
-      <span>タイトル画面に「おすすめ」欄(広告)を表示する</span>
-    </label>
     <label id="aoRow" style="display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;margin:2px 0 2px">
       <input type="checkbox" id="aoChk" onchange="aoChange(this)" style="width:22px;height:22px;accent-color:var(--gold)">
       <span>AIで作ったイラストを表示する</span>
@@ -3672,7 +3657,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.8.g";
+const APP_VERSION="v1.8.f";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -25038,28 +25023,6 @@ try{ const s=document.getElementById("tacSel"); if(s) s.addEventListener("change
   RP_PRE.forEach(p=>{ const e={"先制":"First run on the hit-and-run!","同点":"Game-tying hit-and-run!","勝ち越し":"Go-ahead hit-and-run!","逆転":"The hit-and-run puts them in front!","サヨナラ":"Walk-off hit-and-run!"}[p]; if(e) o[p+"エンドラン成功!"]=e; });
   Object.values(SBT_TXT).forEach(t=>Object.keys(t).forEach(k=>{ if(/^ban/.test(k)) t[k].forEach(([a,b])=>{ if(!(a in o)) o[a]=b; }); }));
   I18N.add("en",o); }catch(e){} })();
-
-const AF_CFG={"head": "野球の本・雑誌のおすすめ", "disc": "Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。", "items": []};
-function afItems(){ try{ return (AF_CFG.items||[]).filter(x=>x && typeof x.u==="string" && /^https:\/\//.test(x.u) && x.t); }catch(e){ return []; } }
-function afOn(){ try{ return tdLsGet("pennantAffil")!=="off"; }catch(e){ return true; } }
-function afSet(on){ try{ tdLsSet("pennantAffil", on? "on" : "off"); }catch(e){} afRender(); }
-function afRender(){
-  const box=document.getElementById("afBox"), row=document.getElementById("afRow"), chk=document.getElementById("afChk");
-  const items=afItems(), has= !LITE && items.length>0;
-  if(row) row.style.display= has? "flex" : "none";
-  if(chk) chk.checked=afOn();
-  if(!box) return;
-  if(!has || !afOn()){ box.classList.add("hidden"); box.innerHTML=""; return; }
-  const li=items.slice(0,4).map(x=>`<li><a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer sponsored nofollow"><span data-noi18n>${esc(x.t)}</span>${x.n? `<span class="afNote" data-noi18n>${esc(x.n)}</span>` : ""}</a></li>`).join("");
-  box.innerHTML=`<div class="afHead"><span class="afTag">広告</span><span>${esc(AF_CFG.head||"野球の本・雑誌のおすすめ")}</span></div><ul class="afList">${li}</ul>`+
-    `<p class="afDisc">${esc(AF_CFG.disc||"")}</p><p class="afDisc">外のサイトが新しいタブで開きます。</p>`;
-  box.classList.remove("hidden");
-}
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",afRender); else afRender();
-I18N.add("en",{"広告":"Ad","野球の本・雑誌のおすすめ":"Baseball book picks","外のサイトが新しいタブで開きます。":"Links open an external site in a new tab.",
-  "Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。":"As an Amazon Associate, this site earns from qualifying purchases.",
-  "タイトル画面に「おすすめ」欄(広告)を表示する":"Show the \"Recommended\" ad box on the title screen",
-  "タイトル画面の下に出る、野球の本などの紹介(広告)です。リンクを押すと外のサイトが開きます。":"A small ad box under the title screen's buttons (baseball books and the like). Links open an external site."});
 
 let csMode="champ";
 function csOn(){

@@ -4,7 +4,7 @@
 #   リンクの設定.json: {"head":"野球の本・雑誌のおすすめ","disc":"Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。",
 #                      "items":[{"t":"本の名前","u":"https://www.amazon.co.jp/dp/ASIN?tag=ストアID-22","n":"ひとこと(省略可)"}]}
 import sys, json, html
-VERSION, DATE = "v1.8.g", "2026.11.03"
+VERSION, DATE = "v1.8.f", "2026.11.03"
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding="utf-8").read()
 ad = ""

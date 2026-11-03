@@ -2896,17 +2896,7 @@ p.sqsOff{margin:0;font-size:.85em;font-weight:bold;opacity:.85}
 .formRow>p.sqsOff{grid-column:2/-1}
 p.sqsOff[hidden]{display:none}
 
-/* v1.8.f:タイトル画面の「おすすめ」欄(広告)。文字の色は .titleNote に任せる(スタイルごとの色が付く) */
-.afBox{max-width:32em;width:100%;box-sizing:border-box;border:1px solid rgba(128,128,128,.4);border-radius:10px;padding:10px 12px;font-size:.82em;opacity:1;text-align:left;line-height:1.6}
-.afBox.hidden{display:none}
-.afHead{display:flex;align-items:center;gap:8px;font-weight:700;margin-bottom:4px}
-.afTag{display:inline-block;padding:0 8px;border:1px solid currentColor;border-radius:4px;font-size:.85em;font-weight:700;letter-spacing:.05em}
-.afList{list-style:none;margin:4px 0 6px;padding:0;display:grid;gap:2px}
-.afList a{display:block;min-height:44px;box-sizing:border-box;padding:8px 6px;color:inherit;text-decoration:underline;text-underline-offset:3px;border-radius:6px}
-.afList a:hover,.afList a:focus-visible{background:rgba(128,128,128,.15)}
-.afNote{display:block;font-size:.85em;opacity:.75;text-decoration:none}
-.afDisc{margin:0;font-size:.82em;opacity:.75}
-/* v1.8.g:編成の打順の右端をそろえる(幅 860px 以上)。カードが中身の幅で枠からはみ出し、行ごとに右端がばらばらだった */
+/* v1.8.f:編成の打順の右端をそろえる(幅 860px 以上)。カードが中身の幅で枠からはみ出し、行ごとに右端がばらばらだった */
 @media (min-width:860px){
   #lineupSlots .slotRow .playerCard{min-width:0}
   #lineupSlots .playerCard .ymLine{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2939,7 +2929,6 @@ p.sqsOff[hidden]{display:none}
     <button class="sec titleStart" id="scenarioBtn" onclick="openScenarioMenu()">🎯 シナリオ</button>
     <button class="sec titleStart hidden" id="practiceBtn" onclick="openPracticeMenu()">🔧 練習モード</button>
   </div>
-  <section id="afBox" class="afBox titleNote hidden fullOnly" aria-label="おすすめ(広告)"></section>
   <p class="titleNote">本作の球団・選手・リーグ・記録はすべて架空のもので、実在の球団・選手・団体とは関係ありません。試合結果や成績はすべて乱数によるシミュレーションです。</p>
   <p class="titleNote">コール音声:VOICEVOX:ずんだもん</p>
   <p class="titleNote verLabel" id="titleVersion"></p>
@@ -3428,10 +3417,6 @@ p.sqsOff[hidden]{display:none}
       <input type="checkbox" id="faceListChk" checked onchange="setFaceList(this.checked)" style="width:22px;height:22px;accent-color:var(--gold)">
       <span>一覧・表・号外にも似顔を出す(編成・ドラフト候補・成績の表・順位表の球団の顔・号外の網点)</span>
     </label>
-    <label id="afRow" style="display:none;align-items:center;gap:10px;min-height:44px;cursor:pointer;margin:2px 0 2px" title="タイトル画面の下に出る、野球の本などの紹介(広告)です。リンクを押すと外のサイトが開きます。">
-      <input type="checkbox" id="afChk" checked onchange="afSet(this.checked)" style="width:22px;height:22px;accent-color:var(--gold)">
-      <span>タイトル画面に「おすすめ」欄(広告)を表示する</span>
-    </label>
     <label id="aoRow" style="display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;margin:2px 0 2px">
       <input type="checkbox" id="aoChk" onchange="aoChange(this)" style="width:22px;height:22px;accent-color:var(--gold)">
       <span>AIで作ったイラストを表示する</span>
@@ -3674,7 +3659,7 @@ let practiceElsewhere=false;   // v1.4.c:ほかのタブで練習中(控えを�
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
 /* バージョン:公開のたびに末尾の英字を1つ進める(v1.0.a → … → v1.0.z → v1.1.a) */
-const APP_VERSION="v1.8.g";
+const APP_VERSION="v1.8.f";
 /* 体験版の切り替え:体験版のファイルは、この行を true にして作る(本編と同じプログラム) */
 const LITE=false, LITE_SEASONS=3;
 const DEV=false;   // v1.2.p:開発版(テスト機能がいつも出ている)。開発版を作るときは true に置き換える
@@ -29086,35 +29071,6 @@ try{ const s=document.getElementById("tacSel"); if(s) s.addEventListener("change
   RP_PRE.forEach(p=>{ const e={"先制":"First run on the hit-and-run!","同点":"Game-tying hit-and-run!","勝ち越し":"Go-ahead hit-and-run!","逆転":"The hit-and-run puts them in front!","サヨナラ":"Walk-off hit-and-run!"}[p]; if(e) o[p+"エンドラン成功!"]=e; });
   Object.values(SBT_TXT).forEach(t=>Object.keys(t).forEach(k=>{ if(/^ban/.test(k)) t[k].forEach(([a,b])=>{ if(!(a in o)) o[a]=b; }); }));
   I18N.add("en",o); }catch(e){} })();
-
-/* ===== v1.8.f:タイトル画面の「おすすめ」欄(広告。アフィリエイト)=====
-   ユーザーの「A案で」(11/3 0:15)。野球の本・雑誌/Amazon アソシエイト/本編だけ(体験版には出さない)。
-   ・置く所はタイトル画面の「はじめる」の下だけ。遊んでいる最中には出さない
-   ・リンクの中身 AF_CFG は patch_v18f.py が差し込む(items が空なら欄ごと・設定の行ごと出ない=見た目は今までと同じ)
-   ・「広告」の札と、サービスの決まりの文(AF_CFG.disc)をいつも一緒に出す。外へのリンクは新しいタブ(noopener・sponsored)
-   ・設定「表示」の「タイトル画面に『おすすめ』欄(広告)を表示する」(端末 pennantAffil。最初はオン)。オフなら欄を出さない
-   ・文字は esc() を通す。URL は https:// だけ。乱数は使わない(試合の結果は変わらない)。セーブには何も足さない */
-const AF_CFG={"head": "野球の本・雑誌のおすすめ", "disc": "Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。", "items": []};
-function afItems(){ try{ return (AF_CFG.items||[]).filter(x=>x && typeof x.u==="string" && /^https:\/\//.test(x.u) && x.t); }catch(e){ return []; } }
-function afOn(){ try{ return tdLsGet("pennantAffil")!=="off"; }catch(e){ return true; } }
-function afSet(on){ try{ tdLsSet("pennantAffil", on? "on" : "off"); }catch(e){} afRender(); }
-function afRender(){
-  const box=document.getElementById("afBox"), row=document.getElementById("afRow"), chk=document.getElementById("afChk");
-  const items=afItems(), has= !LITE && items.length>0;
-  if(row) row.style.display= has? "flex" : "none";
-  if(chk) chk.checked=afOn();
-  if(!box) return;
-  if(!has || !afOn()){ box.classList.add("hidden"); box.innerHTML=""; return; }
-  const li=items.slice(0,4).map(x=>`<li><a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer sponsored nofollow"><span data-noi18n>${esc(x.t)}</span>${x.n? `<span class="afNote" data-noi18n>${esc(x.n)}</span>` : ""}</a></li>`).join("");
-  box.innerHTML=`<div class="afHead"><span class="afTag">広告</span><span>${esc(AF_CFG.head||"野球の本・雑誌のおすすめ")}</span></div><ul class="afList">${li}</ul>`+
-    `<p class="afDisc">${esc(AF_CFG.disc||"")}</p><p class="afDisc">外のサイトが新しいタブで開きます。</p>`;
-  box.classList.remove("hidden");
-}
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",afRender); else afRender();
-I18N.add("en",{"広告":"Ad","野球の本・雑誌のおすすめ":"Baseball book picks","外のサイトが新しいタブで開きます。":"Links open an external site in a new tab.",
-  "Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。":"As an Amazon Associate, this site earns from qualifying purchases.",
-  "タイトル画面に「おすすめ」欄(広告)を表示する":"Show the \"Recommended\" ad box on the title screen",
-  "タイトル画面の下に出る、野球の本などの紹介(広告)です。リンクを押すと外のサイトが開きます。":"A small ad box under the title screen's buttons (baseball books and the like). Links open an external site."});
 
 let csMode="champ";
 function csOn(){
