@@ -174,6 +174,20 @@ footer p{max-width:none}
   .plates.sub .plate{animation-delay:900ms}
   @keyframes hang{from{transform:rotateX(-92deg); opacity:0} to{transform:rotateX(0); opacity:1}}
 }
+/* ---- 動き:本文が画面に入ったら、少し下からふわっと(1回だけ)。号外の写真は紙が舞い落ちるように ----
+   隠すのは JS が「まだ見えていない所」に .rv を付けたときだけ(JS が動かない・動きを減らす設定では、最初から全部見える) */
+.mo .rv{opacity:0; transform:translateY(22px)}
+.mo #features{overflow-x:clip}   /* 舞い落ちる号外の写真が、傾いている間に横へはみ出さないように */
+.mo .rv.in{opacity:1; transform:none; transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.25,1); transition-delay:var(--d,0ms)}
+.mo .rv.paperIn{transform:translate(-14px,-70px) rotate(-7deg); transform-origin:50% 0}
+.mo .rv.paperIn.in{animation:paperDrop 1.15s cubic-bezier(.3,.6,.35,1) both; transition:none}
+@keyframes paperDrop{
+  0%{opacity:0; transform:translate(-14px,-70px) rotate(-7deg)}
+  25%{opacity:1}
+  55%{transform:translate(8px,6px) rotate(2.5deg)}
+  78%{transform:translate(-3px,-2px) rotate(-1deg)}
+  100%{opacity:1; transform:none}
+}
 </style>
 </head>
 <body>
@@ -231,7 +245,7 @@ footer p{max-width:none}
           <p>勝負どころでは、代打・継投・バント・盗塁・スクイズ・エンドランを自分で決められます。任せたいときは「おまかせ」で進みます。</p>
         </div>
         <figure class="shot phone">
-          <div class="plateframe"><img src="assets/watch.webp" width="716" height="1378" alt="スマホ幅のハイライト観戦の画面。2回表、2アウト二・三塁の場面で、打者がバットを構えている。ゾーンに球の通った場所の印と、球種と球速が出ている" loading="lazy"></div>
+          <div class="plateframe"><img src="assets/watch.webp" width="716" height="1376" alt="スマホ幅のハイライト観戦の画面。4回裏、同点で2アウト二・三塁の場面で、打者がバットを構えている。ゾーンに球の通った場所の印と、球種と球速が出ている" loading="lazy"></div>
           <figcaption>ハイライト観戦(スマホ幅)</figcaption>
         </figure>
       </div>
@@ -243,8 +257,8 @@ footer p{max-width:none}
           <p>球団旗は、頭文字と形と柄で選べます。創立から10年ごとに、記念の旗が増えます。</p>
         </div>
         <figure class="shot">
-          <div class="plateframe"><img src="assets/news.webp" width="900" height="1080" alt="号外の例。見出しは「徳島ノーザンウルブズ、創立60周年」で、記念の銀の球団旗が紹介されている" loading="lazy"></div>
-          <figcaption>号外(創立60周年)</figcaption>
+          <div class="plateframe"><img src="assets/news.webp" width="988" height="1037" alt="リーグ優勝の号外。金色の題字で、見出しは「青森ゴールデンフェニックス、ペナント奪取」。選手たちが監督を胴上げする絵が載っている" loading="lazy"></div>
+          <figcaption>号外(リーグ優勝)</figcaption>
         </figure>
       </div>
 
@@ -255,7 +269,7 @@ footer p{max-width:none}
           <p>選手には調子・スキル・性格があります。同じ打率でも、中身が違います。</p>
         </div>
         <figure class="shot">
-          <div class="plateframe"><img src="assets/lineup.webp" width="1100" height="662" alt="編成の画面。打順ごとに、守備位置・年齢・今季の成績・調子が並んでいる" loading="lazy"></div>
+          <div class="plateframe"><img src="assets/lineup.webp" width="1100" height="660" alt="編成の画面。打順ごとに、守備位置・年齢・今季の成績・能力・調子が並んでいる" loading="lazy"></div>
           <figcaption>編成</figcaption>
         </figure>
       </div>
@@ -267,7 +281,7 @@ footer p{max-width:none}
           <p>試合の結果と成績は、すべて乱数によるシミュレーションです。</p>
         </div>
         <figure class="shot">
-          <div class="plateframe"><img src="assets/standings.webp" width="1100" height="522" alt="順位表。6球団の勝敗、勝率、ゲーム差、人気が並び、連勝中の球団に印が付いている" loading="lazy"></div>
+          <div class="plateframe"><img src="assets/standings.webp" width="1100" height="588" alt="順位表。6球団の勝敗、勝率、ゲーム差、開幕前の予想(何位の予想から上がったか下がったか)、人気が並んでいる" loading="lazy"></div>
           <figcaption>順位表</figcaption>
         </figure>
       </div>
@@ -348,6 +362,23 @@ footer p{max-width:none}
   </main>
 </div>
 <script>
+/* 本文の動き(A:ふわっと現れる/B:号外の写真が舞い落ちる)。動きを減らす設定・古いブラウザでは何もしない */
+(function(){
+  var mq=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  if((mq && mq.matches) || !('IntersectionObserver' in window)) return;
+  var sel=['main section:not(.hero) > h2','.feat > div','.feat .shot','.more','.steps li','.news li','#notes p','#notes li','.share'];
+  var els=[].slice.call(document.querySelectorAll(sel.join(','))), vh=window.innerHeight;
+  els=els.filter(function(e,i){ return els.indexOf(e)===i && e.getBoundingClientRect().top>vh*0.92; });   /* 最初から見えている所は動かさない */
+  if(!els.length) return;
+  document.documentElement.classList.add('mo');
+  [].forEach.call(document.querySelectorAll('.steps,.news'),function(list){
+    [].slice.call(list.children).forEach(function(li,i){ li.style.setProperty('--d',Math.min(i,6)*90+'ms'); });
+  });
+  var paper=document.querySelector('img[src$="news.webp"]'); paper=paper && paper.closest('.shot');
+  els.forEach(function(e){ e.classList.add('rv'); if(e===paper) e.classList.add('paperIn'); });
+  var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); },{rootMargin:'0px 0px -8% 0px',threshold:0.12});
+  els.forEach(function(e){ io.observe(e); });
+})();
 (function(){
   var secs=[].slice.call(document.querySelectorAll('section[data-k]'));
   var links=[].slice.call(document.querySelectorAll('#railList a'));

@@ -14,9 +14,24 @@
    広告(おすすめ)欄を入れるときは、リンクの設定の JSON(形は `build_site.py` の頭に書いてある)を渡す:
    `python3 build_site.py index.template.html index.html affiliate_items.json`。
    広告欄には「広告」の札と、サービスの決まりの文がいつも付く。リンクは https:// だけ・最大4つ。
-3. **確かめ**:`python3 site_check.py 広告なしの index.html 広告ありの index_ad.html`(17項目。`index_ad.html` は JSON を渡して別名で作る)。
+3. **確かめ**:`python3 site_check.py 広告なしの index.html 広告ありの index_ad.html`(26項目。`index_ad.html` は JSON を渡して別名で作る。**このフォルダの中に作る**=`assets/` の絵がない所に作ると 15 が NG になる。11・13 はテスト用の広告の設定を前提にした項目で、いまの `affiliate_items.json` では NG になる)。本文の動きは `motion_check.py`。
 4. **体験版**:`play/index.html` を新しいサイト用の体験版に置き換える(名前は `index.html` のまま)。サイト用の体験版は、開発用リポジトリの `tools/site/` の道具(`make_lite_site.py`)で本編のソースから作る(いつもの体験版のファイルをそのまま置かないこと)。
 5. **本編**:`game/index.html` を新しい本編に置き換える。
+
+## 写真の撮り直し
+
+- `shots.py`:`assets/` の webp 4枚(観戦・号外・編成・順位表)を本編から撮り直す道具。開発用リポジトリの `tools/h.py` を使う:
+  `PYTHONPATH=<開発用リポジトリ>/tools python3 shots.py game/index.html assets`
+  - 観戦:スマホ幅(390・2倍)で、乱数 3 の「4回裏・同点・2アウト二・三塁」の打席。2球目以上・打者が構えているときに撮る
+  - 号外:乱数 4 の1年目のリーグ優勝の号外(幅 560・2倍。写真の下の説明の行まで)
+  - 編成・順位表:乱数 4 で40試合のあと(PC 幅 1100・1.25倍で枠を切り出して幅 1100 に)
+  - 本編の版が変わると、同じ乱数でも場面が変わることがある。撮ったら写しを見て、`index.template.html` の `<img>` の `width`・`height`・`alt` と写真の下の文を直す
+
+## 本文の動き
+
+- 見出し・説明・写真・はじめかたの手順・お知らせの行は、画面に入ったときに少し下からふわっと現れる(1回だけ。手順とお知らせは1行ずつ少しずらす)。号外の写真だけ、紙が舞い落ちるように現れる(`paperDrop`)
+- 隠すのは JS が「開いた時にまだ見えていない所」に `.rv` を付けたときだけ。JS が動かない・端末で動きを減らす設定にしている人には、最初から全部見える
+- 確かめ:`python3 motion_check.py index.html [写しのフォルダ]`(12項目)
 
 ## SNS の共有
 
