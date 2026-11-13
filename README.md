@@ -10,7 +10,7 @@
 ## 更新のしかた
 
 1. **版と日付**:`build_site.py` の `VERSION, DATE` を直す。お知らせの行は `index.template.html` の `<ul class="news">` に足す。
-2. **ページを作り直す**:`python3 build_site.py index.template.html index.html`(広告なし)。
+2. **ページを作り直す**:公開する `index.html` は**広告の設定を渡して作る**:`python3 build_site.py index.template.html index.html affiliate_items.json`(終わりに「広告: あり」と出る)。JSON を渡さないと広告の欄のないページになる(11/12〜13 に、渡し忘れて広告が消えていた)。
    広告(おすすめ)欄を入れるときは、リンクの設定の JSON(形は `build_site.py` の頭に書いてある)を渡す:
    `python3 build_site.py index.template.html index.html affiliate_items.json`。
    広告欄には「広告」の札と、サービスの決まりの文がいつも付く。リンクは https:// だけ・最大4つ。
