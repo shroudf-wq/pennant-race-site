@@ -2250,6 +2250,7 @@ svg .f-line.f-box{fill:none;stroke-width:1}
 .sgFavBtn.on{border-color:#e05a7a;color:#e05a7a}
 /* v1.5.u:ポストシーズンも観戦(見た目の追加なし) */
 /* v1.5.x:負けた試合の見せ場(見た目の追加なし) */
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style>
 /* ===== v1.4.f:球団旗の英字の書体(8つ)。英字(A〜Z・a〜z)と数字だけに削って埋め込んでいる(元の書体を変えたもの)。
@@ -2566,6 +2567,7 @@ body:has(.modalOverlay:not(.hidden)) #toast.show,body:has(#manageOverlay:not(.hi
 .dcPadFace .fcMini{margin:0}
 .fcNarrow{display:none}
 @media (max-width:480px){ #lineupSlots .fcWide{display:none} #lineupSlots .fcNarrow{display:inline} #lineupSlots .fcNarrow .fcMini{margin:-4px 3px -4px 0} }
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="umCss">
 /* ui-more:PS成績・持ち球の目印・スタミナの警告・言葉の手帳・おすすめの札 */
@@ -2578,6 +2580,7 @@ body:has(.modalOverlay:not(.hidden)) #toast.show,body:has(#manageOverlay:not(.hi
 .umWords dt{font-weight:bold;margin-top:8px}
 .umWords dd{margin:2px 0 0 1em}
 .tpRecWhy{font-weight:normal;margin-left:2px}
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="baCss">
 /* bat-art:打席の画面を絵で。枠(1200×900 の絵)は打席の画面いっぱいに広げ、はみ出したぶんは上(スタンド)と左右を切る。本塁は下にそろえる */
@@ -2600,6 +2603,7 @@ body:has(.modalOverlay:not(.hidden)) #toast.show,body:has(#manageOverlay:not(.hi
   .hlStage:has(.baArt) .hlCutin{opacity:.92;top:4px}
   .hlStage:has(.baArt) .bcPanel{top:4px;bottom:4px}
 }
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="aoCss">
 /* ai-off:案内役の似顔(オフのとき)・確認の窓・設定の行 */
@@ -2616,6 +2620,7 @@ body:not(.aoArt) .aoOnly{display:none !important}
 @keyframes aoFlash{0%{background:rgba(255,200,0,.35)}100%{background:transparent}}
 @media (prefers-reduced-motion:reduce){ #aoRow.aoFlash{animation:none;outline:2px solid var(--gold)} }
 .zkHead .aoGo{min-height:44px}
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="dfCss">
 /* draft-fa:指名ボード・発表・取られた候補・FAの補償 */
@@ -2659,6 +2664,7 @@ table.dfBoard .me{background:var(--field2);box-shadow:inset 0 0 0 1px var(--gold
 @media (prefers-reduced-motion:reduce){ .dfNew,.dfPop{animation:none} }
 @media (max-width:480px){ table.dfBoard{font-size:.72em} table.dfBoard th,table.dfBoard td{min-width:64px;padding:2px 4px} }
 #playerModal:has(.fcAsk) #playerModalBody+div{display:none}   /* 補償を選ぶ窓では「閉じる」を出さない(選ぶまで閉じない) */
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="nlCss">
 /* ===== news-long:号外の紙面(外で作った見本 docs/paper/paper-layout-sample.html を元に、ゲームに合わせて直したもの) =====
@@ -2852,6 +2858,7 @@ html[lang=en] .paper .pFlow .res{white-space:normal}
 }
 .paper .pQuote .say{display:block}
 
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="nl2Css">
 /* ===== news-long2:題字の色(金・銀・ふつう)と、長い記事の表 =====
@@ -2882,6 +2889,7 @@ html[lang=en] .paper .pFlow .res{white-space:normal}
   .paper.pd-sports:not(.goldMast):not(.silverMast):not(.pc-team):not(.pe-blue) .pName{padding:4px 9px 2px}
 }
 
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 <style id="sqsCss">
 /* sq-show:作戦の印・作戦の行・チームの作戦の表・リーグ作成の一言 */
@@ -2933,6 +2941,7 @@ p.sqsOff[hidden]{display:none}
 
 /* v1.8.k:本物のプレー① */
 .bxPa .pxMk{font-size:.75em;opacity:.8;margin-left:1px}
+.sbRain{margin-top:4px;font-size:.85rem;font-weight:700;text-align:center}
 </style>
 </head>
 <body class="preLeague">
@@ -3694,7 +3703,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.8.w";
+const APP_VERSION="v1.8.x";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -3713,10 +3722,13 @@ function sigBoost(pl,title,floors,bonus){
   Object.entries(floors).forEach(([k,v])=>{ pl[k]=Math.min(BASE_MAX,Math.max(pl[k],v)); });
   pl.pb=Object.assign({},pl.pb||{},bonus); pl.signature=true; pl.sigTitle=title; delete pl.fb;
 }
+function sigFielder(team,p){
+  try{ if(p && p.fielding!=="指") return p; const L=team.batters.filter(b=>b && b.fielding!=="指"); return L.length? L.reduce((a,b)=> b.fieldSkill>a.fieldSkill? b : a, L[0]) : p; }catch(e){ return p; }
+}
 function applySignaturePlayers(team,archetype){
   if(archetype==="打撃型") sigBoost(pick(team.batters),"打撃の天才",{meet:85,power:85},{meet:10,power:12});
   else if(archetype==="投手型") sigBoost(pick(team.rotation),"絶対的エース",{velo:85,control:83,stamina:80},{velo:12,control:10,stamina:8});
-  else if(archetype==="機動安定型") sigBoost(pick(team.batters),"鉄壁の守備職人",{speed:85,fieldSkill:85,arm:80},{speed:12,fieldSkill:12,arm:8});
+  else if(archetype==="機動安定型") sigBoost(sigFielder(team,pick(team.batters)),"鉄壁の守備職人",{speed:85,fieldSkill:85,arm:80},{speed:12,fieldSkill:12,arm:8});
   else sigBoost(pick(team.batters),"ミスター"+team.name,{meet:80,power:80,speed:75},{meet:8,power:8,speed:6});
   const closer=team.bullpen.find(q=>q.bpRole==="抑え");
   if(archetype!=="投手型" && closer && Math.random()<0.6) sigBoost(closer,"絶対的守護神",{velo:85,control:83},{velo:12,control:10});
@@ -3828,7 +3840,9 @@ function openModal(html){
   const m=document.getElementById("playerModal");
   if(!modalKeepStack) modalStack.length=0;
   clearTimeout(modalHideTimer); m.classList.remove("closing","paperModal","manualModal"); clearCardFrame();
+  const wasHidden=m.classList.contains("hidden");
   document.getElementById("playerModalBody").innerHTML=html; m.classList.remove("hidden");
+  if(wasHidden){ try{ m.scrollTop=0; m.querySelectorAll(".modalBox,#playerModalBody").forEach(e=>{ e.scrollTop=0; }); }catch(e){} }
 }
 const ARCH_BONUS={"打撃型":{bat:{meet:8,power:8}},"投手型":{pit:{velo:8,control:8,stamina:5}},"機動安定型":{bat:{speed:8,fieldSkill:8,arm:5,stability:5}}};
 const BASE_MAX=100, EFF_MAX=120;
@@ -4911,6 +4925,7 @@ function startOffseason(){
   tierRelegation=freshTierState();
   upperRelDone=false;
   document.getElementById("resultCard").style.display="none";
+  try{ ijOpening(); }catch(e){ console.error("ijOpening",e); }
   buildLineupUI();
   populateTeamViewSelect();
   populateTeamStatsYearSelect();
@@ -6669,9 +6684,9 @@ function updateMatchupInner(){
   hlBtn.style.display = isMy ? "inline-block" : "none";
   const home=schedTeam(g[0]), away=schedTeam(g[1]);
   m.innerHTML = `<div class="mDate">${year}年目 ${formatDate(gameDates[gameIdx])}${isInterleague(g)? ' <span class="badge">交流戦</span>' : ''}${tenouNext(home,away)? tenouTag() : ''}${myMagicHtml()}${isMy? fwTagHtml() : ''}${isMy? worldBackTagHtml() : ''}${parkTagHtml(home)}${rainTagHtml(g,home)}${mSubHtml(home,away)}</div>
-    <div class="mSide"><div class="small">アウェー <span class="badge">${teamRank(away)}位</span></div><div class="mFlag">${flagSvg(away,{w:60})}</div><div class="teamname ${g[1]===myTeam?'you':''} ${plateFit(away.name)}">${teamPlateHtml(away)}${divTag(away)}</div></div>
+    <div class="mSide"><div class="small">アウェー <span class="badge">${rkTxt(away)}</span></div><div class="mFlag">${flagSvg(away,{w:60})}</div><div class="teamname ${g[1]===myTeam?'you':''} ${plateFit(away.name)}">${teamPlateHtml(away)}${divTag(away)}</div></div>
     <div class="mAt atOnly">@</div>
-    <div class="mSide"><div class="small">ホーム <span class="badge">${teamRank(home)}位</span></div><div class="mFlag">${flagSvg(home,{w:60})}</div><div class="teamname ${g[0]===myTeam?'you':''} ${plateFit(home.name)}">${teamPlateHtml(home)}${divTag(home)}</div></div>
+    <div class="mSide"><div class="small">ホーム <span class="badge">${rkTxt(home)}</span></div><div class="mFlag">${flagSvg(home,{w:60})}</div><div class="teamname ${g[0]===myTeam?'you':''} ${plateFit(home.name)}">${teamPlateHtml(home)}${divTag(home)}</div></div>
     ${isMy && lineupHasDuplicatePositions(league[myTeam]) ? '<div style="width:100%;color:var(--red);font-weight:bold;margin-top:8px">⚠️ スタメンの守備位置が重複しています。「編成」タブで修正してください。</div>' : ''}`;
   simBtn.textContent = isMy ? "試合をシミュレート" : "次の試合まで進める(自チーム試合なし)";
   m.classList.add("mReg"); nowBandRender();
@@ -7754,7 +7769,8 @@ function fitsArea(it,area){
 function draftRecommendations(t){
   const wp=teamWeakPoint(t); if(!wp) return {wp:null,recs:[]};
   const isMain=it=> it.type==="batter" && mainPosOf(it.p)===(["左","中","右"].includes(wp.area)?"外":wp.area);
-  const recs=draft.pool.filter(it=>fitsArea(it,wp.area) && !ssHid(it)).sort((a,b)=>(isMain(b)-isMain(a)) || (potential(b.p)-potential(a.p))).slice(0,3);
+  const fit=it=>{ try{ if(it.type!=="batter") return potential(it.p); const d= wp.area==="中"? lvDef(it.p,"中")*0.7+eff(it.p,"speed")*0.3 : lvDef(it.p,wp.area); return potential(it.p)*0.6+d*0.4; }catch(e){ return potential(it.p); } };
+  const recs=draft.pool.filter(it=>fitsArea(it,wp.area) && !ssHid(it)).sort((a,b)=>(isMain(b)-isMain(a)) || (fit(b)-fit(a))).slice(0,3);
   return {wp,recs};
 }
 function endDraft(){ scheduleAutoSave(true); draft.active=false; draft.finished=true; draft.selectedIdx=null; if(draft.mode==="joint"){ retryAfterDraft(draft.pool,draft.track); newsRetry(); } if(draft.mode==="joint"||draft.mode==="scout") newsDraft(); }
@@ -7940,20 +7956,23 @@ function simScheduledGame(){
   recordResult(r,date);
   return {r,isMy,date};
 }
+function rainCalledOf(r){
+  try{ const n=(r && r.log && r.log.called) || (r && r.box && r.box.n && r.box.n.cg) || (r && r.__hl && r.__hl.bx && r.__hl.bx.n && r.__hl.bx.n.cg) || 0; return n? n-1 : 0; }catch(e){ return 0; }
+}
 function scoreboardHtml(r){
-  const maxInn = Math.max(r.awayInnings.length, r.homeInnings.length, 9);
+  const maxInn = Math.max(r.awayInnings.length, r.homeInnings.length, 9), rcI=rainCalledOf(r);
   let head = '<tr><th class="l"></th>';
   for(let i=1;i<=maxInn;i++) head += `<th>${i}</th>`;
   head += '<th>R</th><th>H</th></tr>';
   function row(dot,name,innings,hits,total){
     let cells="";
-    for(let i=0;i<maxInn;i++) cells += `<td>${i<innings.length? innings[i] : "X"}</td>`;
+    for(let i=0;i<maxInn;i++) cells += `<td>${i<innings.length? innings[i] : (rcI && i>=rcI)? "" : "X"}</td>`;
     return `<tr><td class="l">${dot}${esc(name)}</td>${cells}<td>${total}</td><td>${hits}</td></tr>`;
   }
   return `<div class="sbWrap"><table class="scoreboard">${head}
     ${row(teamDot(r.awayTeam.name),r.awayTeam.name,r.awayInnings,r.awayHits,r.aScore)}
     ${row(teamDot(r.homeTeam.name),r.homeTeam.name,r.homeInnings,r.homeHits,r.hScore)}
-  </table></div>`;
+  </table>${rcI? `<div class="sbRain">☔ 降雨コールド(${rcI}回終了)</div>` : ""}</div>`;
 }
 const HL_HX=150, HL_HY=212, HL_FR=182;
 function hlPt(ang,dist){ const r=ang*Math.PI/180; return [HL_HX+dist*Math.cos(r), HL_HY-dist*Math.sin(r)]; }
@@ -7975,7 +7994,7 @@ function hlNmSet(m){
 const NM_EN_CTX={"守備":"Field","走者":"Bases","図の名前":"Names on the field"};
 function sitBarHtml(outs,rn,main,sub,end){
   const o=Math.min(3,outs||0), nm=["一","二","三"].filter((_,i)=>rn&&rn[i]);
-  const rt= nm.length===3? "満塁" : nm.length? "走者 "+nm.join("・")+"塁" : "走者なし";
+  const rt= (o>=3 && nm.length)? `残塁 ${nm.length}人` : nm.length===3? "満塁" : nm.length? "走者 "+nm.join("・")+"塁" : "走者なし";
   const sq=(i,x,y)=>`<rect class="${rn&&rn[i]?"on":""}" x="${x-4}" y="${y-4}" width="8" height="8" transform="rotate(45 ${x} ${y})"/>`;
   return `<div class="sitBar"><span class="sitItem"><span class="hlOuts">${[0,1,2].map(i=>`<b class="${i<o?"on":""}"></b>`).join("")}</span>${o>=3? (end? "3アウト 試合終了" : "3アウト チェンジ") : o+"アウト"}</span><span class="sitItem"><svg class="sitDia" viewBox="0 0 32 22" aria-hidden="true">${sq(1,16,6)}${sq(0,25,15)}${sq(2,7,15)}</svg>${rt}</span><span class="sitItem sitMain">${main||""}</span><span class="sitSub">${sub||"&nbsp;"}</span>${hlNmToggleHtml()}</div>`;
 }
@@ -7989,7 +8008,7 @@ function hlSitBar(ev,r){
 }
 function hlNames(ev,r,opt){
   const defs=(r.log&&r.log.defs)||[], d=(ev.fd!==undefined && ev.fd!==null)? defs[ev.fd] : null, m=d&&(d.m||d);
-  const sur=n=> surnameOf(n);
+  const sur=n=>{ const s=surnameOf(n); return (s.indexOf("・")>0 && s.indexOf(" ")<0)? s.split("・").pop() : s; };
   let out="";
   if(m){
     Object.entries(HL_POS).forEach(([pos,[ang,dist]])=>{ const nm= pos==="投"? ev.pitcher : m[pos]; if(!nm) return; const [x,y]=hlPt(ang,dist); out+=hlTag(x,y,sur(nm),"f-fielder"); });
@@ -8108,6 +8127,7 @@ function hlCaption(ev){
   const where=`${ev.inn}回${ev.half}`;
   if(ev.fw && !(ev.runs>0)){ const tx= ev.kind==="pinch"? (ev.orig==="K"? "空振り三振に倒れた。" : "打ち取られた。") : ev.kind==="BB"? (ev.hp? "デッドボールで出塁する。" : "フォアボールを選んで出塁する。") : ev.kind==="E"? "打球は野手の失策を誘い、出塁する。" : ({"1B":"鋭い打球が外野へ抜けていく!","2B":"外野の間を抜ける長打、二塁へ!","3B":"ライン際を破る長打、一気に三塁へ!"}[ev.kind]||""); return `${where}、${ev.team}の${ev.batter}。${tx}`; }
   if(ev.kind==="pitch_change") return `${where}、${ev.team}はピッチャー交代。${ev.from}に代わって${ev.to}(${ev.role})がマウンドへ。`;
+  if(ev.kind==="pinch" && typeof bfMyAtBat==="function" && bfMyAtBat(ev)) return `${where}、${ev.batter}は${ev.pitcher}の前に${ev.orig==="K"?"三振に倒れ":"打ち取られ"}、あと一本が出なかった。`;
   if(ev.kind==="pinch") return `${where}、${ev.pitcher}が${ev.batter}を${ev.orig==="K"?"三振に仕留め":"打ち取り"}、ピンチを切り抜けた!`;
   const txt={HR:"打球はぐんぐん伸びて、そのままスタンドへ!","3B":"ライン際を破る長打、一気に三塁へ!","2B":"外野の間を抜ける長打、二塁へ!",
     "1B":"鋭い打球が外野へ抜けていく!",BB:ev.hp? "デッドボールで押し出し。" : "フォアボールで押し出し。",SF:"外野へ大きなフライ、三塁走者がタッチアップ!",E:"打球の処理をもたつく間にランナーが還る!",
@@ -8853,7 +8873,7 @@ function playOneDate(){
 }
 
 let msState=null;
-const MS_STOP_DEF={inj:1,trade:1,race:1,tenou:1};
+const MS_STOP_DEF={inj:1,trade:1,race:1,tenou:1,back:1,scout:1,dead:1};
 function msEn(){ return typeof I18N!=="undefined" && I18N.lang==="en"; }
 function msStops(){ let o={}; try{ o=JSON.parse(tdLsGet("pennantMsStop")||"{}")||{}; }catch(e){ o={}; } const r={}; Object.keys(MS_STOP_DEF).forEach(k=>{ r[k]= (k in o)? !!o[k] : !!MS_STOP_DEF[k]; }); return r; }
 function msStopSet(k,v){ const o=msStops(); o[k]=!!v; try{ tdLsSet("pennantMsStop",JSON.stringify(o)); }catch(e){} }
@@ -8895,10 +8915,10 @@ function openMultiSim(){
     return `<button class="${k==="month"?"act":"sec"} msOpt" data-ms="${k}" onclick="msRun('${k}')"><b>${en?e:ja}</b><span class="small">${sub}</span></button>`; };
   const ck=(k,ja,e)=>`<label class="msCk"><input type="checkbox" ${st[k]?"checked":""} onchange="msStopSet('${k}',this.checked)"> ${en?e:ja}</label>`;
   openModal(`<h3>⏩ ${en? "Sim ahead" : "まとめて進める"}</h3>
-    <p class="small">${en? `Today: ${formatDate(gameDates[gameIdx])}. Games are played the same way as "Sim the day", one day at a time.` : `いまは${formatDate(gameDates[gameIdx])}。「この日をまとめて進める」を1日ずつ続けるのと同じ進み方です。`}</p>
+    <p class="small">${en? `Today: ${formatDate(gameDates[gameIdx])}. Games are played the same way as "Sim the day", one day at a time.` : `いまは${formatDate(gameDates[gameIdx])}。1日ずつ進めるのと同じ進み方です。`}</p>
     <div class="msOpts">${opt("day","この日だけ","Just today")}${opt("week","1週間","One week")}${opt("month","月末まで","To month end")}${opt("season","シーズン終了まで","To season end")}</div>
     <h4 style="margin:12px 0 4px">${en? "Stop when" : "止まるとき"}</h4>
-    <div class="msCks">${ck("inj","自チームの選手が長いケガをした(全治2週間以上)","A player on my team has a long injury (2+ weeks)")}${ck("trade","トレードの申し込みが来た","A trade offer arrives")}${ck("race","優勝争いが動いた(マジック点灯・優勝決定・優勝の可能性が消えた)","The pennant race changes (magic number, clinch, eliminated)")}${ck("tenou","天王山(1位と2位の直接対決)のカードの前","Before a 1st-vs-2nd showdown series")}</div>
+    <div class="msCks">${ck("inj","自チームの選手が長いケガをした(全治2週間以上)","A player on my team has a long injury (2+ weeks)")}${ck("trade","トレードの申し込みが来た","A trade offer arrives")}${ck("race","優勝争いが動いた(マジック点灯・優勝決定・優勝の可能性が消えた)","The pennant race changes (magic number, clinch, eliminated)")}${ck("tenou","天王山(1位と2位の直接対決)のカードの前","Before a 1st-vs-2nd showdown series")}${ck("back","ケガをしていた1軍の選手が回復した","A regular is back from injury")}${LITE? "" : ck("scout","夏のスカウトの報告が届いた","The summer scouting report arrives")}${ck("dead","トレードの期限(7月末)の1週間前","A week before the trade deadline (end of July)")}</div>
     <p class="small" style="margin-top:8px">${en? "It always stops for the Galaxy Cup / World Cup, lineup errors and pop-up windows." : "銀河杯・世界大会・スタメンの重複・窓が開いたときは、いつも止まります。途中の「止める」でも止まれます。"}</p>`);
 }
 function msRun(k){
@@ -8908,7 +8928,7 @@ function msRun(k){
   if(k==="day"){ playOneDate(); return; }
   const me=msMe(), start=gameDates[gameIdx];
   msState={k, pred:msPred(k,start), start, w0:me.w, l0:me.l, t0:me.t||0, lastN:notices[notices.length-1]||null, got:[], first:true, stop:false, reason:null, lastMy:null, lastDate:null,
-    magic0:me.magicY===year, clinch0:me.clinchY===year, elim0:msElim(me), stops:msStops(), days:0};
+    magic0:me.magicY===year, clinch0:me.clinchY===year, elim0:msElim(me), stops:msStops(), days:0, sc0:(typeof ssOpenNow==="function" && ssOpenNow())};
   let ov=document.getElementById("msProg");
   if(!ov){ ov=document.createElement("div"); ov.id="msProg"; document.body.appendChild(ov); }
   ov.innerHTML=`<div class="msCard"><div class="msTxt" id="msTxt"></div><button class="sec" onclick="msStopNow()">${msEn()? "Stop" : "止める"}</button></div>`;
@@ -8950,6 +8970,9 @@ function msStep(){
     const me=msMe(), li=s.lastN? notices.lastIndexOf(s.lastN) : -1, fresh=notices.slice(li+1); s.lastN=notices[notices.length-1]||null; s.got.push(...fresh);
     if(s.stops.inj && fresh.some(msInjLong)) return msFinish("inj");
     if(s.stops.trade && fresh.some(n=>n.k==="trade")) return msFinish("trade");
+    if(s.stops.back && fresh.some(n=>n.k==="back" && /1軍に戻せます|can return to the active roster/.test(String(n.t)))) return msFinish("back");
+    if(s.stops.scout && !s.sc0 && typeof ssOpenNow==="function" && ssOpenNow()){ s.sc0=true; return msFinish("scout"); }
+    if(s.stops.dead && gameMode!=="special"){ const nd=gameDates[gameIdx], f=x=>x.getMonth()*100+x.getDate(); if(nd && f(d)<625 && f(nd)>=625 && f(nd)<700) return msFinish("dead"); }
     if(s.stops.race){
       if(!s.clinch0 && me.clinchY===year) return msFinish("clinch");
       if(!s.magic0 && me.magicY===year){ s.magic0=true; return msFinish("magic"); }
@@ -8962,7 +8985,8 @@ function msStep(){
 const MS_REASON={user:["途中で止めました","Stopped"], end:["全日程が終わりました","The regular season is over"], cup:["銀河杯・世界大会の時期です","Cup / World Cup time"],
   range:["決めた日まで進めました","Reached the chosen date"], tenou:["次は天王山(1位と2位の直接対決)です","Next up: a 1st-vs-2nd showdown"], lineup:["スタメンの守備位置が重複しています","Lineup error: duplicate positions"],
   inj:["自チームの選手が長いケガをしました","A player on my team has a long injury"], trade:["トレードの申し込みが来ました","A trade offer arrived"], clinch:["優勝が決まりました!","Pennant clinched!"],
-  magic:["優勝マジックが点灯しました","Magic number is lit"], elim:["優勝の可能性がなくなりました","Eliminated from the pennant race"], modal:["お知らせの窓が開きました","A window opened"]};
+  magic:["優勝マジックが点灯しました","Magic number is lit"], elim:["優勝の可能性がなくなりました","Eliminated from the pennant race"], modal:["お知らせの窓が開きました","A window opened"],
+  back:["ケガをしていた1軍の選手が回復しました","A regular is back from injury"], scout:["夏のスカウトの報告が届きました","The summer scouting report is in"], dead:["トレードの期限(7月末)まで、あと1週間です","One week to the trade deadline (end of July)"]};
 function msFinish(why){
   const s=msState; msState=null; if(!s) return;
   if(s.ach) checkAchievements();
@@ -9579,12 +9603,13 @@ function promoteIkuseiCancel(){__liteGone("promoteIkuseiCancel");}
 function promoteIkuseiToFarm(){__liteGone("promoteIkuseiToFarm");}
 function promoteIkuseiSwap(rosterIdx){__liteGone("promoteIkuseiSwap");}
 
+function rkTxt(t){ try{ if(typeof fmEn==="function" && fmEn()) return teamRank(t)+"位"; return ((t.w||0)+(t.l||0)+(t.t||0))>0? teamRank(t)+"位" : "開幕前"; }catch(e){ return teamRank(t)+"位"; } }
 function seasonInfoText(){
   if(!league || !league[myTeam]) return "";
   const me=league[myTeam];
   const d = gameIdx<schedule.length? formatDate(gameDates[gameIdx]) : "シーズン終了";
   const grp = me.division? divFull(me.division) : leagueNames.main;
-  return `${year}年目 ${d}  ${me.name} ${grp}${teamRank(me)}位`;
+  return `${year}年目 ${d}  ${me.name} ${grp}${rkTxt(me)==="開幕前"? " 開幕前" : teamRank(me)+"位"}`;
 }
 document.addEventListener("keydown",e=>{
   if(!league || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -11066,7 +11091,7 @@ function hintLines(){
     const hurt=oneGun(me).filter(isHurt);
     if(hurt.length){ const w=hurt.reduce((a,p)=> p.inj.days>a.inj.days? p:a, hurt[0]); push(3,"🩹",`故障者${hurt.length}人(${esc(w.name)}は残り${w.inj.days}日)。2軍から補充できます。`); }
     try{ const sg=rosterSuggest(me).find(x=>x.k==="cond"); if(sg) push(4,"📉",`${esc(sg.low.name)}(${POS_FULL[sg.low.fielding]||sg.low.fielding})が絶不調。${esc(sg.up.name)}が好調です。「編成」で入れ替えられます。`); }catch(e){}
-    if(rainEnabled && rainStats.y===year && rainStats.n>0) push(6,"☔",`雨の順延が${rainStats.n}試合。最終戦は${formatDate(gameDates[gameDates.length-1])}です。`);
+    if(rainEnabled && rainStats.y===year && rainStats.n>0) push(6,"☔",`雨の順延がリーグ全体で${rainStats.n}試合(自チームは${rainStats.my}試合)。最終戦は${formatDate(gameDates[gameDates.length-1])}です。`);
     if(!LITE){ const fa=oneGun(me).filter(p=> !p.imp && svcOf(p)>=FA_MIN_SVC && p.age>=26 && p.age<=35); if(fa.length) push(7,"📝",`今オフ、FAの資格がある選手が1軍に${fa.length}人(${fa.slice(0,3).map(p=>esc(p.name)).join("・")}${fa.length>3?" ほか":""})。冬までの引退や入れ替えで変わることがあります。`); }
     try{ const rows=magicRows(magicGroup(me)); if(rows && rows.length>1){ const i=rows.findIndex(r=>r.t===me); if(i===0){ const s=rows[1]; const gb=((me.w-s.t.w + s.t.l-me.l)/2); push(8,"🥇",`首位。2位の${esc(s.t.name)}に${gb.toFixed(1)}ゲーム差。`); } else if(i>0){ const f=rows[0]; const gb=((f.t.w-me.w + me.l-f.t.l)/2); push(8,"📊",`${i+1}位。首位の${esc(f.t.name)}と${gb.toFixed(1)}ゲーム差。`); } } }catch(e){}
     if(me.goal && typeof ownGoalText==="function") push(9,"🎯",`オーナーの目標:${ownGoalText(me.goal)}`);
@@ -11993,7 +12018,7 @@ function infoBandSync(){
   if(!line && !nu.length && !notices.length && !hs.length){ band.classList.add("hidden"); return; }
   band.classList.remove("hidden");
   const cnt=nu.length+un;
-  sum.innerHTML=`<span class="ibMark">📬</span>${line}${cnt? `<span class="badge ntBadge">${cnt}</span>` : ""}`;
+  sum.innerHTML=`<span class="ibMark">📬</span>${line}${cnt? `<span class="badge ntBadge" title="未読:号外${nu.length}・お知らせ${un}">${(typeof fmEn==="function" && fmEn())? cnt : "未読"+cnt}</span>` : ""}`;
 }
 function infoBandToggle(d){ if(d.open && noticeUnread()>0) noticeReadAll(); }
 
@@ -13073,7 +13098,7 @@ function newsAwards(list){
   const crown=o=>{ const a=o.awards;
     if(["首位打者","本塁打王","打点王"].every(k=>a.includes(k))) return "三冠王";
     if(["最多勝","最優秀防御率","最多奪三振"].every(k=>a.includes(k))) return "投手三冠";
-    return a.length>1? `${a.length}冠` : ""; };
+    return a.length>1? `タイトル${a.length}つ` : ""; };
   const people=[...by.values()].sort((a,b)=>(b.awards.includes("エース・オブ・ザ・イヤー")-a.awards.includes("エース・オブ・ザ・イヤー")) || (b.awards.length-a.awards.length));
   list=people.map(o=>({name:o.name, award: o.awards.length>1? `${o.awards.join("・")}の${crown(o)}` : o.awards[0], short: crown(o)||o.awards[0], value:o.values.join("、"), count:o.awards.length}));
   const top=list[0];
@@ -13895,7 +13920,7 @@ function passDays(t,days){
   const all=[...oneGun(t),...t.farm.bat,...t.farm.pit,...t.ikusei.map(x=>x.p),...t.il];
   all.forEach(p=>{
     if(p.dereg>0) p.dereg=Math.max(0,p.dereg-days);
-    if(p.inj){ p.inj.days-=days; if(p.inj.days<=0){ const wasLong=p.inj.long; delete p.inj; if(wasLong) returnFromIL(t,p); else if(league && t===league[myTeam]) showToast(`${p.name}がケガから回復しました(2軍)`); } }
+    if(p.inj){ p.inj.days-=days; if(p.inj.days<=0){ const wasLong=p.inj.long; delete p.inj; if(wasLong) returnFromIL(t,p); else if(league && t===league[myTeam]) { if(p.ij1) noteToast("back",`${p.name}がケガから回復しました(2軍)。1軍に戻せます`); else showToast(`${p.name}がケガから回復しました(2軍)`); } } }
   });
   [...t.farm.bat,...t.farm.pit].forEach(p=>{ if(!isHurt(p)) p.cond=clamp(Math.round(p.cond+(70-p.cond)*Math.min(1,0.08*days)),0,100); });
 }
@@ -13903,7 +13928,7 @@ function returnFromIL(t,p){
   t.il=t.il.filter(x=>x!==p);
   const type=p.velo!==undefined? "pit":"bat";
   if(league && t===league[myTeam]){
-    if(farmHasRoom(t)){ farmArrFor(t,type).push(p); noteToast("back",`${p.name}が故障者リストから復帰し、2軍に戻りました`); }
+    if(farmHasRoom(t)){ farmArrFor(t,type).push(p); noteToast("back", p.ij1? `${p.name}が故障者リストから復帰し、2軍に戻りました。1軍に戻せます` : `${p.name}が故障者リストから復帰し、2軍に戻りました`); }
     else { t.ilWaiting.push(p); showToast(`${p.name}が故障者リストから復帰しました(2軍が満員のため登録待ち)`); }
   } else if(!aiSignToFarm(t,p,type)) recordRelease(p,type,t);
 }
@@ -13952,7 +13977,7 @@ function injurePlayer(t,p){
   p.inj={days, total:days, sev, part, long: long0, year};
   if((sev==="重傷"||sev==="長期離脱") && Math.random()<0.3){ const ks= isP? ["velo","control"] : ["meet","power","speed"]; const k=pick(ks); p[k]=clamp(p[k]-rnd(2,5),20,BASE_MAX); p.inj.drop=true; }
   const inOne=oneGun(t).includes(p);
-  if(inOne){ if(t.twoWayPair && (t.twoWayPair.bat===p||t.twoWayPair.pit===p)) return; removeFromOneGun(t,p); }
+  if(inOne){ if(t.twoWayPair && (t.twoWayPair.bat===p||t.twoWayPair.pit===p)) return; removeFromOneGun(t,p); if(league && t===league[myTeam]) p.ij1=1;  }
   if(p.inj.long){ [t.farm.bat,t.farm.pit].forEach(a=>{ const i=a.indexOf(p); if(i>=0) a.splice(i,1); }); t.il.push(p); }
   else if(inOne){ const arr=farmArrFor(t,isP?"pit":"bat"); arr.push(p);
     if(farmTotal(t)>FARM_MAX && !(league && t===league[myTeam])){ const w=weakestFarmAny(t,isP?"pit":"bat"); if(w){ const wa=farmArrFor(t,w.type); wa.splice(wa.indexOf(w.x),1); recordRelease(w.x,w.type,t); } } }
@@ -14166,7 +14191,7 @@ function mgvPick(evs,max){
 }
 function mgvPartial(log){
   const c=(log&&log.ctx)||{}, sum=a=>(a||[]).reduce((x,y)=>x+(y||0),0);
-  return {awayTeam:mg.away, homeTeam:mg.home, log, awayInnings:[...(c.ai||[])], homeInnings:[...(c.hi||[])], aScore:sum(c.ai), hScore:sum(c.hi), isTie:false};
+  return {awayTeam:mg.away, homeTeam:mg.home, log, awayInnings:[...(c.ai||[])], homeInnings:[...(c.hi||[])], aScore:sum(c.ai), hScore:sum(c.hi), isTie:false, partial:true};
 }
 function mgvTake(log){
   if(!mg || !log || !log.events) return [];
@@ -14184,6 +14209,7 @@ function mgvShow(log,res,cont){
 }
 function mgReelStart(r,queue,then,full){
   mgReelThen=then;
+  hlTicker= (mg? !mg.series : !(mgUnseenLast && mgUnseenLast.ser))? mgTickerList : null;
   const mo=document.getElementById("manageOverlay"); if(mo) mo.classList.add("hidden");
   highlightGameResult=r; highlightQueue=queue; highlightIdx=0;
   stopHlAuto(); hlClearTimers(); hlShown={a:(queue[0]&&queue[0].before)? queue[0].before.a : 0, h:(queue[0]&&queue[0].before)? queue[0].before.h : 0}; hlStageName="";
@@ -14203,7 +14229,7 @@ function mgReelEnd(){
   const mo=document.getElementById("manageOverlay"); if(mo) mo.classList.remove("hidden");
   if(then) then();
 }
-function mgUnseenHtml(m,res){ const n=(m.unseen||[]).length; mgUnseenLast=null; if(!n) return ""; mgUnseenLast={r:res, evs:m.unseen}; return `<button class="sec" onclick="mgUnseenPlay()">${mgvEn()? `🎬 Moments you missed (${Math.min(n,10)})` : `🎬 見なかった見せ場(${Math.min(n,10)})`}</button>`; }
+function mgUnseenHtml(m,res){ const n=(m.unseen||[]).length; mgUnseenLast=null; if(!n) return ""; mgUnseenLast={r:res, evs:m.unseen, ser:!!m.series}; return `<button class="sec" onclick="mgUnseenPlay()">${mgvEn()? `🎬 Moments you missed (${Math.min(n,10)})` : `🎬 見なかった見せ場(${Math.min(n,10)})`}</button>`; }
 let mgUnseenLast=null;
 function mgUnseenPlay(){ const u=mgUnseenLast; if(!u || !u.r || !u.evs.length) return; mgReelStart(u.r, mgvPick(u.evs,10), null, true); }
 function closeManaged(){ document.getElementById("manageOverlay").classList.add("hidden"); setTimeout(bxAutoFire,60); setTimeout(seasonWrapCheck,300); }
@@ -14312,7 +14338,7 @@ function renderManaged(){
     if(bc){ const st=box.querySelector("#mgStage"); if(st) st.insertAdjacentHTML("beforeend",bcPanelHtml(bc,bc.seq.length,(typeof d.po==="number")? d.po : 0));
       const det=mgBczDetail(d,bc);
       if(st && det){ if(HLO.bc==="each") st.insertAdjacentHTML("beforeend",mgBczZoneHtml(det)); else st.insertAdjacentHTML("beforeend",bczBatHtml(det)); } }
-    box.querySelector("#mgSide").innerHTML=`${rec? `<ul class="mgRecent">${rec}</ul>` : ""}<div class="mgResTag small">采配の結果</div><div class="hlBanner pop${bigFx? " big" : ""}${R.good? "" : " mgBad"}${[...R.label].length>9? " long" : ""}">${R.label}</div>${bc? `<div class="bcFrom">${bcCountText(bc)}</div>` : ""}<p class="mgResCap">${R.cap}</p><div class="mgOpts"><button class="act mgOpt" onclick="manageAnswer('auto')">次へ ▶</button></div>`;
+    box.querySelector("#mgSide").innerHTML=`${rec? `<ul class="mgRecent">${rec}</ul>` : ""}<div class="mgResTag small">采配の結果</div><div class="hlBanner pop${bigFx? " big" : ""}${R.good? "" : " mgBad"}${[...R.label].length>9? " long" : ""}">${R.label}</div>${bc && R.label!=="申告敬遠"? `<div class="bcFrom">${bcCountText(bc)}</div>` : ""}<p class="mgResCap">${R.cap}</p><div class="mgOpts"><button class="act mgOpt" onclick="manageAnswer('auto')">次へ ▶</button></div>`;
     box.querySelector("#mgCtrls").innerHTML=`<button class="sec" onclick="manageAutoRest()">残りはおまかせ</button>`;
     mgResultFx(box,d,R); sndMgResult(d,myBatting,R);
     box.scrollTop=0; return;
@@ -14753,7 +14779,7 @@ function tickerHtml(list,inn,half,final){
       const pa=g._a, ph=g._h, chg= pa!==undefined && (a!==pa || h!==ph);
       g._fl={a: chg && a!==pa, h: chg && h!==ph};
       const was=Math.sign((pa||0)-(ph||0)), now=Math.sign(a-h);
-      g._tag= !chg? "" : now===0? "同点" : (pa===0 && ph===0)? "先制" : was===0? "勝ち越し" : was!==now? "逆転" : "";
+      g._tag= !chg? "" : now===0? "同点" : (pa===0 && ph===0)? ((a===0||h===0)? "先制" : "") : was===0? "勝ち越し" : was!==now? "逆転" : "";
       g._a=a; g._h=h; g._n=n; }
     const fl= fx? (g._fl||{}) : {}, lit= fx && (fl.a||fl.h), tag= g._tag? ` <span class="tkTag">${g._tag}</span>` : "";
     if(done) return `<li${lit?' class="tkNew"':""}><b>${esc(g.away)} ${g.a} - ${g.h} ${esc(g.home)}</b> <span class="small">試合終了</span>${tag}${g.tn? tenouTag() : ""}</li>`;
@@ -18340,6 +18366,8 @@ I18N.add("en",{
 "{0}年目 開幕前":"Year {0#}, preseason",
 "{0}がケガから回復しました(2軍)":"{0} has recovered from injury (Minors)",
 "{0}が故障者リストから復帰し、2軍に戻りました":"{0} is off the injured list and back in the Minors",
+"{0}が故障者リストから復帰し、2軍に戻りました。1軍に戻せます":"{0} is off the injured list and back in the Minors — can return to the active roster",
+"{0}がケガから回復しました(2軍)。1軍に戻せます":"{0} has recovered (Minors) — can return to the active roster",
 "{0}が故障者リストから復帰しました(2軍が満員のため登録待ち)":"{0} is off the injured list (awaiting a spot; the Minors roster is full)",
 "軽傷":"Minor",
 "中程度":"Moderate",
@@ -20101,7 +20129,7 @@ function sndTest(){
 }
 function sndInter(first){ sndFx("cut"); sndFx("inning",.12); if(first) sndVo("playball",.55); }
 function hlIsGameEnd(r,ev){
-  if(!r || !ev || (ev.outs||0)<3) return false;
+  if(!r || r.partial || !ev || (ev.outs||0)<3) return false;
   const ai=r.awayInnings||[], hi=r.homeInnings||[], last=ai.length; if(!last) return false;
   return ev.inn===last && ev.half===(hi.length<ai.length? "表" : "裏");
 }
@@ -21653,9 +21681,9 @@ function odFirst(){
 function odBoardHtml(k,nPre){
   const g=schedule[k], home=schedTeam(g[0]), away=schedTeam(g[1]);
   return `<div class="mDate">${year}年目 ${formatDate(gameDates[k])}${isInterleague(g)? ' <span class="badge">交流戦</span>' : ''}${tenouNext(home,away)? tenouTag() : ''}${myMagicHtml()}${fwTagHtml()}${worldBackTagHtml()}${parkTagHtml(home)}${rainTagHtml(g,home)}${mSubHtml(home,away)}</div>
-    <div class="mSide"><div class="small">アウェー <span class="badge">${teamRank(away)}位</span></div><div class="mFlag">${flagSvg(away,{w:60})}</div><div class="teamname ${g[1]===myTeam?'you':''} ${plateFit(away.name)}">${teamPlateHtml(away)}${divTag(away)}</div></div>
+    <div class="mSide"><div class="small">アウェー <span class="badge">${rkTxt(away)}</span></div><div class="mFlag">${flagSvg(away,{w:60})}</div><div class="teamname ${g[1]===myTeam?'you':''} ${plateFit(away.name)}">${teamPlateHtml(away)}${divTag(away)}</div></div>
     <div class="mAt atOnly">@</div>
-    <div class="mSide"><div class="small">ホーム <span class="badge">${teamRank(home)}位</span></div><div class="mFlag">${flagSvg(home,{w:60})}</div><div class="teamname ${g[0]===myTeam?'you':''} ${plateFit(home.name)}">${teamPlateHtml(home)}${divTag(home)}</div></div>
+    <div class="mSide"><div class="small">ホーム <span class="badge">${rkTxt(home)}</span></div><div class="mFlag">${flagSvg(home,{w:60})}</div><div class="teamname ${g[0]===myTeam?'you':''} ${plateFit(home.name)}">${teamPlateHtml(home)}${divTag(home)}</div></div>
     ${lineupHasDuplicatePositions(league[myTeam]) ? '<div style="width:100%;color:var(--red);font-weight:bold;margin-top:8px">⚠️ スタメンの守備位置が重複しています。「編成」タブで修正してください。</div>' : ''}
     ${nPre>0? `<div class="small odPre">同じ日のほかの試合(${nPre}試合)も一緒に進みます</div>` : ''}`;
 }
@@ -22653,7 +22681,7 @@ function gdSkip(k){ gdMark(k); }
 function gdFinish(){ gdEnsure().end=true; gdRender(); }
 function gdHide(){ try{ tdLsSet("pennantGuideOff","1"); }catch(e){} gdRender(); if(typeof showToast==="function") showToast("案内役をしまいました(設定の「遊び方」でまた出せます)"); const c=document.getElementById("gdChk"); if(c) c.checked=false; }
 function setGuideEnabled(on){ try{ tdLsSet("pennantGuideOff", on? "0" : "1"); }catch(e){} gdRender(); }
-[["playNextGameHighlight",()=>gdMark("watch")],["startHighlightReel",()=>gdMark("watch")],["replayHL",()=>gdMark("watch")],
+[["startHighlightReel",()=>gdMark("watch")],["replayHL",()=>gdMark("watch")],
  ["showBox",()=>gdMark("box")],["startManagedGame",()=>gdMark("manage")],["openMultiSim",()=>gdMark("multi")],
  ["openRosterSuggest",()=>gdMark("suggest")],["ssOpen",()=>gdMark("scout")],
  ["navigateStats",a=>{ if(a[0]==="titles") gdMark("titles"); }]].forEach(([fn,f])=>{
@@ -22728,8 +22756,143 @@ function gdStandFallback(){ const hex=gdHex(); return (hex && gdRc[hex+"|s"]) ||
     }catch(e){}
     return r; }; }
 
+{ const o=startManagedGame; startManagedGame=function(){ const r=o.apply(this,arguments); try{ if(mg) gdMark("watch"); }catch(e){} return r; }; }
+{ const o=playNextGameHighlight; playNextGameHighlight=function(){
+    let rm0=null;
+    try{ rm0=rainMy; }catch(e){}
+    const r=o.apply(this,arguments);
+    try{ if(!manageMode && rainMy && rainMy!==rm0){
+        const ov=document.getElementById("highlightOverlay");
+        if(!ov || ov.classList.contains("hidden")) openModal(`<h3>☔ 雨天中止</h3><p>今日の${esc(league[myTeam].name)}の試合は、雨で中止になりました。${esc(rainMy.to)}に順延されます。</p><p class="small">観戦は次の試合からできます。</p>`); } }catch(e){}
+    return r; }; }
+
+function ijList(){
+  if(!league) return []; const t=league[myTeam]; if(!t || !t.farm) return [];
+  oneGun(t).forEach(p=>{ if(p.ij1 && !isHurt(p)) delete p.ij1; });
+  const out=[]; t.farm.bat.forEach(p=>{ if(p.ij1 && !isHurt(p)) out.push({p,type:"bat"}); }); t.farm.pit.forEach(p=>{ if(p.ij1 && !isHurt(p)) out.push({p,type:"pit"}); });
+  return out;
+}
+function ijUpOpen(){
+  const L=ijList();
+  if(!L.length){ showToast(fmT("いま、1軍に戻せるケガ明けの選手はいません","No recovered regulars in the Minors right now")); return; }
+  const rows=L.map(({p,type},k)=>{
+    const why= (p.dereg>0)? fmT(`抹消から10日たつまで上げられません(残り${p.dereg}日)`,`Can't be recalled for ${p.dereg} more days`) : "";
+    return `<div class="playerRow"><span>${dfEsc(p.name)} <span class="small">${type==="pit"? fmT("投手","Pitcher") : fmT("野手","Position player")}・${p.age}${fmT("歳","")}</span>${why? `<br><span class="small" style="color:var(--gold)">${why}</span>` : ""}</span>
+      <span><button class="sec" onclick="ijUpGo(${k})"${why? ` aria-disabled="true" style="opacity:.55"` : ""}>${fmT("1軍へ","Call up")}</button></span></div>`; }).join("");
+  openModal(`<h3>⬆ ${fmT("ケガから回復した選手","Back from injury")}</h3><p class="small">${fmT("「1軍へ」を押すと、編成の2軍の画面で、入れ替える1軍の選手を選べます。","Press “Call up” to choose which active player to send down, on the Minors screen of the Roster tab.")}</p>${rows}`);
+}
+function ijUpGo(k){
+  const it=ijList()[k]; if(!it) return;
+  const t=league[myTeam], arr= it.type==="bat"? t.farm.bat : t.farm.pit, idx=arr.indexOf(it.p); if(idx<0) return;
+  if(it.p.dereg>0){ farmSelect(it.type,idx); return; }
+  closeModal(); showPanel("lineup"); showLineupSub("farm"); farmSelect(it.type,idx);
+}
+if(typeof renderNoticeBox==="function"){ const orig=renderNoticeBox;
+  renderNoticeBox=function(){ const r=orig.apply(this,arguments);
+    try{ const el=document.getElementById("noticeBox"); if(el && ijList().length){
+      const list=notices.slice().reverse().slice(0,12), i=list.findIndex(n=>n && n.k==="back" && /1軍に戻せます|can return to the active roster/.test(String(n.t)));
+      if(i>=0 && list[i].y===year){ const row=el.querySelectorAll(".ntRow")[i], tx=row && row.querySelector(".ntText");
+        if(tx && !tx.querySelector(".ijUpBtn")) tx.insertAdjacentHTML("beforeend",` <button class="sec ijUpBtn" onclick="event.stopPropagation();ijUpOpen()">${fmT("1軍に戻す","Call up")}</button>`); } } }catch(e){}
+    return r; };
+}
+function ijOpening(){
+  if(!league) return []; const t=league[myTeam]; if(!t) return [];
+  ensureFarm(t); refreshTeamBonuses(t);
+  const lk=isLocked, lines=[];
+  const ups=ijList().filter(x=>!(x.p.imp && impBlockReason(t,x.type))).sort((a,b)=> (b.type==="bat"? batScore(b.p) : pitScore(b.p)) - (a.type==="bat"? batScore(a.p) : pitScore(a.p)));
+  ups.forEach(({p:up,type})=>{
+    if(type==="bat"){
+      const fb=t.farm.bat, fi=fb.indexOf(up); if(fi<0) return;
+      const pool=[...t.batters.map((b,i)=>({b,kind:"starter",i})).filter(x=>x.b.fielding==="指" || starterPosOptions(up).includes(x.b.fielding)), ...t.bench.map((b,i)=>({b,kind:"bench",i}))].filter(x=>!lk(x.b) && !x.b.signature && !(t.twoWayPair && x.b===t.twoWayPair.bat))
+        .filter(x=>!(posFitEnabled && pfIsC(x.b) && !pfIsC(up) && pfCatcherCount(t)<=PF_MIN_C));
+      if(!pool.length) return;
+      const low=pool.reduce((a,x)=> batScore(x.b)<batScore(a.b)? x:a, pool[0]);
+      if(batScore(up)<=batScore(low.b)) return;
+      if(low.kind==="starter"){ const pos=low.b.fielding; t.batters[low.i]=up; benchPosReset(low.b); fb[fi]=low.b; up.fielding=pos; repairLineupPositions(t); }
+      else { up.benchRole=low.b.benchRole||"代打"; t.bench[low.i]=up; benchPosReset(low.b); fb[fi]=low.b; }
+      delete low.b.mSnap; delete up.mSnap; delete up.ij1;
+      lines.push(`${up.name}を1軍へ、${low.b.name}を2軍へ`);
+    } else {
+      const fp=t.farm.pit, fi=fp.indexOf(up); if(fi<0) return;
+      const pool=[...t.rotation.map((q,i)=>({q,kind:"rotation",i})), ...t.bullpen.map((q,i)=>({q,kind:"bullpen",i}))].filter(x=>!lk(x.q) && !x.q.signature && !(t.twoWayPair && x.q===t.twoWayPair.pit));
+      const cand=pool.filter(x=> (x.kind==="rotation") === (up.pos==="先発")), list=cand.length? cand : pool; if(!list.length) return;
+      const low=list.reduce((a,x)=> pitScore(x.q)<pitScore(a.q)? x:a, list[0]);
+      if(pitScore(up)<=pitScore(low.q)) return;
+      if(low.kind==="rotation"){ t.rotation[low.i]=up; fp[fi]=low.q; }
+      else { up.bpRole=low.q.bpRole||"ビハインド"; t.bullpen[low.i]=up; fp[fi]=low.q; }
+      delete low.q.mSnap; delete up.mSnap; delete up.ij1;
+      lines.push(`${up.name}を1軍へ、${low.q.name}を2軍へ`);
+    }
+  });
+  [...t.farm.bat,...t.farm.pit].forEach(p=>{ if(p.ij1 && !isHurt(p)) delete p.ij1; });
+  if(lines.length){ refreshTeamBonuses(t); noteToast("back",(fmEn()? "Before opening day, recovered regulars return to the active roster: " : "開幕前:ケガ明けの選手を1軍に戻しました(")+lines.join(fmEn()? "; " : "/")+(fmEn()? "" : ")")); }
+  return lines;
+}
+
+const PBFIX_SIG={"打撃の天才":{meet:10,power:12},"鉄壁の守備職人":{speed:12,fieldSkill:12,arm:8},"勝負強い主砲":{power:10,meet:8},"二刀流":{meet:8,power:8}};
+function pbFixOne(p){
+  try{
+    if(!p || p.pb===undefined || p.pb===null || typeof p.pb==="object") return 0;
+    const raw=p.pb, n= typeof raw==="number"? raw : ((String(raw).match(/1+$/)||[""])[0].length);
+    if(n>0) p.pbl=(p.pbl||0)+n;
+    let back=null;
+    if(typeof raw==="string" && p.velo===undefined){
+      if(p.uniqueId && typeof uniqueDef==="function"){ const u=uniqueDef(p); if(u) back=Object.assign({},uniquePb(u)); }
+      if(!back && p.signature && typeof p.sigTitle==="string"){ const b=PBFIX_SIG[p.sigTitle] || (p.sigTitle.indexOf("ミスター")===0? {meet:8,power:8,speed:6} : null); if(b) back=Object.assign({},b); }
+    }
+    if(back && Object.keys(back).length) p.pb=back; else delete p.pb;
+    return 1;
+  }catch(e){ return 0; }
+}
+function pbFixAll(){
+  let n=0;
+  try{ allTeamsEverywhere().forEach(t=>{ if(!t) return; const L=[...(t.batters||[]),...(t.bench||[]),...((t.farm&&t.farm.bat)||[]),...((t.ikusei||[]).map(x=>x&&x.p)),...(t.il||[]),...(t.ilWaiting||[])];
+      let hit=0; L.forEach(p=>{ hit+=pbFixOne(p); }); if(hit){ n+=hit; try{ refreshTeamBonuses(t); }catch(e){} } }); }catch(e){}
+  return n;
+}
+if(typeof applyState==="function"){ const o=applyState; applyState=function(){ const r=o.apply(this,arguments); try{ pbFixAll(); }catch(e){} return r; }; }
+
+let luDirty=false;
+{ const o=recordResult; recordResult=function(){ luDirty=true; return o.apply(this,arguments); }; }
+{ const o=showPanel; showPanel=function(p){
+    try{ if(p==="lineup" && league){ const el=document.getElementById("p-lineup"), here=!!(el && el.classList.contains("active"));
+        if(!here || luDirty){ luDirty=false; buildLineupUI(); } } }catch(e){}
+    return o.apply(this,arguments); }; }
+
+{ const o=hlBanner; hlBanner=function(ev){ const b=o.apply(this,arguments);
+    try{ if(typeof b==="string" && b.startsWith("サヨナラ") && /!$/.test(b) && ev && ev.team && !(typeof fmEn==="function" && fmEn())){
+        const me=league && league[myTeam], r=highlightGameResult;
+        if(me && ev.team!==me.name && r && r.homeTeam && r.awayTeam && (r.homeTeam.name===me.name || r.awayTeam.name===me.name)) return b.replace(/!$/,"を許す…"); } }catch(e){}
+    return b; }; }
+
+const TIP_LIVE={draft:()=>!!(draft && draft.active), ikuDraft:()=>!!(typeof ikuDraft!=="undefined" && ikuDraft && ikuDraft.active), fa:()=>!!(fa && fa.active), postseason:()=>!!(post && post.active)};
+function tipSweep(){
+  try{ let ch=false;
+    tipQueue=tipQueue.filter(id=>!(TIP_LIVE[id] && !TIP_LIVE[id]()));
+    while(tipNow && TIP_LIVE[tipNow] && !TIP_LIVE[tipNow]()){ markTipSeen(tipNow); tipNow=tipQueue.shift()||null; ch=true; }
+    if(ch) renderTip(); }catch(e){}
+}
+{ const o=showPanel; showPanel=function(){ tipSweep(); return o.apply(this,arguments); }; }
+{ const o=renderAll; renderAll=function(){ const r=o.apply(this,arguments); tipSweep(); return r; }; }
+if(typeof updateMatchupInner==="function" && typeof odDayMine==="function"){ const o=updateMatchupInner;
+  updateMatchupInner=function(){ const out=o.apply(this,arguments);
+    try{ const m=document.getElementById("matchup");
+      if(manageMode && league && m && m.classList.contains("mReg") && odDayMine()>=0 && !odFirst()){
+        const sb=document.getElementById("simBtn"), hb=document.getElementById("hlBtn");
+        if(sb && hb){ sb.textContent="🧢 采配して観戦"; sb.onclick=odWatch; hb.style.display="inline-block"; hb.dataset.od="1"; } } }catch(e){ console.error("mgBtn",e); }
+    return out; };
+}
+let umWordsAdded=false;
+{ const o=openWordBook; openWordBook=function(){ if(!umWordsAdded){ umWordsAdded=true; try{
+    UM_WORDS[0][2].push(["(+5) などの上乗せ","能力の横の (+n) は、球団の特色・看板選手や目玉選手の持ち味・得意などで上乗せされている分です。試合では、グレードの力にこの分を足して戦います。内訳は選手の詳細画面で見られます。","(+5) bonus","The (+n) next to a rating is a bonus from the club's style, a franchise player's or phenom's edge, or a specialty. In games the player uses the rating plus this bonus. The player page shows the breakdown.",1]);
+    UM_WORDS[0][2].push(["スタ","投手の能力「スタミナ」の略。長い回を投げられる力です。","STA","Short for a pitcher's stamina: how deep he can go.",1]);
+    UM_WORDS[1][2].push(["中継ぎの役割(抑え・8回・7回・ロング・ビハインド)","中継ぎ投手の持ち場です。抑え=リードした最後の回。8回・7回=リードした終盤の、その回のあたり(ほかの回に出ることもあります)。ロング=先発が早く降りたときに長く投げる。ビハインド=負けている場面。","Bullpen roles (closer, 8th, 7th, long, behind)","Where a reliever is used. Closer = the last inning with a lead. 8th / 7th = around that inning late with a lead (sometimes other innings). Long = several innings when the starter leaves early. Behind = when trailing.",1]);
+    UM_WORDS[1][2].push(["配球の記号(ボ・空・見・フ)","ボールカウントの1球ごとの結果です。ボ=ボール、空=空振り、見=見逃しのストライク、フ=ファウル。","Pitch marks","The result of each pitch in the count: ball, swinging strike, called strike, foul.",1]);
+  }catch(e){} } return o.apply(this,arguments); }; }
+
 let noticeDateFix=null;
 { const o=recordResult; recordResult=function(r,date){ const prev=noticeDateFix; noticeDateFix=(date instanceof Date)? date : null; try{ return o.apply(this,arguments); } finally{ noticeDateFix=prev; } }; }
+I18N.add("en",{"☔ 降雨コールド({0}回終了)":"☔ Called for rain after {0} innings","☔ 雨天中止":"☔ Rained out","今日の{0}の試合は、雨で中止になりました。{1}に順延されます。":"Today's {0} game was rained out. It moves to {1}.","観戦は次の試合からできます。":"You can watch from the next game."});
 I18N.add("en",{"覚醒で能力が合計{0}上がった":"Breakout: ratings up {0#} in total","覚醒の上がり幅":"Breakout gain"});
 
 function fcListOn(){ try{ return tdLsGet("pennantFaceList")!=="off"; }catch(e){ return true; } }
@@ -26965,7 +27128,7 @@ function rl2Pre(bases,outs,pitcher,catcher,inn){
     bases[2]=bases[1]; bases[1]=bases[0]; bases[0]=null;
     if(k==="wp" && pitcher) pitcher.wp=(pitcher.wp||0)+1;
     if(k==="bk" && pitcher) pitcher.bk=(pitcher.bk||0)+1;
-    if(k==="pb" && catcher) catcher.pb=(catcher.pb||0)+1;
+    if(k==="pb" && catcher) catcher.pbl=(catcher.pbl||0)+1;
     return {k, out:0, score, ue:k==="pb", mv, pre, who:{p:pitcher&&pitcher.name, c:catcher&&catcher.name}};
   }catch(e){ return null; }
 }
@@ -27167,7 +27330,7 @@ function rl4Note(ev){
   if(x.tp) L.push("トリプルプレーで一気にスリーアウト!");
   if(x.as) L.push(`【補殺】${P[x.as[1]]||"外野手"}・${x.as[0]}`);
   if(x.cp) L.push("本塁はクロスプレー、セーフ!");
-  if(x.ks) L.push("打球は投手を直撃、強襲ヒット!");
+  if(x.ks && !ev.rp && !ev.sbx) L.push("打球は投手を直撃、強襲ヒット!");
   return L.join(" ");
 }
 if(typeof hlCaption==="function"){ const o=hlCaption;
