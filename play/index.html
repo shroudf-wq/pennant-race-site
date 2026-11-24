@@ -3129,6 +3129,15 @@ p.sqsOff[hidden]{display:none}
 .ux10Dust circle{fill:#d9c9a3}
 .ux10Tag{fill:var(--gold,#f2c94c);font-weight:bold;paint-order:stroke;stroke:#14201a;stroke-width:3px}
 </style>
+<style id="ux11Css">
+#actionBar.ux11Solo [data-slot="1"]{grid-column:1 / -1 !important}
+.ux11Note{opacity:.85}
+</style>
+<style id="ux12Css">
+/* v1.9.m:広い一覧の見出しと中身をそろえる */
+.ux9T th,.ux9T td{text-align:center!important}
+.ux9T th.l,.ux9T td.l{text-align:left!important}
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -3890,7 +3899,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.9.k";
+const APP_VERSION="v1.9.o";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -23674,6 +23683,7 @@ function ux8Main(b){
     if(f && f!==m && f!=="指" && m!=="指") return `${esc(m)}<span class="small ux8Reg">(${ux8PoEn()? "listed " : "登録 "}${esc(f)})</span>`;
     return esc(m); }catch(e){ return b.dMain||""; } }
 
+const UX9_LOT_SURE=4;
 const UX9_LOT_K=0.25, UX9_LOT_MAX=2, UX9_PTS_LOT=2, UX9_PTS_FA=1, UX9_MIN=860;
 function ux9En(){ return typeof scmEn==="function" && scmEn(); }
 function ux9L(){ try{ return (league && league[myTeam] && league[myTeam].ux9L)|0; }catch(e){ return 0; } }
@@ -23686,7 +23696,8 @@ function ux9LotPick(teams,me,r){
   if(!teams || teams.length<2 || !teams.includes(me)) return teams[Math.floor(r*teams.length)];
   const L=ux9L(), b=ux9Boost(L);
   let winner;
-  if(b===1) winner=teams[Math.floor(r*teams.length)];
+  if(L>=UX9_LOT_SURE) winner=me;
+  else if(b===1) winner=teams[Math.floor(r*teams.length)];
   else { const w=teams.map(t=>t===me? b : 1), sum=w.reduce((a,x)=>a+x,0); let acc=0; winner=teams[teams.length-1];
     for(let k=0;k<teams.length;k++){ acc+=w[k]/sum; if(r<acc){ winner=teams[k]; break; } } }
   try{ if(winner===me) me.ux9L=0; else { me.ux9L=L+1; ux9Pts(UX9_PTS_LOT, ux9En()? "Lost the draft lottery" : "抽選に外れた"); } }catch(e){}
@@ -23695,8 +23706,11 @@ function ux9LotPick(teams,me,r){
 function ux9LotNote(){
   const L=ux9L(); if(!L) return "";
   const b=ux9Boost(L);
-  return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotter${L>1?"ies":"y"} in a row, so your odds in a tied lottery are ×${b.toFixed(2)} (back to normal once you win).</span>`
-    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選の当たりやすさは ×${b.toFixed(2)}(当たると元に戻ります)。</span>`;
+  if(L>=UX9_LOT_SURE) return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotteries in a row, so you are sure to win this tied lottery.</span>`
+    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選は必ず当たります。</span>`;
+  const left=UX9_LOT_SURE-L, more=ux9En()? ` After ${left} more loss${left>1?"es":""}, the next lottery is a sure win.` : `あと${left}回外れると、次の抽選は必ず当たります。`;
+  return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotter${L>1?"ies":"y"} in a row, so your odds in a tied lottery are ×${b.toFixed(2)} (back to normal once you win).${more}</span>`
+    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選の当たりやすさは ×${b.toFixed(2)}(当たると元に戻ります)。${more}</span>`;
 }
 if(typeof resolveFA==="function"){ const o=resolveFA;
   resolveFA=function(){
@@ -23847,6 +23861,79 @@ setTimeout(()=>{ try{
         if(svg && !svg.querySelector(".ux10Gd")){ svg.querySelectorAll(":scope > path.f-trail, :scope > circle.f-ball").forEach(e=>e.remove());
           const names=svg.querySelector(".f-fielder"); const html=ux10Svg(ev);
           if(names && names.parentNode===svg) names.insertAdjacentHTML("beforebegin",html); else svg.insertAdjacentHTML("beforeend",html); } } }catch(e){}
+    return out; };
+}catch(e){} },0);
+
+if(typeof arrangeActionSlots==="function"){ const o=arrangeActionSlots;
+  arrangeActionSlots=function(){ const r=o.apply(this,arguments);
+    try{ const bar=document.getElementById("actionBar"); if(!bar) return r;
+      const none=!btnShown("hlBtn") && !btnShown("skipBtn") && !btnShown("five5Btn");
+      if(none) [2,3,4].forEach(n=>{ const e=document.getElementById("ph"+n); if(e) e.style.display="none"; });
+      bar.classList.toggle("ux11Solo",none); }catch(e){}
+    return r; }; }
+function ux11WKeys(H){ return [...H.batters,...H.bench,...H.rotation,...H.bullpen].map(c=>c.name+"|"+c.fromTeam); }
+if(typeof worldPickHtml==="function"){ const o=worldPickHtml;
+  worldPickHtml=function(){ let h=o.apply(this,arguments);
+    try{ world._ux11=ux11WKeys(worldHomeTeam(world.out));
+      const en=(typeof scmEn==="function" && scmEn());
+      const note= en? `<p class="small ux11Note">The squad is picked from the active rosters at the moment you start the tournament. Moving players to or from the active roster before then can change it.</p>`
+        : `<p class="small ux11Note">代表は「この代表で大会を始める」を押したときの1軍から選びます。それまでに1軍を入れ替えると、顔ぶれが変わることがあります。</p>`;
+      h=h.replace(/(<div class="worldRoster">)/, note+"$1"); }catch(e){}
+    return h; }; }
+if(typeof worldStart==="function"){ const o=worldStart;
+  worldStart=function(){
+    let msg="";
+    try{ if(worldBusy() && world.phase==="pick" && Array.isArray(world._ux11)){
+        const me=league[myTeam], prev=new Set(world._ux11), now=ux11WKeys(worldHomeTeam(world.out)), nowS=new Set(now);
+        const mine=k=>k.endsWith("|"+me.name), nm=k=>k.slice(0,k.lastIndexOf("|"));
+        const add=now.filter(k=>!prev.has(k) && mine(k)).map(nm), del=world._ux11.filter(k=>!nowS.has(k) && mine(k)).map(nm);
+        if(add.length || del.length){ const en=(typeof scmEn==="function" && scmEn());
+          msg= en? `🌏 The national squad changed after the selection screen (active roster moves): ${add.length? "in: "+add.join(", ") : ""}${add.length&&del.length? " / " : ""}${del.length? "out: "+del.join(", ") : ""}`
+            : `🌏 1軍の入れ替えで、代表の顔ぶれが選びの画面から変わりました:${add.length? "入った "+add.join("・") : ""}${add.length&&del.length? "/" : ""}${del.length? "外れた "+del.join("・") : ""}`; } } }catch(e){}
+    const r=o.apply(this,arguments);
+    try{ if(msg) noteToast("world",msg); }catch(e){}
+    return r; }; }
+
+if(typeof ux9Table==="function"){
+  ux9Table=function(id,cols,rows){
+    const s=UX9S[id]; let rs=rows.slice();
+    if(s && s.k){ const c=cols.find(c=>c.k===s.k); if(c && c.v) rs.sort((a,b)=>{ const x=c.v(a), y=c.v(b); if(x===y) return 0; if(x===null||x===undefined) return 1; if(y===null||y===undefined) return -1; return (x>y? 1 : -1)*s.d; }); }
+    const head=cols.map(c=>{ const cl=c.cls||""; if(!c.v) return `<th class="${cl}">${c.l}</th>`; const on=s && s.k===c.k; return `<th class="ux9S${on?" on":""} ${cl}"><button type="button" onclick="ux9Sort('${id}','${c.k}')">${c.l}${on? (s.d>0? " ▲" : " ▼") : ""}</button></th>`; }).join("");
+    const body=rs.map(r=>`<tr class="${r._cls||""}">${cols.map(c=>`<td class="${c.cls||""}">${c.h(r)}</td>`).join("")}</tr>`).join("");
+    return `<div class="ux9Wrap"><table class="ux9T"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  };
+}
+if(typeof pxFlags==="function"){ const o=pxFlags;
+  pxFlags=function(res,bip){ const f=o.apply(this,arguments);
+    try{ if(f && f.gd && bip && typeof bip.type==="string") f.gt=bip.type; }catch(e){}
+    return f; }; }
+if(typeof ux10Geo==="function"){ const o=ux10Geo;
+  ux10Geo=function(ev){ const g=o.apply(this,arguments);
+    try{ if(g && g.inf && ev.px && ev.px.gt==="GB"){
+        const sx=HL_HX, sy=HL_HY-6, P=(t)=>[sx+(g.cx-sx)*t, sy+(g.cy-sy)*t], hop=[[0,.38,9],[.38,.72,6],[.72,1,3]];
+        let d=`M${sx},${sy}`; hop.forEach(([a,b,h])=>{ const [x1,y1]=P(b), [xm,ym]=P((a+b)/2); d+=` Q${xm.toFixed(1)},${(ym-h).toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`; });
+        g.ball=d; g.gb=true; } }catch(e){}
+    return g; }; }
+
+function ux13Add(box,d){
+  if(!box || typeof mg==="undefined" || !mg || mg.dec!==d) return false;
+  const svg=box.querySelector("#mgStage > svg"); if(!svg || svg.querySelector(".ux10Gd")) return false;
+  const html=ux10Svg(d), names=svg.querySelector(".f-fielder");
+  if(names && names.parentNode===svg) names.insertAdjacentHTML("beforebegin",html); else svg.insertAdjacentHTML("beforeend",html);
+  try{ if(typeof svg.setCurrentTime==="function") svg.setCurrentTime(0); }catch(e){}
+  return true;
+}
+let ux13Timer=null;
+setTimeout(()=>{ try{
+  if(typeof renderManaged!=="function") return; const o=renderManaged;
+  renderManaged=function(){ if(ux13Timer){ clearInterval(ux13Timer); ux13Timer=null; }
+    const out=o.apply(this,arguments);
+    try{ const d=mg&&mg.dec, box=document.getElementById("mgBox");
+      if(d && box && d.kind==="result" && d.from!=="steal" && mgFxOn() && ux10Has(d)){
+        if(!box.classList.contains("mgbSeq")) ux13Add(box,d);
+        else { let n=0; ux13Timer=setInterval(()=>{ n++;
+            if(!mg || mg.dec!==d || n>300){ clearInterval(ux13Timer); ux13Timer=null; return; }
+            if(!box.classList.contains("mgbSeq")){ clearInterval(ux13Timer); ux13Timer=null; ux13Add(box,d); } },100); } } }catch(e){}
     return out; };
 }catch(e){} },0);
 

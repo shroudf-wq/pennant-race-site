@@ -3129,6 +3129,15 @@ p.sqsOff[hidden]{display:none}
 .ux10Dust circle{fill:#d9c9a3}
 .ux10Tag{fill:var(--gold,#f2c94c);font-weight:bold;paint-order:stroke;stroke:#14201a;stroke-width:3px}
 </style>
+<style id="ux11Css">
+#actionBar.ux11Solo [data-slot="1"]{grid-column:1 / -1 !important}
+.ux11Note{opacity:.85}
+</style>
+<style id="ux12Css">
+/* v1.9.m:広い一覧の見出しと中身をそろえる */
+.ux9T th,.ux9T td{text-align:center!important}
+.ux9T th.l,.ux9T td.l{text-align:left!important}
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -3892,7 +3901,7 @@ let practiceElsewhere=false;   // v1.4.c:ほかのタブで練習中(控えを�
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
 /* バージョン:公開のたびに末尾の英字を1つ進める(v1.0.a → … → v1.0.z → v1.1.a) */
-const APP_VERSION="v1.9.k";
+const APP_VERSION="v1.9.o";
 /* 体験版の切り替え:体験版のファイルは、この行を true にして作る(本編と同じプログラム) */
 const LITE=false, LITE_SEASONS=3;
 const DEV=false;   // v1.2.p:開発版(テスト機能がいつも出ている)。開発版を作るときは true に置き換える
@@ -27305,6 +27314,7 @@ function ux8Main(b){
    ・広い一覧:PC(幅 860px 以上)で、トレード・契約更改・秋季キャンプを表にして、列の見出しで並べ替え(総合・成績・年俸・伸びしろ・年齢など)。
      スカウト会議は並べ替えのボタン(年齢・守備・印・視察・目立つ能力)。「カードで見る」で今までの形に戻せる(端末に覚える)。
 */
+const UX9_LOT_SURE=4;   // v1.9.n:この回数続けて外れたら、次の抽選は必ず当たる
 const UX9_LOT_K=0.25, UX9_LOT_MAX=2, UX9_PTS_LOT=2, UX9_PTS_FA=1, UX9_MIN=860;
 function ux9En(){ return typeof scmEn==="function" && scmEn(); }
 // ---- 救済A:抽選の当たりやすさ
@@ -27318,7 +27328,8 @@ function ux9LotPick(teams,me,r){
   if(!teams || teams.length<2 || !teams.includes(me)) return teams[Math.floor(r*teams.length)];
   const L=ux9L(), b=ux9Boost(L);
   let winner;
-  if(b===1) winner=teams[Math.floor(r*teams.length)];
+  if(L>=UX9_LOT_SURE) winner=me;
+  else if(b===1) winner=teams[Math.floor(r*teams.length)];
   else { const w=teams.map(t=>t===me? b : 1), sum=w.reduce((a,x)=>a+x,0); let acc=0; winner=teams[teams.length-1];
     for(let k=0;k<teams.length;k++){ acc+=w[k]/sum; if(r<acc){ winner=teams[k]; break; } } }
   try{ if(winner===me) me.ux9L=0; else { me.ux9L=L+1; ux9Pts(UX9_PTS_LOT, ux9En()? "Lost the draft lottery" : "抽選に外れた"); } }catch(e){}
@@ -27327,8 +27338,11 @@ function ux9LotPick(teams,me,r){
 function ux9LotNote(){
   const L=ux9L(); if(!L) return "";
   const b=ux9Boost(L);
-  return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotter${L>1?"ies":"y"} in a row, so your odds in a tied lottery are ×${b.toFixed(2)} (back to normal once you win).</span>`
-    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選の当たりやすさは ×${b.toFixed(2)}(当たると元に戻ります)。</span>`;
+  if(L>=UX9_LOT_SURE) return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotteries in a row, so you are sure to win this tied lottery.</span>`
+    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選は必ず当たります。</span>`;
+  const left=UX9_LOT_SURE-L, more=ux9En()? ` After ${left} more loss${left>1?"es":""}, the next lottery is a sure win.` : `あと${left}回外れると、次の抽選は必ず当たります。`;
+  return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotter${L>1?"ies":"y"} in a row, so your odds in a tied lottery are ×${b.toFixed(2)} (back to normal once you win).${more}</span>`
+    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選の当たりやすさは ×${b.toFixed(2)}(当たると元に戻ります)。${more}</span>`;
 }
 // ---- 救済C:FA に入団してもらえなかった
 if(typeof resolveFA==="function"){ const o=resolveFA;
@@ -27491,6 +27505,104 @@ setTimeout(()=>{ try{
         if(svg && !svg.querySelector(".ux10Gd")){ svg.querySelectorAll(":scope > path.f-trail, :scope > circle.f-ball").forEach(e=>e.remove());   // 前からの打球があれば好守の打球に置き換える
           const names=svg.querySelector(".f-fielder"); const html=ux10Svg(ev);
           if(names && names.parentNode===svg) names.insertAdjacentHTML("beforebegin",html); else svg.insertAdjacentHTML("beforeend",html); } } }catch(e){}
+    return out; };
+}catch(e){} },0);
+
+/* ===== v1.9.l:テストプレイ(11/22)の確認中の2件(#49・#52) =====
+   ユーザーの「すすめて」(11/24 15:40)。どちらも見せ方だけ(試合の計算・乱数は変えない)。
+   ・#52 オフの間も下の帯に「🎬 観戦/自チーム戦まで/まとめて進める」が残る:
+     4つの枠をそろえるための押せない控え(ph2〜4。v1.3.h)が、②〜④がどれも使えないとき(シーズンのあと・オフ)も薄く並んでいた。
+     → ②〜④の本物のボタンが1つも出ていないときは控えを隠し、①のボタンを横いっぱいに。
+   ・#49 代表選びでは自チームから2人だったのに、大会のあとは「代表3人が凱旋」:
+     代表は「この代表で大会を始める」を押したときの1軍から選び直す作り(worldStart が worldHomeTeam を作り直す)。
+     選びの画面を見たあとに1軍を入れ替える(「1軍に上げる」・開幕前のケガ明けの自動の戻し v1.8.x など)と顔ぶれが変わる。
+     → 選びの画面に「大会を始めるときの1軍から選ぶ」と書き、始めたときに画面と顔ぶれが変わっていたら、入った・外れた自チームの選手をお知らせに出す。 */
+// ---- #52
+if(typeof arrangeActionSlots==="function"){ const o=arrangeActionSlots;
+  arrangeActionSlots=function(){ const r=o.apply(this,arguments);
+    try{ const bar=document.getElementById("actionBar"); if(!bar) return r;
+      const none=!btnShown("hlBtn") && !btnShown("skipBtn") && !btnShown("five5Btn");
+      if(none) [2,3,4].forEach(n=>{ const e=document.getElementById("ph"+n); if(e) e.style.display="none"; });
+      bar.classList.toggle("ux11Solo",none); }catch(e){}
+    return r; }; }
+// ---- #49
+function ux11WKeys(H){ return [...H.batters,...H.bench,...H.rotation,...H.bullpen].map(c=>c.name+"|"+c.fromTeam); }
+if(typeof worldPickHtml==="function"){ const o=worldPickHtml;
+  worldPickHtml=function(){ let h=o.apply(this,arguments);
+    try{ world._ux11=ux11WKeys(worldHomeTeam(world.out));
+      const en=(typeof scmEn==="function" && scmEn());
+      const note= en? `<p class="small ux11Note">The squad is picked from the active rosters at the moment you start the tournament. Moving players to or from the active roster before then can change it.</p>`
+        : `<p class="small ux11Note">代表は「この代表で大会を始める」を押したときの1軍から選びます。それまでに1軍を入れ替えると、顔ぶれが変わることがあります。</p>`;
+      h=h.replace(/(<div class="worldRoster">)/, note+"$1"); }catch(e){}
+    return h; }; }
+if(typeof worldStart==="function"){ const o=worldStart;
+  worldStart=function(){
+    let msg="";
+    try{ if(worldBusy() && world.phase==="pick" && Array.isArray(world._ux11)){
+        const me=league[myTeam], prev=new Set(world._ux11), now=ux11WKeys(worldHomeTeam(world.out)), nowS=new Set(now);
+        const mine=k=>k.endsWith("|"+me.name), nm=k=>k.slice(0,k.lastIndexOf("|"));
+        const add=now.filter(k=>!prev.has(k) && mine(k)).map(nm), del=world._ux11.filter(k=>!nowS.has(k) && mine(k)).map(nm);
+        if(add.length || del.length){ const en=(typeof scmEn==="function" && scmEn());
+          msg= en? `🌏 The national squad changed after the selection screen (active roster moves): ${add.length? "in: "+add.join(", ") : ""}${add.length&&del.length? " / " : ""}${del.length? "out: "+del.join(", ") : ""}`
+            : `🌏 1軍の入れ替えで、代表の顔ぶれが選びの画面から変わりました:${add.length? "入った "+add.join("・") : ""}${add.length&&del.length? "/" : ""}${del.length? "外れた "+del.join("・") : ""}`; } } }catch(e){}
+    const r=o.apply(this,arguments);
+    try{ if(msg) noteToast("world",msg); }catch(e){}
+    return r; }; }
+
+/* ===== v1.9.m:見た目の残り(広い一覧の見出しのそろえ・ゴロの好守の打球) =====
+   ユーザーの「修正を続けて」(11/24 15:52)。見せ方だけ(試合の計算・乱数は変えない)。
+   ・v1.9.j の広い一覧:数字の列は右寄せ・見出しは左寄せでずれて見えた → 見出しと中身を中央にそろえ、名前・今季の列は左(見出しも左)。
+   ・v1.9.k の好守の動き:ゴロの好守でも低いライナーの線で飛んでいた → 好守の印に打球の種類(gt。GB=ゴロ・FB=フライ)を足し、
+     内野のゴロは地面を跳ねる打球(3回弾む)にする。印を付けるとき(pxFlags)に bip.type を写すだけで乱数は使わない。前のセーブの場面(gt なし)は今まで。
+   ・(調べたこと)テストプレイ(11/22)の未確認「観戦で横スクロールバーが一瞬出る」は、見出しが出るときの拡大(hlPop 1.08 倍)が箱から 1〜2px はみ出すためで、
+     #40 の直し(#highlightOverlay .hlBox{overflow-x:hidden})で出なくなっている(PC 4つ・スマホ2つの幅で測って、はみ出し 0)。 */
+if(typeof ux9Table==="function"){
+  ux9Table=function(id,cols,rows){
+    const s=UX9S[id]; let rs=rows.slice();
+    if(s && s.k){ const c=cols.find(c=>c.k===s.k); if(c && c.v) rs.sort((a,b)=>{ const x=c.v(a), y=c.v(b); if(x===y) return 0; if(x===null||x===undefined) return 1; if(y===null||y===undefined) return -1; return (x>y? 1 : -1)*s.d; }); }
+    const head=cols.map(c=>{ const cl=c.cls||""; if(!c.v) return `<th class="${cl}">${c.l}</th>`; const on=s && s.k===c.k; return `<th class="ux9S${on?" on":""} ${cl}"><button type="button" onclick="ux9Sort('${id}','${c.k}')">${c.l}${on? (s.d>0? " ▲" : " ▼") : ""}</button></th>`; }).join("");
+    const body=rs.map(r=>`<tr class="${r._cls||""}">${cols.map(c=>`<td class="${c.cls||""}">${c.h(r)}</td>`).join("")}</tr>`).join("");
+    return `<div class="ux9Wrap"><table class="ux9T"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+  };
+}
+// ---- ゴロの好守の打球
+if(typeof pxFlags==="function"){ const o=pxFlags;
+  pxFlags=function(res,bip){ const f=o.apply(this,arguments);
+    try{ if(f && f.gd && bip && typeof bip.type==="string") f.gt=bip.type; }catch(e){}
+    return f; }; }
+if(typeof ux10Geo==="function"){ const o=ux10Geo;
+  ux10Geo=function(ev){ const g=o.apply(this,arguments);
+    try{ if(g && g.inf && ev.px && ev.px.gt==="GB"){
+        const sx=HL_HX, sy=HL_HY-6, P=(t)=>[sx+(g.cx-sx)*t, sy+(g.cy-sy)*t], hop=[[0,.38,9],[.38,.72,6],[.72,1,3]];
+        let d=`M${sx},${sy}`; hop.forEach(([a,b,h])=>{ const [x1,y1]=P(b), [xm,ym]=P((a+b)/2); d+=` Q${xm.toFixed(1)},${(ym-h).toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`; });
+        g.ball=d; g.gb=true; } }catch(e){}
+    return g; }; }
+
+/* ===== v1.9.o:じっくり采配の結果の画面にも好守の動き =====
+   ユーザーの「簡単な分から進めて」の C(11/24)。v1.9.k の観戦の好守の動き(ux10Svg)を、采配の結果の画面(#mgStage の守備の図)にも出す。
+   ・出すのは、結果の場面(d.kind==="result"・盗塁の結果ではない)に好守の印(d.px.gd)があり、演出あり(mgFxOn)のときだけ。
+   ・打席の画面で1球ずつ投げている間(v1.9.b の #mgBox.mgbSeq)は守備の図が隠れているので、投げ終えて打席の画面が消えてから足す。
+   ・SVG の動きは図を作った時から数えるので、足したあと setCurrentTime(0) で頭から動かす(図の中にほかの動きはない)。
+   ・描くだけ(試合の計算・乱数は使わない)。向き・前か後ろかは観戦と同じ ux10Geo(forteHash)で、同じ場面はいつも同じ動き。 */
+function ux13Add(box,d){
+  if(!box || typeof mg==="undefined" || !mg || mg.dec!==d) return false;
+  const svg=box.querySelector("#mgStage > svg"); if(!svg || svg.querySelector(".ux10Gd")) return false;
+  const html=ux10Svg(d), names=svg.querySelector(".f-fielder");
+  if(names && names.parentNode===svg) names.insertAdjacentHTML("beforebegin",html); else svg.insertAdjacentHTML("beforeend",html);
+  try{ if(typeof svg.setCurrentTime==="function") svg.setCurrentTime(0); }catch(e){}
+  return true;
+}
+let ux13Timer=null;
+setTimeout(()=>{ try{
+  if(typeof renderManaged!=="function") return; const o=renderManaged;
+  renderManaged=function(){ if(ux13Timer){ clearInterval(ux13Timer); ux13Timer=null; }
+    const out=o.apply(this,arguments);
+    try{ const d=mg&&mg.dec, box=document.getElementById("mgBox");
+      if(d && box && d.kind==="result" && d.from!=="steal" && mgFxOn() && ux10Has(d)){
+        if(!box.classList.contains("mgbSeq")) ux13Add(box,d);
+        else { let n=0; ux13Timer=setInterval(()=>{ n++;
+            if(!mg || mg.dec!==d || n>300){ clearInterval(ux13Timer); ux13Timer=null; return; }
+            if(!box.classList.contains("mgbSeq")){ clearInterval(ux13Timer); ux13Timer=null; ux13Add(box,d); } },100); } } }catch(e){}
     return out; };
 }catch(e){} },0);
 
