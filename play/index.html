@@ -3899,7 +3899,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.9.o";
+const APP_VERSION="v1.9.p";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -23935,6 +23935,28 @@ setTimeout(()=>{ try{
             if(!mg || mg.dec!==d || n>300){ clearInterval(ux13Timer); ux13Timer=null; return; }
             if(!box.classList.contains("mgbSeq")){ clearInterval(ux13Timer); ux13Timer=null; ux13Add(box,d); } },100); } } }catch(e){}
     return out; };
+}catch(e){} },0);
+
+function ux14Fit(svg){
+  try{ const tag=svg && svg.querySelector(".ux10Gd .ux10Tag"); if(!tag) return false;
+    const box=svg.parentNode; if(!box) return false;
+    const sv=svg.getBoundingClientRect(), A=sv.width*sv.height;
+    const rs=[...box.querySelectorAll(":scope > *:not(svg), :scope > * > *:not(svg)")].filter(e=>!e.contains(svg) && !svg.contains(e))
+      .map(e=>e.getBoundingClientRect()).filter(r=>r.width>4 && r.height>4 && r.width*r.height<A*0.4);
+    const hit=()=>{ const t=tag.getBoundingClientRect(); return rs.some(r=>r.left<t.right && r.right>t.left && r.top<t.bottom && r.bottom>t.top); };
+    if(!rs.length || !hit()) return false;
+    const x0=tag.getAttribute("x"), y0=tag.getAttribute("y"), a0=tag.getAttribute("text-anchor")||"middle";
+    const cx=+x0, cy=+y0+16, vb=(svg.getAttribute("viewBox")||"0 0 300 230").split(/\s+/).map(Number);
+    const tries=[[cx,Math.min(cy+24,vb[3]-4),"middle"],[cx-10,+y0,"end"],[cx+10,+y0,"start"],[cx-10,Math.min(cy+24,vb[3]-4),"end"]];
+    for(const [x,y,a] of tries){ tag.setAttribute("x",x.toFixed(1)); tag.setAttribute("y",(+y).toFixed(1)); tag.setAttribute("text-anchor",a); if(!hit()) return true; }
+    tag.setAttribute("x",x0); tag.setAttribute("y",y0); tag.setAttribute("text-anchor",a0); return false;
+  }catch(e){ return false; }
+}
+if(typeof ux13Add==="function"){ const o=ux13Add;
+  ux13Add=function(box,d){ const r=o.apply(this,arguments); if(r) ux14Fit(box.querySelector("#mgStage > svg")); return r; }; }
+setTimeout(()=>{ try{
+  if(typeof hlRenderPlay!=="function") return; const o=hlRenderPlay;
+  hlRenderPlay=function(){ const out=o.apply(this,arguments); try{ ux14Fit(document.querySelector("#hlSvg #hlStage svg")); }catch(e){} return out; };
 }catch(e){} },0);
 
 let noticeDateFix=null;
