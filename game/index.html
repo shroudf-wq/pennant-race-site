@@ -3077,6 +3077,29 @@ p.sqsOff[hidden]{display:none}
 .ux4PostT td{padding:4px 6px;border-bottom:1px solid rgba(128,128,128,.3)}
 .ux4PostT tr.ux4My td{background:rgba(242,201,76,.18);font-weight:bold}
 </style>
+<style id="ux5Css">
+/* v1.9.f */
+.ux5Sal{margin:4px 0 8px;padding:6px 8px;border-radius:6px;background:rgba(201,181,106,.12)}
+.ux5Done{display:inline-block;margin-left:3px;padding:0 4px;border-radius:6px;font-size:.78em;background:rgba(128,128,128,.22);white-space:nowrap}
+.ux5SsNote{margin:2px 0 6px;opacity:.85}
+#ux5Open:not(.hidden){display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-bottom:10px}
+#ux5Open p{flex:1 1 240px}
+</style>
+<style id="ux7Css">
+/* v1.9.h:テストプレイの残り */
+.ux7SalSsn{opacity:.85;margin:1px 0 3px}
+#playerModal .ux7Past{opacity:.7}
+.ux7Tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:2px 0 8px}
+.ux7Tag{display:inline-block;padding:2px 10px;border-radius:10px;border:1px solid var(--gold);font-size:.85em;font-weight:bold}
+.ux7Past{opacity:.7}
+/* #63 選手の詳しい画面:右上の × が札(銅など)に重ならないように */
+#playerModalBody > .pcfSeal:first-child{margin-right:30px}
+/* #63 「衰え」などの見出しを2行に割らない */
+#playerModalBody .gradeRow > span:first-child{white-space:nowrap;flex:0 0 auto}
+#playerModalBody .gradeRow{gap:8px}
+/* #63 スマホ:他球場の行末(「勝ち越し」などの札)を切らない */
+@media (max-width:600px){ .ticker li{white-space:normal;line-height:1.35} }
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -3840,7 +3863,7 @@ let practiceElsewhere=false;   // v1.4.c:ほかのタブで練習中(控えを�
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
 /* バージョン:公開のたびに末尾の英字を1つ進める(v1.0.a → … → v1.0.z → v1.1.a) */
-const APP_VERSION="v1.9.e";
+const APP_VERSION="v1.9.h";
 /* 体験版の切り替え:体験版のファイルは、この行を true にして作る(本編と同じプログラム) */
 const LITE=false, LITE_SEASONS=3;
 const DEV=false;   // v1.2.p:開発版(テスト機能がいつも出ている)。開発版を作るときは true に置き換える
@@ -4549,10 +4572,9 @@ function assignDates(sched,numTeams,from){
   const END=new Date(2050,9,3);   // 10/3
   const spanMs=Math.max(0,END.getTime()-START.getTime());
   if(typeof sched==="number"){ sched=Array.from({length:sched},(_,i)=>[i*2%Math.max(2,numTeams),(i*2+1)%Math.max(2,numTeams)]); }
-  const days=packIntoDays(sched,numTeams);
+  const days=ux6Pack(sched,numTeams);   // v1.9.g:連戦(カード)にまとめる
   const ordered=days.flat(); sched.splice(0,sched.length,...ordered);
-  const dates=[];
-  days.forEach((day,d)=>{ const frac= days.length>1? d/(days.length-1) : 0; const dt=new Date(START.getTime()+frac*spanMs); day.forEach(()=>dates.push(dt)); });
+  const dates=ux6Dates(days,START,spanMs);   // v1.9.g:カードの中は続く日・休みはカードの切れ目に
   return dates;
 }
 // 既存のセーブ:まだ行っていない試合で、同じチームが同じ日に複数入っていれば詰め直す
@@ -4805,7 +4827,7 @@ function startLeague(){
   document.getElementById("main").classList.remove("hidden");
   document.body.classList.remove("preLeague");
   lineupUndo=null; autoRosterLog=null; lineupSub="bat"; newsArchive=[]; leagueRecords=recFresh(); retiredNos=[]; noQueue=[]; uniquesUsed=[]; fa=freshFAState(); awardsLog=[]; hallOfFame=[]; aceLog=[]; psMvpLog=[]; seasonAwardLog=[]; seasonWrapY=0; psPre=null; mgrEvents=[]; mgrHof=null; mgrOver=null; vsLog={}; vsSince=1; albumLog=[]; scenario=null; secondGenUsed=[]; pennantCount=0; refreshNewsBanner();
-  showPanel("lineup");
+  showPanel("game"); ux5OpenNote();   // v1.9.f:はじめは試合の画面(編成はおすすめで組んである)
   document.getElementById("openingNotice").classList.remove("hidden");
   buildLineupUI();
   populateTeamViewSelect();
@@ -6069,7 +6091,7 @@ function conditionLineup(t){
       lineup.forEach((si,slot)=>{ const st=pool[si], f=(swaps.find(x=>x[0]===st)||[null,st.fielding])[1];
         if((lockOn && (st.lock || scmProtect(st))) || !(f==="指" || starterPosOptions(benchP).includes(f))) return;
         const m=benchP.cond-st.cond-15-PF_COND*(pfLoss(benchP,f)-pfLoss(st,f));
-        if(m>=0 && m>bm && (!lockOn || typeof scmOk!=="function" || scmOk(benchP,st))){ bm=m; bs=slot; } });
+        if(m>=0 && m>bm && (lockOn? (typeof scmOk!=="function" || scmOk(benchP,st)) : ux6AiRestOk(st))){ bm=m; bs=slot; } });
       if(bs>=0){ const out=pool[lineup[bs]], f=(swaps.find(x=>x[0]===out)||[null,out.fielding])[1];
         starterSet.delete(lineup[bs]); lineup[bs]=bi; starterSet.add(bi); swaps.push([benchP,f]); }
       return;
@@ -6077,7 +6099,7 @@ function conditionLineup(t){
     let worstSlot=-1,worstCond=Infinity;
     lineup.forEach((si,slot)=>{ const f=(swaps.find(x=>x[0]===pool[si])||[null,pool[si].fielding])[1];
       if(!(lockOn && (pool[si].lock || scmProtect(pool[si]))) && (f==="指" || starterPosOptions(benchP).includes(f)) && pool[si].cond<worstCond){ worstCond=pool[si].cond; worstSlot=slot; } });
-    if(worstSlot>=0 && benchP.cond-worstCond>=15 && (!lockOn || typeof scmOk!=="function" || scmOk(benchP,{cond:worstCond}))){
+    if(worstSlot>=0 && benchP.cond-worstCond>=15 && (lockOn? (typeof scmOk!=="function" || scmOk(benchP,{cond:worstCond})) : ux6AiRestOk({cond:worstCond}))){
       const out=pool[lineup[worstSlot]], f=(swaps.find(x=>x[0]===out)||[null,out.fielding])[1];
       starterSet.delete(lineup[worstSlot]);
       lineup[worstSlot]=bi; starterSet.add(bi); swaps.push([benchP,f]);
@@ -7109,7 +7131,7 @@ function* simGameGen(home,away,verbose,forceDecision,countsForStandings,human){
     { const h=state.history[state.history.length-1]; h.ipG=(h.ipG||0)+1; h.rG=(h.rG||0)+runs; }
     // 球数のように、そのイニングに対戦した打者の数でスタミナが減る(三者凡退なら少なく、長いイニングほど多く)
     const bfInn=state.cur.bf-beforeBF;
-    state.stamina-=Math.round((1+2.4*bfInn)*(skillsEnabled? skTireMul(state.cur) : 1)) + ((tensionEnabled && state.cur.tension===3)? Math.round(4*rikimiFactor(state.cur,{})) : 0);   // 力投型は疲れが早く、完投型は疲れにくい
+    state.stamina-=Math.round((1+2.4*bfInn)*(state.history.length===1? UX6_ST_K : 1)*(skillsEnabled? skTireMul(state.cur) : 1)) + ((tensionEnabled && state.cur.tension===3)? Math.round(4*rikimiFactor(state.cur,{})) : 0);   // 力投型は疲れが早く、完投型は疲れにくい
     return {runs,hits};
   };
   for(let inn=1;inn<=9;inn++){
@@ -7238,7 +7260,7 @@ function* simHalfInningGen(lineArr,getBatter,advance,pitcher,verbose,log,inn,hal
       if(tryIt===null && icPol==="run" && sp>=45){ tryIt=true; stAsked=true; }   // v1.5.s:足でかき回す
       if(tryIt===null && mgOrdTake(log,lineArr,"steal")){ tryIt=true; stAsked=true; }   // v1.9.a:自分から出した盗塁
       if(tryIt===null){ const spT=sp+(skillsEnabled? skSteal(r1,pitcher,catcher)*STEAL_SK_K : 0);   // v1.1.v:スキルを見て走るかを決める(成功の確率の差を走力に直した分)
-        tryIt= wlOn? (spT>=WL.stT && Math.random()<clamp((spT-WL.stT+5)/WL.stD,0,WL.stMax)) : (spT>=62 && Math.random()<clamp((spT-60)/220,0,0.2)); }   // 女子リーグ:よく走る
+        tryIt= wlOn? (spT>=WL.stT && Math.random()<clamp((spT-WL.stT+5)/WL.stD,0,WL.stMax)) : (spT>=60 && Math.random()<ux6StealTry(spT)); }   // 女子リーグ:よく走る
       if(tryIt){
         const cst=fStat(catcher,"捕"); if(cst) cst.sba++;
         // 成功率:実際のプロ野球(成功7割強・阻止3割弱)に近づける。捕手の肩の強さがよく効く
@@ -13969,7 +13991,8 @@ function showMyTeamIntro(){
     <p class="small">${archDescOf(t.archetype)}</p>
     <h4>看板選手</h4>
     ${sigs.length? `<ul class="introList">${sigs.map(p=>`<li><b>${p.name}</b> 固有スキル「${p.sigTitle}」 <span class="small">${sigSkillInfo(p)? sigSkillInfo(p).effect+" / " : ""}${p.velo!==undefined? (p.pos==="先発"?"先発投手":"中継ぎ投手") : (POS_FULL[p.fielding]||"野手")}・${p.age}歳</span></li>`).join("")}</ul>` : `<p class="small">このリーグは看板選手なしの設定です。</p>`}
-    <button class="act" style="width:100%;min-height:48px;margin-top:12px" onclick="closeModal();showPanel('lineup')">編成を確認する</button>
+    <button class="act" style="width:100%;min-height:48px;margin-top:12px" onclick="closeModal();showPanel('game')">試合へ進む</button>
+    <button class="sec" style="width:100%;min-height:40px;margin-top:6px" onclick="closeModal();showPanel('lineup')">編成を確認する</button>
   </div>`);
 }
 const MANUAL=[
@@ -14301,7 +14324,7 @@ let awardsLog=[];     // [{year, league, items:[{award,name,team,value,mine}] , 
 let hallOfFame=[];    // [{name, team, year, kind, reason}]
 let aceLog=[];        // エース・オブ・ザ・イヤー(両リーグ共通で1人):[{year, ace}]
 // 殿堂の基準:名球会(2000安打・200勝・250セーブ)を、このゲームの試合数と打撃の水準に合わせて縮めたもの
-const HOF_BASE={hits:[1880,0.98],   /* v1.8.a:2000→1880(二塁打が増えて安打が減り、30年で打者が 2.3人しか入らなくなった。1880 で約4.4人) */ wins:[200,1.05], saves:[250,0.95]};   // v1.2.r:測り直し(30年で 打者約10・勝利約4・セーブ約3 になっていたので、各5に)。下の行はもとの注   // v1.1.b:殿堂入りが投手(特にセーブ)に偏っていたので、勝利・セーブの条件を上げた(標準・日本式・30年で 打者5:投手16 → 打者5:投手10 ほど)
+const HOF_BASE={hits:[2000,0.98],   /* v1.9.h:1880→2000(主力の出場が増えて安打が増え、30年で打者が 8.6人に。2000 で約5.7人) */   /* v1.8.a:2000→1880(二塁打が増えて安打が減り、30年で打者が 2.3人しか入らなくなった。1880 で約4.4人) */ wins:[200,1.05], saves:[250,0.95]};   // v1.2.r:測り直し(30年で 打者約10・勝利約4・セーブ約3 になっていたので、各5に)。下の行はもとの注   // v1.1.b:殿堂入りが投手(特にセーブ)に偏っていたので、勝利・セーブの条件を上げた(標準・日本式・30年で 打者5:投手16 → 打者5:投手10 ほど)
 const HOF_US={hits:1.145, wins:0.9, saves:1.05};   // v1.2.u:中継ぎ8人のアメリカ式で、30年・60年の人数を標準に合わせ直した(4リーグ×60年。v1.2.t は 1.06・0.94・0.75)。もとは v1.2.t:メジャー式の殿堂入りの条件に掛ける(No.53。10リーグ×60年で、30年・60年の人数を標準に合わせた)
 function hofThreshold(kind){ const b=HOF_BASE[kind][0], k=((BALANCE_PRESETS[balanceMode]||BALANCE_PRESETS.standard).hof||{})[kind]||HOF_BASE[kind][1]; return Math.max(10, Math.round(b*k*(kind==="wins"? rotF() : 1)*((typeof usRules==="function" && usRules())? HOF_US[kind] : 1)*(targetGamesPerTeam||120)/143/10)*10); }
 function careerPlus(p,k){ return (p.career&&p.career[k]||0)+(p[k]||0); }
@@ -15079,9 +15102,10 @@ function seasonAwardsCompute(){
     const r=best(rc,x=>x.s.war);
     const b9=[];
     { const pb=best(pits.filter(x=>x.p.ip>=G*0.6),x=>x.s.war); if(pb) b9.push(swEntry(pb.x,me,"投")); }
-    const reg=bats.filter(x=>x.p.pa>=G*2.0);
-    ["捕","一","二","三","遊"].forEach(pos=>{ const b=best(reg.filter(x=>x.s.main===pos),x=>x.s.war); if(b) b9.push(swEntry(b.x,me,pos)); });
-    reg.filter(x=>["左","中","右","外"].includes(x.s.main)).map(x=>({x,v:x.s.war+swTie(x.p)})).sort((a,b)=>b.v-a.v).slice(0,3).forEach(o=>b9.push(swEntry(o.x,me,"外")));
+    const reg=bats.filter(x=>x.p.pa>=G*2.0), ttl=ux5Titles(lg,G);   // v1.9.f:打撃タイトルの選手に上乗せ(UX5_TB)
+    ["捕","一","二","三","遊"].forEach(pos=>{ const b=best(reg.filter(x=>x.s.main===pos),x=>x.s.war+ux5TB(ttl,x.p)); if(b) b9.push(swEntry(b.x,me,pos)); });
+    reg.filter(x=>["左","中","右","外"].includes(x.s.main)).map(x=>({x,v:x.s.war+ux5TB(ttl,x.p)+swTie(x.p)})).sort((a,b)=>b.v-a.v).slice(0,3).forEach(o=>b9.push(swEntry(o.x,me,"外")));
+    { const dh=reg.filter(x=>!x.s.main); if(dh.length){ const d=best(dh,x=>x.s.war+ux5TB(ttl,x.p)); if(d) b9.push(swEntry(d.x,me,"指")); } }   // v1.9.f:指名打者のあるリーグは指名打者の枠
     const rec={year, league:lgName, mvp:m? swEntry(m.x,me) : null, roy:r? swEntry(r.x,me) : null, b9};
     seasonAwardLog.push(rec);
     if(m) addFeat(m.x.p,{k:"smvp",y:year});
@@ -18876,14 +18900,14 @@ const REC_C=[
 //   同じ決まり(プロ野球 170回に1回・メジャー 250回に1回)で測り直した(標準 16リーグ×125年=4,000、打高・投高 6リーグ×60年、超投高 約280年。大車輪・記録級の打者なし)。
 //   測り方はリポジトリ work/rec-lines-v18a/(run.py・ana.py)と PC の filesb\v1.8.a\
 let REC_LINE={
-  standard:{avg:[0.338,0.342], hr:[31,32], rbi:[92,93], h:[149,150], sb:[24,25], w:[17,18], era:[1.10,1.06], so:[197,199], sv:[36,37], hold:[37,null]},   // v1.8.p:本物のプレー②〜⑤のあと16リーグ×125年で測り直し(打率・打点・盗塁・奪三振。v1.8.a は .332/.336・89/91・21/22・194/196)
-  hit:{avg:[0.357,0.360], hr:[38,40], rbi:[108,110], h:[166,169], sb:[23,24], w:[17,18], era:[1.77,1.62], so:[194,200], sv:[32,33], hold:[38,null]},
-  pitch:{avg:[0.303,0.308], hr:[24,25], rbi:[69,70], h:[134,139], sb:[23,24], w:[18,19], era:[0.60,0.57], so:[199,202], sv:[39,41], hold:[35,null]},
-  ultraPitch:{avg:[0.382,0.397], hr:[23,24], rbi:[74,76], h:[172,173], sb:[23,24], w:[18,19], era:[null,null], so:[262,264], sv:[43,44], hold:[36,null]}
+  standard:{avg:[0.337,0.340], hr:[34,35], rbi:[98,99], h:[157,160], sb:[41,42], w:[16,17], era:[1.10,1.03], so:[208,210], sv:[37,38], hold:[38,null]},   // v1.9.h:v1.9.g(主力の休みを減らす・盗塁・先発)のあと12リーグ×125年で測り直し(v1.8.p は .338/.342・31/32・92/93・149/150・24/25・17/18・1.10/1.06・197/199・36/37・37)   // v1.8.p:本物のプレー②〜⑤のあと16リーグ×125年で測り直し(打率・打点・盗塁・奪三振。v1.8.a は .332/.336・89/91・21/22・194/196)
+  hit:{avg:[0.357,0.360], hr:[38,40], rbi:[108,110], h:[166,169], sb:[42,45], w:[16,18], era:[1.77,1.62], so:[194,200], sv:[32,33], hold:[38,null]},
+  pitch:{avg:[0.303,0.308], hr:[24,25], rbi:[69,70], h:[134,139], sb:[35,36], w:[16,17], era:[0.60,0.57], so:[199,202], sv:[39,41], hold:[35,null]},
+  ultraPitch:{avg:[0.382,0.397], hr:[23,24], rbi:[74,76], h:[172,173], sb:[38,39], w:[18,19], era:[null,null], so:[262,264], sv:[43,44], hold:[36,null]}
 };
 /* 通算記録の「記録に当たる数」(標準・120試合)。同じ条件で125年ずつ12リーグ回して、通算の歴代1位を見た(tests/o_reccareer.py)。
    プロ野球=90年目の歴代1位の中央の値(約90年の歴史でいちばんの数字)、メジャー=125年目の歴代1位の上から1/4の値 */
-const REC_CLINE={h:[2130,2260], hr:[360,375], rbi:[1120,1240], sb:[215,225],   /* v1.8.p:盗塁 175/205→215/225(三盗・重盗などで増えた) */ w:[215,220], so:[3510,3630], sv:[365,440]};   // v1.8.a:16リーグ×125年で測り直した(安打・本塁打・打点は低すぎ、盗塁は高すぎだった)   // v1.2.r:盗塁・勝利・奪三振・セーブを6リーグ×125年で測り直した(中継ぎの上限のあと)   // v1.1.c:先発6人・新しい成長で8リーグ×125年を測り直した(日本式)
+const REC_CLINE={h:[2250,2520], hr:[350,410], rbi:[1160,1330], sb:[430,500],   /* v1.9.h:12リーグ×125年で測り直し(v1.8.p は 2130/2260・360/375・1120/1240・215/225・215/220・3510/3630・365/440) */   /* v1.8.p:盗塁 175/205→215/225(三盗・重盗などで増えた) */ w:[255,265], so:[3910,4140], sv:[355,405]};   // v1.8.a:16リーグ×125年で測り直した(安打・本塁打・打点は低すぎ、盗塁は高すぎだった)   // v1.2.r:盗塁・勝利・奪三振・セーブを6リーグ×125年で測り直した(中継ぎの上限のあと)   // v1.1.c:先発6人・新しい成長で8リーグ×125年を測り直した(日本式)
 /* 先発5人(メジャー式)のときの上乗せ(v1.1.c)。先発が5人だと勝利と奪三振が増える。標準・アメリカ式で、シーズンは700シーズン、通算は4リーグ×125年を測った比 */
 const REC_FIVE_S={w:1.06, so:1.2, era:0.96}, REC_FIVE_C={w:1.2, so:1.28};   // v1.2.u:中継ぎを増やしたら、中継ぎの勝ちが減って最多勝の線が 23→18 に(4リーグ×60年)。v1.2.t は 1.35   // v1.2.r:先発5人6リーグ×125年で測り直した   // v1.1.w:通算の奪三振 1.07→1.15(先発5人6リーグ×125年で標準の約1.16倍)
 /* 通算の線の、投打バランスごとの直し(v1.1.w)。標準の線にシーズンの基準の比を掛けただけでは合わない項目を、6リーグ×125年の実測の比(90年目の中央・125年目の上から1/4の平均)で掛け直す。
@@ -23505,22 +23529,23 @@ if(typeof buildLeagueSchedule==="function"){ const orig=buildLeagueSchedule;
   buildLeagueSchedule=function(){
     const r=orig();
     if(proInterOn()){ const k=interPerOpp(), n=league.length, cross=[];
-      for(let i=0;i<n;i++) for(let j=0;j<leagueB.length;j++) for(let q=0;q<k;q++) cross.push(((i+j+q)%2===0)? [i,1000+j] : [1000+j,i]);
+      for(let i=0;i<n;i++) for(let j=0;j<leagueB.length;j++) for(let q=0;q<k;q++) cross.push(((i+j)%2===0)? [i,1000+j] : [1000+j,i]);
       schedule=schedule.concat(cross); }
     return r; };
 } else RULES_MISSING.push("buildLeagueSchedule");
-let proBlockLen=0;
+let proBlockLen=0, proBlockS=null;
 if(typeof assignDates==="function"){ const orig=assignDates;
   assignDates=function(sched,numTeams,from){
     if(!proRules() || from || !Array.isArray(sched) || !proInterOn()) return orig(sched,numTeams,from);
     const isB= typeof scheduleB!=="undefined" && sched===scheduleB, cross=sched.filter(g=>g[0]>=1000||g[1]>=1000);
     if(!cross.length && !isB) return orig(sched,numTeams,from);
-    const intra=sched.filter(g=>!(g[0]>=1000||g[1]>=1000)), days=packIntoDays(intra,numTeams);
-    const block= cross.length? packIntoDays(cross,numTeams*2) : Array.from({length: proBlockLen || interPerOpp()*league.length},()=>[]);
-    if(cross.length) proBlockLen=block.length;
-    const at=Math.floor(days.length*PRO_BLOCK_AT), all=[...days.slice(0,at),...block,...days.slice(at)];
+    const intra=sched.filter(g=>!(g[0]>=1000||g[1]>=1000)), days=ux6Pack(intra,numTeams);
+    const block= cross.length? ux6CrossPack(cross,league.length) : Array.from({length: proBlockLen || interPerOpp()*league.length},(_,i)=>{ const d=[]; if(proBlockS? proBlockS[i] : i%interPerOpp()===0) d.s=1; return d; });
+    if(cross.length){ proBlockLen=block.length; proBlockS=block.map(d=>!!d.s); }
+    let at=Math.floor(days.length*PRO_BLOCK_AT); while(at<days.length && !days[at].s) at++;   // v1.9.g:カードの切れ目に入れる
+    const all=[...days.slice(0,at),...block,...days.slice(at)];
     const START=new Date(2050,3,1), END=new Date(2050,9,3), span=END.getTime()-START.getTime(), dates=[];
-    all.forEach((day,d)=>{ const dt=new Date(START.getTime()+(all.length>1? d/(all.length-1) : 0)*span); day.forEach(()=>dates.push(dt)); });
+    dates.push(...ux6InterDates(days.slice(0,at),block,days.slice(at),START,END));   // v1.9.g:交流戦は A・B で同じ日
     sched.splice(0,sched.length,...all.flat());
     return dates; };
 } else RULES_MISSING.push("assignDates");
@@ -27023,6 +27048,196 @@ function ux4HlSet(){ try{ closeHighlights(); }catch(e){} try{ showPanel("setting
 I18N.add("en",{"今季の登板なし":"No games this season","今季の出場なし":"No games this season","決勝打":"Game-winning hit","ポストシーズンの勝ち上がり":"Postseason results","アドバンテージ":"Advantage",
   "次の場面 ▶":"Next scene ▶","観戦を終える":"Stop watching","観戦の設定":"Viewing settings","観戦を終えて、観戦の設定を開きます":"Stop watching and open the viewing settings",
   "大きい場面ほど派手に(おすすめ)":"Bigger moments, bigger effects (recommended)","どの場面も同じ(控えめ)":"Same for every scene (subtle)","場面で強弱":"Scaled","どれも同じ":"Even"});
+
+/* ===== v1.9.f:テストプレイ(11/22)の数字の指摘のうち、試合の結果を変えない分(乱数は使わない) =====
+   ・#33 ベストナイン:打撃タイトル(首位打者・本塁打王・打点王・最多安打・最高出塁率・盗塁王)の選手を選ぶときに上乗せ。指名打者のあるリーグは「指名打者」の枠も
+   ・#74 FA の画面に、この冬の契約更改の昇給で要る球団ポイントの見込み(年俸ありのリーグ)
+   ・#55 もう一方のリーグを開幕時にまとめて消化するリーグでは、予告先発の成績に「全日程」の印(1年分を終えた成績のため)
+   ・#56 球団を選んだ直後は試合の画面を開く(編成はおすすめで組んであると知らせる)
+   ・#22 スカウト会議に「当日はほかに目玉選手・再挑戦の選手も加わる」「見立ては入団後とずれることがある」の一言
+*/
+// ---- #33 ベストナイン
+const UX5_TB={"首位打者":2,"本塁打王":2,"打点王":2,"最多安打":1.5,"最高出塁率":1,"盗塁王":1};
+function ux5Titles(lg,G){
+  const bats=[]; lg.forEach(t=>t.batters.concat(t.bench).forEach(p=>{ if((p.pa||0)>0) bats.push(p); }));
+  const qual=bats.filter(p=>p.pa>=G*3.1), top=(list,f)=>list.length? list.reduce((a,b)=>f(b)>f(a)? b : a, list[0]) : null, m=new Map();
+  const add=(k,p,f)=>{ if(p && f(p)>0) m.set(p,(m.get(p)||0)+UX5_TB[k]); };
+  add("首位打者",top(qual,p=>batLine(p).avg),p=>batLine(p).avg); add("最高出塁率",top(qual,p=>batLine(p).obp),p=>batLine(p).obp);
+  add("本塁打王",top(bats,p=>p.hr||0),p=>p.hr||0); add("打点王",top(bats,p=>p.rbi||0),p=>p.rbi||0); add("最多安打",top(bats,p=>p.h||0),p=>p.h||0); add("盗塁王",top(bats,p=>p.sb||0),p=>p.sb||0);
+  return m;
+}
+function ux5TB(m,p){ return (m && m.get(p)) || 0; }
+// ---- #74 契約更改の見込み(salOf は値の無い選手に書き込むので使わない)
+function ux5SalNeedPts(t){
+  try{ if(typeof salOn!=="function" || !salOn() || !t) return null; let need=0;
+    salTeamPlayers(t).forEach(p=>{ if(typeof p.sal!=="number") return; const cur=p.sal, fair=salFair(p), want=salWant(p,fair,cur); need+=Math.max(0,salSmart(cur,fair,want)-cur); });
+    return Math.ceil(need/SAL_PT); }catch(e){ return null; } }
+function ux5SalLine(){ const n=ux5SalNeedPts(league && league[myTeam]); if(n==null) return "";
+  return `<p class="small ux5Sal">💰 ${tr("この冬の契約更改の昇給:約{0}点の見込み(いまの球団ポイント {1}点)。FA の上乗せに使いすぎると、昇給の分が足りなくなることがあります").replace("{0}",n).replace("{1}",clubPoints)}</p>`; }
+if(typeof faScreenHtml==="function"){ const o=faScreenHtml; faScreenHtml=function(){ let h=o.apply(this,arguments); try{ const s=ux5SalLine(); if(s) h=h.replace("<h3>FA市場</h3>","<h3>FA市場</h3>"+s); }catch(e){} return h; }; }
+// ---- #55 予告先発(まとめて消化したリーグの投手)
+function ux5Done(p){ try{ return leagueBMode==="instant" && leagueB && leagueB.length && inRegularSeason() && leagueB.some(t=>oneGun(t).includes(p)); }catch(e){ return false; } }
+if(typeof nowSpHtml==="function"){ const o=nowSpHtml; nowSpHtml=function(p){ const h=o.apply(this,arguments);
+  return (p && ux5Done(p))? h.replace(/<\/span>$/,` <span class="ux5Done" title="${tr("もう一方のリーグは開幕時に今季の試合を終えているので、成績は1年分です")}">${tr("1年分の成績")}</span></span>`) : h; }; }
+// ---- #22 スカウト会議の一言
+if(typeof ssRender==="function"){ const o=ssRender; ssRender=function(){ const out=o.apply(this,arguments);
+  try{ const b=document.querySelector("#ssBody .ssBar"); if(b && !document.querySelector("#ssBody .ux5SsNote")) b.insertAdjacentHTML("beforebegin",`<p class="small ux5SsNote">${tr("ドラフト当日には、この候補のほかに目玉選手(図鑑)や再挑戦の選手も加わります。札と評価はスカウトの見立てで、入団後の能力や伸びしろとずれることがあります(2回視察すると確かになります)。")}</p>`); }catch(e){}
+  return out; }; }
+I18N.add("en",{"この冬の契約更改の昇給:約{0}点の見込み(いまの球団ポイント {1}点)。FA の上乗せに使いすぎると、昇給の分が足りなくなることがあります":"Raises at contract renewal this winter will need about {0} points (you have {1}). Spending too much on FA bonuses can leave you short.",
+  "もう一方のリーグは開幕時に今季の試合を終えているので、成績は1年分です":"The other league finished its season on Opening Day, so this is a full season’s record","1年分の成績":"Full season",
+  "ドラフト当日には、この候補のほかに目玉選手(図鑑)や再挑戦の選手も加わります。札と評価はスカウトの見立てで、入団後の能力や伸びしろとずれることがあります(2回視察すると確かになります)。":"On draft day, featured prospects (from the encyclopedia) and players trying again join this list. Tags and grades are your scouts’ estimates and can differ from how a player turns out (two visits make them more reliable).",
+  "試合へ進む":"Go to the game","はじめは、おすすめの打順・守備・投手陣で組んであります。そのまま試合を始めて大丈夫です。入れ替えたいときは「編成」へ。":"Your lineup, defense and staff are set up the recommended way. You can start playing right away; open “Roster” to make changes.","編成を見る":"Open roster"});
+// ---- #56 球団を選んだ直後は試合の画面(はじめの一言)
+function ux5OpenNote(){ const g=document.getElementById("p-game"); if(!g || document.getElementById("ux5Open")) return;
+  g.insertAdjacentHTML("afterbegin",`<div id="ux5Open" class="notice"><p style="margin:0">📋 ${tr("はじめは、おすすめの打順・守備・投手陣で組んであります。そのまま試合を始めて大丈夫です。入れ替えたいときは「編成」へ。")}</p><button class="sec" onclick="showPanel('lineup')">${tr("編成を見る")}</button></div>`); }
+function ux5OpenDrop(){ const n=document.getElementById("ux5Open"); if(n) n.remove(); }
+setTimeout(()=>{ if(typeof updateMatchupInner==="function"){ const o=updateMatchupInner; updateMatchupInner=function(){ const out=o.apply(this,arguments); try{ if(gameIdx>0 || year>1) ux5OpenDrop(); }catch(e){} return out; }; } },0);
+
+/* ===== v1.9.g:数字の見直し(結果が変わるもの。テストプレイの指摘_261122 の 32・68・70・71・73) =====
+   ・32 日程:同じ相手と2〜3試合続けて戦う「カード(連戦)」で組む。連戦は続く日に並べ、休みの日はカードの切れ目にだけ入れる。
+   ・68 盗塁:足の速い走者ほど、ずっとよく走る(遅い走者は今までより少し走らない)。
+   ・70 先発:先発の疲れ方を少しゆるくして、長く投げるように(5回を投げきれずに勝ちが中継ぎに付くことを減らす)。
+   ・71 トレード:相手の球団は、自分の若い主力(27歳以下・今の力が高い)を高く見る(今季勝負の球団はさらに高く)。もらう中継ぎは少し安く見る。
+   ・73 規定打席:他球団は、主力を休ませるのを「スタメンが絶不調のときだけ」にする(自チームは「調子での入れ替え」の設定のまま)。
+   乱数は新しく使わない(並べ方は、もとの日程の並び=作ったときの乱数のままの順で決める)。 */
+const UX6_ST_K=0.88;               // 先発の疲れ(1イニングの減り)に掛ける
+const UX6_AI_COLD=45;              // 他球団:スタメンの調子がこれより下のときだけ控えと入れ替える
+const UX6_YOUNG_AGE=27, UX6_YOUNG_NOW=70, UX6_YOUNG_K=1.35, UX6_YOUNG_WIN=1.6, UX6_REL_RECV=0.8;
+// 盗塁を試みる割合(1回の機会あたり)。走力(スキルの分を足した値)から決める
+function ux6StealTry(spT){ if(spT<60) return 0; return clamp((spT-60)/170 + Math.max(0,spT-74)/90, 0, 0.36); }
+function ux6AiRestOk(st){ return ((st && st.cond)||0) < UX6_AI_COLD; }
+
+// 日程:連戦(カード)にまとめて、日ごとに並べる。1つのカードは2〜3試合(数が合わないときだけ1試合)
+function ux6SerSizes(c){ if(c<=0) return []; if(c===1) return [1]; if(c===2) return [2]; if(c===4) return [2,2];
+  const r=c%3, n3=Math.floor(c/3); if(r===0) return Array(n3).fill(3); if(r===2) return [...Array(n3).fill(3),2]; return [...Array(n3-1).fill(3),2,2]; }
+function ux6Pack(games,numTeams){
+  const perPair=Math.max(1,Math.floor(numTeams/2));
+  // 同じ(ホーム,ビジター)の組をまとめる(はじめに出た順。もとの並びは作ったときの乱数で混ざっている)
+  const grp=new Map(), order=[];
+  games.forEach((g,k)=>{ const key=g[0]+"_"+g[1]; if(!grp.has(key)){ grp.set(key,[]); order.push(key); } grp.get(key).push(g); });
+  // カードに分け、カードの順は「その組の何回目のカードか」→ はじめに出た順。同じ組のカードがシーズンに散らばる
+  const ser=[];
+  order.forEach((key,oi)=>{ const gs=grp.get(key); let at=0; ux6SerSizes(gs.length).forEach((sz,si)=>{ ser.push({g:gs.slice(at,at+sz),a:gs[0][0],b:gs[0][1],ord:si*order.length+oi}); at+=sz; }); });
+  ser.sort((x,y)=>x.ord-y.ord);
+  const days=[]; let prevPairs=new Set();
+  while(ser.length){
+    const used=new Set(), blk=[], pk=s=>Math.min(s.a,s.b)+"_"+Math.max(s.a,s.b);
+    const tryAdd=(cond)=>{ for(let k=0;k<ser.length && blk.length<perPair;){ const s=ser[k];
+      if(!used.has(s.a) && !used.has(s.b) && cond(s)){ blk.push(s); used.add(s.a); used.add(s.b); ser.splice(k,1); } else k++; } };
+    const L0=ser[0].g.length;
+    tryAdd(s=>!prevPairs.has(pk(s)) && s.g.length===L0);   // 同じ長さのカードを先に(空き日を少なく)・前のカードと同じ相手は避ける
+    tryAdd(s=>!prevPairs.has(pk(s)));
+    if(!blk.length) tryAdd(()=>true);   // 前のカードと同じ相手は、ほかに組めないときだけ
+    prevPairs=new Set(blk.map(pk));
+    const L=Math.max(...blk.map(s=>s.g.length));
+    for(let d=0;d<L;d++){ const day=[]; blk.forEach(s=>{ if(s.g[d]) day.push(s.g[d]); }); if(d===0) day.s=1; days.push(day); }
+  }
+  return days;
+}
+// 日付:カードの中は続く日。休みの日はカードの切れ目(day.s)にだけ、シーズンの中に均等に入れる。入りきらないときは今までどおり均等に
+function ux6Dates(days,START,spanMs){
+  const DAY=86400000, S=Math.floor(spanMs/DAY), D=days.length, starts=[];
+  days.forEach((d,i)=>{ if(i>0 && d.s) starts.push(i); });
+  const free=S-(D-1), out=[];
+  if(D<=1 || free<0 || !starts.length){ days.forEach((day,d)=>{ const frac= D>1? d/(D-1) : 0; const dt=new Date(START.getTime()+frac*spanMs); day.forEach(()=>out.push(dt)); }); return out; }
+  const B=starts.length; let off=0, si=0;
+  days.forEach((day,i)=>{
+    if(si<B && starts[si]===i){ off+=Math.floor((si+1)*free/B)-Math.floor(si*free/B); si++; }
+    const dt=new Date(START.getTime()+(i+off)*DAY); day.forEach(()=>out.push(dt)); });
+  return out;
+}
+// トレード(71):相手が出す側の若い主力を高く見る・もらう中継ぎを少し安く見る(自分から申し込むトレードの値踏みだけ。試合の結果は変わらない)
+let ux6TvsOrig=null;   // もとの値踏み(確かめ用にも使う)
+if(typeof tradeValueStance==="function"){ ux6TvsOrig=tradeValueStance;
+  tradeValueStance=function(p,forTeam,receiving){
+    let v=ux6TvsOrig(p,forTeam,receiving);
+    try{
+      if(!receiving && (p.age||99)<=UX6_YOUNG_AGE && tradeNowBase(p)>=UX6_YOUNG_NOW) v*= tradeStance(forTeam)==="win"? UX6_YOUNG_WIN : UX6_YOUNG_K;
+      if(receiving && p.velo!==undefined && p.pos!=="先発") v*=UX6_REL_RECV;
+    }catch(e){}
+    return v; };
+}
+// 交流戦(プロのきまり):A と B の球団の組を、毎カード ずらして当てる(どの球団も1つのカードに1つの相手)。入りきらない分は ux6Pack で後ろに
+function ux6CrossPack(cross,n){
+  const by=new Map(); cross.forEach(g=>{ const a=g[0]>=1000? g[1] : g[0], b=(g[0]>=1000? g[0] : g[1])-1000, key=a+"_"+b; if(!by.has(key)) by.set(key,[]); by.get(key).push(g); });
+  const days=[];
+  for(let r=0;r<n;r++){ const ss=[]; for(let i=0;i<n;i++){ const gs=by.get(i+"_"+((i+r)%n)); if(gs && gs.length) ss.push(gs.splice(0,gs.length)); }
+    const L=Math.max(0,...ss.map(x=>x.length)); for(let d=0;d<L;d++){ const day=[]; ss.forEach(x=>{ if(x[d]) day.push(x[d]); }); if(d===0) day.s=1; days.push(day); } }
+  const rest=[]; by.forEach(gs=>rest.push(...gs));
+  return rest.length? days.concat(ux6Pack(rest,n*2)) : days;
+}
+// 交流戦のある年の日付:交流戦の期間は暦の上で決まった日(A と B で同じ日)。その前と後に、それぞれのリーグの試合をカードの形で並べる
+function ux6InterDates(pre,block,post,START,END){
+  const DAY=86400000, S=Math.floor((END.getTime()-START.getTime())/DAY);
+  const bs0=Math.floor(S*PRO_BLOCK_AT), bdays=[]; let g=0;
+  block.forEach((d,i)=>{ if(i>0 && d.s) g++; bdays.push(bs0+i+g); });
+  const be=bdays.length? bdays[bdays.length-1] : bs0;
+  const at=(k)=>new Date(START.getTime()+k*DAY);
+  const out=[];
+  out.push(...ux6Dates(pre,START,Math.max(0,(bs0-2))*DAY));
+  block.forEach((day,i)=>{ const dt=at(bdays[i]); day.forEach(()=>out.push(dt)); });
+  out.push(...ux6Dates(post,at(be+2),Math.max(0,S-(be+2))*DAY));
+  return out;
+}
+
+/* ===== v1.9.h:テストプレイ(11/22)の残り(見せ方だけ・乱数は使わない) =====
+   ・#66 自チームの得点の場面は、ハイライトの10場面の枠からこぼさない(13場面まで)
+   ・#11 じっくり采配の合間の見せ場の「この試合の流れ」に、それまでに見せた場面も入れる
+   ・#24 契約更改の行に今季の成績と総合
+   ・#38 案内役の「テーブルスコアを見る」は、試合が残っているときだけ(ドラフト中に出し続けていた)
+   ・#63 おすすめの窓の「閉じる」が2つ/選手の詳しい画面の右上の × が札(銅など)に重なる/「衰え」の見出しが2行に割れる/スマホの他球場の行末が「勝…」で切れる
+   ・観戦の締め:最後の画面に「降雨コールド」「完封」の札
+*/
+const UX7_HL_MAX=13;
+// ---- #66 自チームの得点の場面を残す
+function ux7KeepMine(sel,events,myName){
+  try{ if(!Array.isArray(sel) || !Array.isArray(events) || !myName) return sel;
+    const have=new Set(sel.map(e=>e._i).filter(x=>x!==undefined));
+    const miss=events.map((e,i)=>({e,i})).filter(({e,i})=> e && e.kind!=="pitch_change" && e.team===myName && (e.runs||0)>0 && !have.has(i));
+    if(!miss.length) return sel;
+    const out=sel.slice();
+    for(const {e,i} of miss){ if(out.length>=UX7_HL_MAX) break;
+      let at=out.length; for(let k=out.length-1;k>=0;k--){ const j=out[k]._i; if(j!==undefined && j<i){ at=k+1; break; } if(k===0) at=0; }
+      out.splice(at,0,{...e,_i:i}); }
+    return out; }catch(e){ return sel; } }
+setTimeout(()=>{ if(typeof pickHighlights==="function"){ const o=pickHighlights;
+  pickHighlights=function(events,myName){ return ux7KeepMine(o.apply(this,arguments),events,myName); }; } },0);
+// ---- #11 合間の見せ場の「この試合の流れ」
+let ux7FlowPrev=[];
+if(typeof mgReelStart==="function"){ const o=mgReelStart;
+  mgReelStart=function(r,queue,then,full){
+    try{ if(typeof mg!=="undefined" && mg && !full){ ux7FlowPrev=(mg.ux7Flow||[]).slice(); mg.ux7Flow=(mg.ux7Flow||[]).concat(queue||[]); } else ux7FlowPrev=[]; }catch(e){ ux7FlowPrev=[]; }
+    return o.apply(this,arguments); }; }
+if(typeof hlFlowListHtml==="function"){ const o=hlFlowListHtml;
+  hlFlowListHtml=function(){
+    const base=o.apply(this,arguments);
+    try{ const ov=document.getElementById("highlightOverlay");
+      if(!ov || !ov.classList.contains("mgReel") || !ux7FlowPrev.length) return base;
+      const rows=ux7FlowPrev.map(e=>{ const who= e.kind==="pitch_change"? (e.to||"") : (e.batter||""), sc= e.after? `${e.after.a}-${e.after.h}` : "";
+        return `<li class="ux7Past"><span class="fI">${e.inn}回${e.half}</span><span class="fT">${hlBanner(e)}</span><span class="fB">${who? esc(surnameOf(who)) : ""}</span><span class="fS">${sc}</span></li>`; }).reverse().join("");
+      if(base.includes("<ul>")) return base.replace(/<\/ul>$/, rows+"</ul>");
+      return `<div class="fH">${tr("この試合の流れ")}</div><ul>${rows}</ul>`; }catch(e){ return base; } }; }
+// ---- #24 契約更改に今季の成績と総合
+if(typeof salRow==="function"){ const o=salRow;
+  salRow=function(r,i){ const h=o.apply(this,arguments);
+    try{ const p=r.p, s=(typeof ux4Season==="function")? ux4Season(p) : "", tot=Math.round(scoreOf(p));
+      const add=`<div class="small ux7SalSsn">${tr("今季")} ${esc(s)} ・${tr("総合")}${tot}</div>`;
+      return h.replace(`<div class="salMid">`, add+`<div class="salMid">`); }catch(e){ return h; } }; }
+// ---- #38 案内役:テーブルスコアの段は試合が残っているときだけ
+try{ const s=GD_STEPS.find(x=>x.k==="box"); if(s){ const w=s.when; s.when=()=>gdCanPlay() && (!w || w()); } }catch(e){}
+// ---- #63 おすすめの窓の「閉じる」を1つに(窓の下の「閉じる」と右上の × がある)
+if(typeof rosterSuggestHtml==="function"){ const o=rosterSuggestHtml;
+  rosterSuggestHtml=function(){ const h=o.apply(this,arguments); return h.replace(`<button class="sec" onclick="closeModal()">閉じる</button></div>`, `</div>`); }; }
+// ---- 観戦の締め:降雨コールド・完封
+function ux7EndTags(r){
+  try{ if(!r || r.partial) return ""; const t=[];
+    const en= typeof scmEn==="function" && scmEn();
+    const called=r.log && r.log.called; if(called) t.push(en? `☔ Called for rain after ${called} inn.` : `☔ 降雨コールド(${called}回終了)`);
+    if(!r.isTie && r.aScore!==r.hScore && Math.min(r.aScore,r.hScore)===0){ const w= r.hScore>r.aScore? r.homeTeam : r.awayTeam; t.push(en? `🛡 ${esc(w.name)} shutout` : `🛡 ${esc(w.name)} 完封`); }
+    return t.length? `<div class="ux7Tags">${t.map(x=>`<span class="ux7Tag">${x}</span>`).join("")}</div>` : ""; }catch(e){ return ""; } }
+if(typeof ux4FinalHtml==="function"){ const o=ux4FinalHtml;
+  ux4FinalHtml=function(r){ const h=o.apply(this,arguments), t=ux7EndTags(r); if(!t) return h;
+    return h? h.replace(`<div class="ux4Final">`, `<div class="ux4Final">`+t) : `<div class="ux4Final">${t}</div>`; }; }
 
 /* ===== v1.7.e:細かい不具合の直し(テストプレイの指摘_261029 の残り) =====
    ・お知らせの日付:試合の結果を記録している間に出るお知らせ(名場面・節目など)は、その試合の日付で残す
