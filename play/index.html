@@ -3121,6 +3121,14 @@ p.sqsOff[hidden]{display:none}
 .ux9In{display:block}
 .ux9Lot{color:var(--gold)}
 </style>
+<style id="ux10Css">
+/* v1.9.k:好守の動き */
+.ux10Dot{fill:var(--gold,#f2c94c);stroke:#14201a;stroke-width:1.2}
+.ux10Body{fill:var(--gold,#f2c94c);stroke:#14201a;stroke-width:1}
+.ux10Spark line{stroke:#fff;stroke-width:2;stroke-linecap:round}
+.ux10Dust circle{fill:#d9c9a3}
+.ux10Tag{fill:var(--gold,#f2c94c);font-weight:bold;paint-order:stroke;stroke:#14201a;stroke-width:3px}
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -3882,7 +3890,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.9.j";
+const APP_VERSION="v1.9.k";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -23798,6 +23806,49 @@ if(typeof ssRender==="function"){ const o=ssRender;
       const s=UX9S.scout||{}, en=ux9En(), K=[["rec",en?"Recommended":"おすすめ順"],["vis",en?"Standout tools":"目立つ能力"],["age",en?"Age":"年齢"],["pos",en?"Position":"守備"],["mark",en?"Mark":"印"],["seen",en?"Scouted":"視察"]];
       w.insertAdjacentHTML("beforebegin",`<div class="ux9Bar small">${en?"Sort":"並べ替え"}:${K.map(([k,l])=>`<button type="button" class="${(s.k||"rec")===k?"act":"sec"}" onclick="ux9SsSort('${k}')">${l}${s.k===k && k!=="rec"? (s.d>0?" ▲":" ▼") : ""}</button>`).join("")}</div>`); }catch(e){}
     return r; }; }
+
+const UX10_T=.72;
+function ux10Has(ev){ return !!(ev && ev.px && ev.px.gd && !ev.rp && typeof HL_POS!=="undefined" && HL_POS[ev.px.gp]); }
+function ux10Geo(ev){
+  const gp=ev.px.gp, P=HL_POS[gp], inf="一二三遊".includes(gp), h=forteHash(`${ev.inn}|${ev.half}|${ev.batter||""}|${ev.px.gd}|gd`);
+  const side=(h%2)? 1 : -1, deep=((h>>1)%3===0);
+  const ang=P[0]+side*(inf? 10 : 6), dist=inf? P[1]-2 : P[1]+(deep? 13 : -12);
+  let [cx,cy]=hlPt(ang,dist); cy=Math.max(cy,14);
+  const [fx,fy]=hlPt(P[0],P[1]);
+  const sx=HL_HX, sy=HL_HY-6, curve= inf? 5 : (deep? 46 : 30);
+  const mx=(sx+cx)/2, my=(sy+cy)/2-curve;
+  return {inf, deep, side, fx, fy, cx, cy, ball:`M${sx},${sy} Q${mx.toFixed(1)},${my.toFixed(1)} ${cx.toFixed(1)},${cy.toFixed(1)}`,
+    dive:`M${fx.toFixed(1)},${fy.toFixed(1)} Q${((fx+cx)/2).toFixed(1)},${(Math.min(fy,cy)-(inf? 7 : 10)).toFixed(1)} ${cx.toFixed(1)},${cy.toFixed(1)}`};
+}
+function ux10Svg(ev){
+  const g=ux10Geo(ev), T=UX10_T, en=(typeof pxEn==="function" && pxEn());
+  const st=(T-.42).toFixed(2), dur=".42s", tt=T.toFixed(2);
+  const rot=(Math.atan2(g.cy-g.fy,g.cx-g.fx)*180/Math.PI).toFixed(0);
+  let spark=""; for(let k=0;k<8;k++){ const a=k*45*Math.PI/180; spark+=`<line x1="${(Math.cos(a)*4).toFixed(1)}" y1="${(Math.sin(a)*4).toFixed(1)}" x2="${(Math.cos(a)*11).toFixed(1)}" y2="${(Math.sin(a)*11).toFixed(1)}"/>`; }
+  let dust=""; for(let k=0;k<5;k++){ const dx=(k-2)*4*-g.side, dy=2+(k%2)*2;
+    dust+=`<circle cx="${(g.cx+dx).toFixed(1)}" cy="${(g.cy+dy).toFixed(1)}" r="2" opacity="0"><animate attributeName="opacity" values="0;.7;0" begin="${(T+.03).toFixed(2)}s" dur=".7s" fill="freeze"/><animate attributeName="r" from="1.5" to="${5+k%3}" begin="${(T+.03).toFixed(2)}s" dur=".7s" fill="freeze"/></circle>`; }
+  const ty=Math.max(g.cy-16,16).toFixed(1);
+  return `<g class="ux10Gd">`
+    +`<path class="f-trail" pathLength="1" d="${g.ball}"/>`
+    +`<circle class="f-ball" r="3.2"><animateMotion dur="${tt}s" fill="freeze" path="${g.ball}" calcMode="spline" keyTimes="0;1" keyPoints="0;1" keySplines="0.25 0.6 0.4 1"/></circle>`
+    +`<g class="ux10Man"><circle r="4.6" class="ux10Dot"/><animateMotion begin="${st}s" dur="${dur}" fill="freeze" path="${g.dive}" calcMode="spline" keyTimes="0;1" keyPoints="0;1" keySplines="0.3 0 0.5 1"/>`
+    +`<animate attributeName="opacity" values="1;1;0" keyTimes="0;.6;1" begin="${tt}s" dur=".5s" fill="freeze"/></g>`
+    +`<ellipse class="ux10Body" cx="${g.cx.toFixed(1)}" cy="${(g.cy+1.5).toFixed(1)}" rx="8" ry="3" transform="rotate(${rot} ${g.cx.toFixed(1)} ${(g.cy+1.5).toFixed(1)})" opacity="0"><animate attributeName="opacity" values="0;1" begin="${tt}s" dur=".08s" fill="freeze"/></ellipse>`
+    +`<g transform="translate(${g.cx.toFixed(1)},${g.cy.toFixed(1)})"><g class="f-burst ux10Spark" opacity="0">${spark}<animate attributeName="opacity" values="0;1;0" begin="${tt}s" dur=".6s" fill="freeze"/><animateTransform attributeName="transform" type="scale" from=".4" to="1.5" begin="${tt}s" dur=".6s" fill="freeze"/></g></g>`
+    +`<g class="ux10Dust">${dust}</g>`
+    +`<text class="f-text ux10Tag" x="${g.cx.toFixed(1)}" y="${ty}" font-size="13" text-anchor="middle" opacity="0">${en? "Great play!" : "好守!"}<animate attributeName="opacity" values="0;1" begin="${(T+.12).toFixed(2)}s" dur=".15s" fill="freeze"/></text>`
+    +`</g>`;
+}
+setTimeout(()=>{ try{
+  if(typeof hlRenderPlay!=="function") return; const o=hlRenderPlay;
+  hlRenderPlay=function(r,ev){ const out=o.apply(this,arguments);
+    try{ if(hlCurRich && ux10Has(ev)){
+        const svg=document.querySelector("#hlSvg #hlStage svg");
+        if(svg && !svg.querySelector(".ux10Gd")){ svg.querySelectorAll(":scope > path.f-trail, :scope > circle.f-ball").forEach(e=>e.remove());
+          const names=svg.querySelector(".f-fielder"); const html=ux10Svg(ev);
+          if(names && names.parentNode===svg) names.insertAdjacentHTML("beforebegin",html); else svg.insertAdjacentHTML("beforeend",html); } } }catch(e){}
+    return out; };
+}catch(e){} },0);
 
 let noticeDateFix=null;
 { const o=recordResult; recordResult=function(r,date){ const prev=noticeDateFix; noticeDateFix=(date instanceof Date)? date : null; try{ return o.apply(this,arguments); } finally{ noticeDateFix=prev; } }; }
