@@ -3100,6 +3100,27 @@ p.sqsOff[hidden]{display:none}
 /* #63 スマホ:他球場の行末(「勝ち越し」などの札)を切らない */
 @media (max-width:600px){ .ticker li{white-space:normal;line-height:1.35} }
 </style>
+<style id="ux8Css">
+.ux8Reg{opacity:.75;margin-left:2px;white-space:nowrap}
+</style>
+<style id="ux9Css">
+/* v1.9.j:PC 向けの広い一覧 */
+.ux9Bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.ux9Bar button{min-height:32px;padding:3px 10px}
+.ux9Wrap{overflow-x:auto;margin:6px 0;max-height:70vh;overflow-y:auto}
+.ux9T{width:100%;border-collapse:collapse;font-size:.88em}
+.ux9T th{position:sticky;top:0;background:var(--card2,#1d2a24);z-index:1;text-align:left;padding:3px 4px;white-space:nowrap}
+.ux9T th button{background:none;border:none;color:inherit;font:inherit;font-weight:bold;cursor:pointer;padding:2px 0;min-height:0}
+.ux9T th.on button{color:var(--gold)}
+.ux9T td{text-align:center;padding:3px 4px;border-bottom:1px solid rgba(128,128,128,.25);white-space:nowrap;vertical-align:middle}
+.ux9T td.l{text-align:left!important}
+.ux9T tr.tradeOn td{background:rgba(242,201,76,.16)}
+.ux9T tr.salOff td{opacity:.55}
+.ux9Act{display:inline-flex;gap:4px;align-items:center}
+.ux9Act .salPm{min-height:28px;padding:0 8px}
+.ux9In{display:block}
+.ux9Lot{color:var(--gold)}
+</style>
 </head>
 <body class="preLeague">
 <div class="wrap">
@@ -3861,7 +3882,7 @@ let practiceElsewhere=false;
   const o=JSON.parse(s)||{}; const del=[];
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
-const APP_VERSION="v1.9.h";
+const APP_VERSION="v1.9.j";
 const LITE=true, LITE_SEASONS=3;
 const DEV=false;
 const COMMON_SURNAMES=["佐藤","鈴木","高橋","田中","渡辺","伊藤","山本","中村","小林","加藤","吉田","山田","佐々木","山口","松本","井上","木村","林","斎藤","清水","森","池田","橋本","石川","前田","藤田","岡田","長谷川","村上","近藤","阿部","太田","中島","小川","大野","谷口","西村","藤井","福田","三浦","上田","杉山","増田","横山","宮崎","小野","竹内","本田","内田","高木","沢田","大西","東","中川","原田","秋山","川口","平野","千葉","松田","和田","中野","原","小島","菅原","酒井","工藤","藤原","岩崎","柴田","金子","遠藤","青木","坂本","山崎","石井","西田","福井","服部","早川","村田","桜井","三宅","岡本","荒木","大塚","宮本","木下","野口","今井","河野","後藤","石田","上野","武田","篠原","新井","森田","松井","小池","桑原","川崎","吉川","安田","望月","川村","星野","中山","小山","矢野","相馬","土屋","平田","岸本","黒田","松岡","小松","芳賀","大久保","磯部","栗原","米田","荻野","中田","熊谷","中西","白石","宮田","中谷","大谷","山中","田村","中井","田口","平井","榎本","高田","鈴村","川上","坂口","稲垣","芦田","浅野","樋口","富田","渡部","森本","小坂","大石","福島","井口","村松","田辺","松永","長田","冨田","北村","矢部","小野寺","菅野","広瀬","杉本","三上","浜田","堀","堀内","岸","丸山","奥田","柏木","大橋","松浦","二宮","土井","金田","坂井","阿川","波多野","梶原","藤本"];
@@ -7386,7 +7407,7 @@ function runLotteryRound(){
   draft.lotteryRound++; const res=[]; let myWin=null; draft.myLost=null;
   const rkList= drawFx? [...draft.pool].sort((x,y)=>potential(y.p)-potential(x.p)) : null;
   byItem.forEach((teams,it)=>{
-    const winner=teams[Math.floor(Math.random()*teams.length)];
+    const winner=ux9LotPick(teams,me,Math.random());
     const attn= drawFx? drawAttn(it,teams.length,rkList.indexOf(it)) : 0;
     if(teams.length>1) res.push({name:it.p.name, unique:!!it.unique, bidders:teams.map(t=>t.name), winner:winner.name, mine:teams.includes(me), attn:attn});
     if(teams.length>1 && teams.includes(me)) draft.draw={name:it.p.name, n:teams.length, bidders:teams.map(t=>t.name), winner:winner.name, won:winner===me, open:null, winAt:null, fx:drawFx, attn:attn, stage:drawFx?"intro":"pick"};
@@ -7779,7 +7800,7 @@ function draftScreenHtml(){
   const round = draft.mode==="joint"? (lottery? 1 : Math.floor(draft.pickNo/teams)+2) : null;
   let html=`<div style="width:100%"><div class="draftTopBar"><h3 style="margin:0">${title}</h3><button class="sec" onclick="confirmFinishDraft()">指名を終える</button></div>`;
   if(lottery){
-    html+=`<p><b>第1巡目・入札 — ${esc(me.name)}の${draft.lotteryRound? "再入札(外れ1位)":"1位入札"}です</b><br><span class="small">全球団が一斉に入札し、重なったら抽選。外れた球団は残りの候補から再入札します。</span></p>`;
+    html+=`<p><b>第1巡目・入札 — ${esc(me.name)}の${draft.lotteryRound? "再入札(外れ1位)":"1位入札"}です</b><br><span class="small">全球団が一斉に入札し、重なったら抽選。外れた球団は残りの候補から再入札します。</span>${ux9LotNote()}</p>`;
     if(draft.myLost) html+=`<div class="notice" style="margin:6px 0">🎯 <b>${esc(draft.myLost)}</b>の抽選に外れました。残りの候補から再入札してください。</div>`;
   } else {
     html+= draft.mode==="joint"
@@ -10417,7 +10438,7 @@ const sxR=x=>fmtRate(x);
 const SX_COLS_BAT={
   basic:[["fielding","守備","l",b=>b.fielding],["age","年齢","",b=>b.age],["g","試合","",b=>b.g||0,1],["pa","打席","",b=>b.pa,1],["ab","打数","",b=>b.ab],["h","安打","",b=>b.h,1],["d2","二塁打","",b=>b.d2],["d3","三塁打","",b=>b.d3],["hr","本塁打","",b=>b.hr,1],["r","得点","",b=>b.r||0],["rbi","打点","",b=>b.rbi,1],["so","三振","",b=>b.so],["bb","四球","",b=>bb4(b)],["hbp","死球","",b=>b.hbp||0],["sb","盗塁","",b=>b.sb||0,1],["avg","打率","",b=>sxR(b.avg),1],["obp","出塁率","",b=>sxR(b.obp)],["slg","長打率","",b=>sxR(b.slg)],["ops","OPS","",b=>sxR(b.ops),1]],
   saber:[["pa","打席","",b=>b.pa,1],["woba","wOBA","",b=>sxR(b.woba),1],["wrc","wRC+","",b=>Math.round(b.wrc),1],["ops","OPS","",b=>sxR(b.ops),1],["iso","ISO","",b=>sxR(b.iso),1],["babip","BABIP","",b=>sxR(b.babip),1],["bbp","BB%","",b=>fmtPct(b.bbp),1],["kp","K%","",b=>fmtPct(b.kp),1],["sb","盗塁","",b=>b.sb||0],["cs","盗塁死","",b=>b.cs||0],["gdp","併殺打","",b=>b.gdp||0],["sh","犠打","",b=>b.sh||0],["sf","犠飛","",b=>b.sf||0],["phPA","代打","",b=>b.phPA? `${b.phH||0}/${b.phPA}`:"-"]],
-  def:()=>[["dMain","守備","l",b=>b.dMain,1]].concat(posFitEnabled? [["dFam","慣れ","",b=>b.dFam<0? "-" : Math.round(b.dFam*100)+"%"]] : []).concat([["dInn","守備イニング","",b=>b.dInn,1],["dPo","打球処理","",b=>b.dPo],["dE","失策","",b=>b.dE,1],["dFpct","守備率","",b=>sxR(b.dFpct),1],["dRf","RF","",b=>b.dRf.toFixed(2)],["dRuns","守備得点","",b=>`<span style="color:${b.dRuns>=0?'var(--cream)':'#e07a5f'}">${fmtSigned(b.dRuns)}</span>`,1],["dAst","補殺","",b=>b.dAst||0],["dCsp","盗塁阻止率","",b=>b.dSba>0? fmtPct(b.dCsp)+` <span class="small">(${b.dCs}/${b.dSba})</span>` : "-",1]])
+  def:()=>[["dMain","守備","l",b=>ux8Main(b),1]].concat(posFitEnabled? [["dFam","慣れ","",b=>b.dFam<0? "-" : Math.round(b.dFam*100)+"%"]] : []).concat([["dInn","守備イニング","",b=>b.dInn,1],["dPo","打球処理","",b=>b.dPo],["dE","失策","",b=>b.dE,1],["dFpct","守備率","",b=>sxR(b.dFpct),1],["dRf","RF","",b=>b.dRf.toFixed(2)],["dRuns","守備得点","",b=>`<span style="color:${b.dRuns>=0?'var(--cream)':'#e07a5f'}">${fmtSigned(b.dRuns)}</span>`,1],["dAst","補殺","",b=>b.dAst||0],["dCsp","盗塁阻止率","",b=>b.dSba>0? fmtPct(b.dCsp)+` <span class="small">(${b.dCs}/${b.dSba})</span>` : "-",1]])
 };
 const SX_COLS_PIT={
   basic:[["pos","役割","l",p=>`${p.pos}${p.bpRole && p.pos!=='先発'?'('+p.bpRole+')':''}`],["age","年齢","",p=>p.age],["gp","登板","",p=>p.gp||0,1],["cg","完投","",p=>p.cg||0],["sho","完封","",p=>p.sho||0],["ip","投球回","",p=>p.ip,1],["w","勝","",p=>p.w,1],["l","敗","",p=>p.l,1],["sv","S","",p=>p.sv,1],["hold","H","",p=>p.hold,1],["era","防御率","",p=>p.era.toFixed(2),1],["r","失点","",p=>p.r||0],["er","自責点","",p=>p.er],["h","被安打","",p=>p.h],["hra","被本塁打","",p=>p.hra||0],["bb","与四球","",p=>bb4(p)],["hbp","与死球","",p=>p.hbp||0],["so","奪三振","",p=>p.so,1],["whip","WHIP","",p=>p.whip.toFixed(2),1]],
@@ -23621,6 +23642,162 @@ function ux7EndTags(r){
 if(typeof ux4FinalHtml==="function"){ const o=ux4FinalHtml;
   ux4FinalHtml=function(r){ const h=o.apply(this,arguments), t=ux7EndTags(r); if(!t) return h;
     return h? h.replace(`<div class="ux4Final">`, `<div class="ux4Final">`+t) : `<div class="ux4Final">${t}</div>`; }; }
+
+if(typeof rl2Ev==="function"){ const o=rl2Ev;
+  rl2Ev=function(log,z,inn,half,team,pitcher,catcher,defense,outs,bases,runs,getBatter){
+    const r=o.apply(this,arguments);
+    try{ if(z && z.k==="po" && log && log.events && log.ctx){
+        const c=log.ctx, cur={a:c.a+(half==="表"?runs:0), h:c.h+(half==="裏"?runs:0)};
+        let b=null; try{ b=getBatter(); }catch(e){}
+        log.events.push({kind:"PO", orig:"PO", rl:"po", inn, half, team, batter:b? b.name : "", run:z.who? z.who.r : "", pitcher: pitcher? pitcher.name : "", ct: catcher? catcher.name : "",
+          fd:(typeof rpFd==="function")? rpFd(log,defense) : null, outs, bases:[...bases], runs:0, before:{...cur}, after:{...cur},
+          pn:z.pre.map(x=>x&&x.name||null), po:Math.max(0,outs-1), mv:[], bn:(b && typeof b.no==="number")? b.no : null, sq:(log.pas? log.pas.length : 0)+0.3}); } }catch(e){}
+    return r; }; }
+function ux8PoEn(){ return typeof scmEn==="function" && scmEn(); }
+if(typeof hlBanner==="function"){ const o=hlBanner;
+  hlBanner=function(ev){ if(ev && ev.kind==="PO") return ux8PoEn()? "Picked off!" : "牽制でアウト!"; return o.apply(this,arguments); }; }
+if(typeof hlCaption==="function"){ const o=hlCaption;
+  hlCaption=function(ev){ if(ev && ev.kind==="PO"){ const who=ev.run||"", p=ev.pitcher||"";
+      return ux8PoEn()? `Inning ${ev.inn}: ${p} throws over to first — ${who} is picked off!` : `${ev.inn}回${ev.half}、${p}の牽制球!一塁走者の${who}が戻りきれず、タッチアウト。`; }
+    return o.apply(this,arguments); }; }
+function ux8Main(b){
+  try{ const m=b.dMain||"", f=b.fielding||"";
+    if(!m) return "";
+    if(f && f!==m && f!=="指" && m!=="指") return `${esc(m)}<span class="small ux8Reg">(${ux8PoEn()? "listed " : "登録 "}${esc(f)})</span>`;
+    return esc(m); }catch(e){ return b.dMain||""; } }
+
+const UX9_LOT_K=0.25, UX9_LOT_MAX=2, UX9_PTS_LOT=2, UX9_PTS_FA=1, UX9_MIN=860;
+function ux9En(){ return typeof scmEn==="function" && scmEn(); }
+function ux9L(){ try{ return (league && league[myTeam] && league[myTeam].ux9L)|0; }catch(e){ return 0; } }
+function ux9Boost(L){ return Math.min(UX9_LOT_MAX, 1+UX9_LOT_K*(L|0)); }
+function ux9Pts(n,why){
+  try{ if(LITE || !n) return 0; const b=clubPoints; clubPoints=Math.min(clubMax(),clubPoints+clubK()*n); const got=clubPoints-b;
+    if(got>0 && typeof showToast==="function") showToast(ux9En()? `${why}: +${got} club points (now ${clubPoints})` : `${why}:球団ポイント +${got}(所持${clubPoints})`);
+    return got; }catch(e){ return 0; } }
+function ux9LotPick(teams,me,r){
+  if(!teams || teams.length<2 || !teams.includes(me)) return teams[Math.floor(r*teams.length)];
+  const L=ux9L(), b=ux9Boost(L);
+  let winner;
+  if(b===1) winner=teams[Math.floor(r*teams.length)];
+  else { const w=teams.map(t=>t===me? b : 1), sum=w.reduce((a,x)=>a+x,0); let acc=0; winner=teams[teams.length-1];
+    for(let k=0;k<teams.length;k++){ acc+=w[k]/sum; if(r<acc){ winner=teams[k]; break; } } }
+  try{ if(winner===me) me.ux9L=0; else { me.ux9L=L+1; ux9Pts(UX9_PTS_LOT, ux9En()? "Lost the draft lottery" : "抽選に外れた"); } }catch(e){}
+  return winner;
+}
+function ux9LotNote(){
+  const L=ux9L(); if(!L) return "";
+  const b=ux9Boost(L);
+  return ux9En()? `<br><span class="small ux9Lot">🍀 You have lost ${L} lotter${L>1?"ies":"y"} in a row, so your odds in a tied lottery are ×${b.toFixed(2)} (back to normal once you win).</span>`
+    : `<br><span class="small ux9Lot">🍀 抽選に${L}回続けて外れているので、この抽選の当たりやすさは ×${b.toFixed(2)}(当たると元に戻ります)。</span>`;
+}
+if(typeof resolveFA==="function"){ const o=resolveFA;
+  resolveFA=function(){
+    const me=league[myTeam], offers=(fa && fa.list)? fa.list.filter(e=>e.myOffer && e.from!==me) : [];
+    const r=o.apply(this,arguments);
+    try{ if(!fa.auto){ const lost=offers.filter(e=>{ const x=(fa.results||[]).find(z=>z.name===e.p.name); return x && x.to!==me.name; }).length;
+        if(lost) ux9Pts(UX9_PTS_FA*lost, ux9En()? `FA bids that fell through: ${lost}` : `FA の交渉が${lost}件まとまらなかった`); } }catch(e){}
+    return r; }; }
+
+const UX9S={}, UX9R={};
+function ux9Big(){ return (window.innerWidth||0)>=UX9_MIN; }
+function ux9Wide(){ if(!ux9Big()) return false; try{ return tdLsGet("pennantWideList")!=="0"; }catch(e){ return true; } }
+function ux9SetWide(on,key){ try{ tdLsSet("pennantWideList",on? "1" : "0"); }catch(e){} const f=UX9R[key]; if(f) f(); }
+function ux9Sort(id,k){ const s=UX9S[id]||{}; UX9S[id]= s.k===k? {k,d:-s.d} : {k,d:(k==="name"||k==="age"||k==="pos"||k==="where")? 1 : -1}; const f=UX9R[id.split(":")[0]]; if(f) f(); }
+function ux9BarHtml(key){
+  if(!ux9Big()) return "";
+  const w=ux9Wide(), en=ux9En();
+  return `<div class="ux9Bar small">${en? "View" : "表示"}:<button type="button" class="${w?"act":"sec"}" onclick="ux9SetWide(true,'${key}')">${en? "Table" : "表で見る"}</button><button type="button" class="${w?"sec":"act"}" onclick="ux9SetWide(false,'${key}')">${en? "Cards" : "カードで見る"}</button>${w? `<span>${en? "Click a column header to sort." : "列の見出しを押すと並べ替えます(もう一度で逆順)"}</span>` : ""}</div>`;
+}
+function ux9Table(id,cols,rows){
+  const s=UX9S[id]; let rs=rows.slice();
+  if(s && s.k){ const c=cols.find(c=>c.k===s.k); if(c && c.v) rs.sort((a,b)=>{ const x=c.v(a), y=c.v(b); if(x===y) return 0; if(x===null||x===undefined) return 1; if(y===null||y===undefined) return -1; return (x>y? 1 : -1)*s.d; }); }
+  const head=cols.map(c=>{ if(!c.v) return `<th>${c.l}</th>`; const on=s && s.k===c.k; return `<th class="ux9S${on?" on":""}"><button type="button" onclick="ux9Sort('${id}','${c.k}')">${c.l}${on? (s.d>0? " ▲" : " ▼") : ""}</button></th>`; }).join("");
+  const body=rs.map(r=>`<tr class="${r._cls||""}">${cols.map(c=>`<td class="${c.cls||""}">${c.h(r)}</td>`).join("")}</tr>`).join("");
+  return `<div class="ux9Wrap"><table class="ux9T"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+function ux9Pos(p){ return p.velo!==undefined? (p.pos==="先発"? "先発" : (p.bpRole? `中継(${p.bpRole})` : "中継ぎ")) : (p.fielding||""); }
+function ux9War(p){ try{ const v=salWar(p); return isFinite(v)? v : 0; }catch(e){ return 0; } }
+function ux9SalM(p){ try{ return typeof p.sal==="number"? p.sal : salBase(p); }catch(e){ return 0; } }
+function ux9Room(p){ try{ return potRoomSum(p); }catch(e){ return 0; } }
+const UX9_C={
+  name:{k:"name",l:"名前",v:r=>r.p.name,h:r=>`${sigMark(r.p)}${esc(r.p.name)}${isHurt(r.p)? ` <span class="badge hot">故障</span>` : ""}`,cls:"l"},
+  pos:{k:"pos",l:"守備",v:r=>ux9Pos(r.p),h:r=>esc(ux9Pos(r.p))},
+  age:{k:"age",l:"年齢",v:r=>r.p.age,h:r=>r.p.age},
+  tot:{k:"tot",l:"総合",v:r=>Math.round(scoreOf(r.p)),h:r=>Math.round(scoreOf(r.p))},
+  ssn:{k:"ssn",l:"今季(並びはWAR)",v:r=>ux9War(r.p),h:r=>`<span class="small">${esc(ux4Season(r.p))}</span>`,cls:"l"},
+  sal:{k:"sal",l:"年俸",v:r=>ux9SalM(r.p),h:r=>salYen(ux9SalM(r.p))},
+  room:{k:"room",l:"伸びしろ",v:r=>ux9Room(r.p),h:r=>potBandHtml(ux9Room(r.p)/2)}
+};
+function ux9Cols(keys){ const en=ux9En(); const L={name:["名前","Name"],pos:["守備","Pos"],age:["年齢","Age"],tot:["総合","OVR"],ssn:["今季(並びはWAR)","This season (sorts by WAR)"],sal:["年俸","Salary"],room:["伸びしろ","Upside"]};
+  return keys.map(k=>Object.assign({},UX9_C[k],{l:L[k][en?1:0]})); }
+UX9R.trade=()=>{ try{ renderTradeView(); }catch(e){} };
+if(typeof renderTradeView==="function"){ const o=renderTradeView;
+  renderTradeView=function(){
+    const r=o.apply(this,arguments);
+    try{ const el=document.getElementById("tradeView"); if(!el || !ux9Big() || !tradeState || !tradeState.partner || !tradeOpen()) return r;
+      const sum=el.querySelector(".tradeSummary"); if(sum && !el.querySelector(".ux9Bar")) sum.insertAdjacentHTML("afterend",ux9BarHtml("trade"));
+      if(!ux9Wide()) return r;
+      const me=league[myTeam], t=tradeState.partner, en=ux9En();
+      ["get","give"].forEach(side=>{
+        const first=el.querySelector(`details[data-tk^="${side}:"]`); if(!first) return;
+        const list=tradablePlayers(side==="get"? t : me);
+        const rows=list.map((it,i)=>({p:it.p,where:it.where,i,on:tradeState[side].includes(it.p),lock: side==="get" && it.p.signature,_cls: tradeState[side].includes(it.p)? "tradeOn" : ""}));
+        const cols=[{k:"where",l:en?"Roster":"区分",v:r=>r.where,h:r=>esc(r.where)},...ux9Cols(["name","pos","age","tot","ssn"]),...(salOn()? ux9Cols(["sal"]) : []),...ux9Cols(["room"]),
+          {k:"act",l:"",h:r=>`<span class="ux9Act">${infoBtnHtml(r.p)}<button class="${r.on?"act":"sec"}"${r.lock?" disabled":""} onclick="tradeToggle('${side}',${r.i})">${r.on?(en?"Remove":"外す"):(en?"Pick":"選ぶ")}</button></span>`}];
+        first.insertAdjacentHTML("beforebegin",ux9Table("trade:"+side,cols,rows));
+        el.querySelectorAll(`details[data-tk^="${side}:"]`).forEach(d=>d.remove());
+      }); }catch(e){}
+    return r; }; }
+UX9R.sal=()=>{ try{ salRerender(); }catch(e){} };
+if(typeof renderSal==="function"){ const o=renderSal;
+  renderSal=function(){
+    const r=o.apply(this,arguments);
+    try{ const list=document.querySelector("#playerModal .salList"); const d=salDraft; if(!list || !d || !ux9Big()) return r;
+      list.insertAdjacentHTML("beforebegin",ux9BarHtml("sal"));
+      if(!ux9Wide()) return r;
+      const en=ux9En();
+      const rows=d.rows.map((x,i)=>({p:x.p,x,i,_cls: x.rel? "salOff" : ""}));
+      const cols=[{k:"where",l:en?"Roster":"区分",v:r=>r.x.one? 0 : 1,h:r=>r.x.one? "1軍" : "2軍"},...ux9Cols(["name","pos","age","tot","ssn"]),
+        {k:"grade",l:en?"Review":"査定",v:r=>r.x.isNew? -1 : r.x.fair/Math.max(1,r.x.cur),h:r=>r.x.isNew? "―" : salGrade(r.x.fair,r.x.cur)},
+        {k:"cur",l:en?"Now":"今の年俸",v:r=>r.x.cur,h:r=>salYen(r.x.cur)},
+        {k:"offer",l:en?"Offer":"提示",v:r=>r.x.offer,h:r=>r.x.isNew? `<span class="small">${en?"new":"新入団"}</span>` : `<span class="ux9Act"><button class="sec salPm" aria-label="提示額を下げる" onclick="salAdj(${r.i},-1)"${r.x.rel?" disabled":""}>−</button><b>${salYen(r.x.offer)}</b><button class="sec salPm" aria-label="提示額を上げる" onclick="salAdj(${r.i},1)"${r.x.rel?" disabled":""}>+</button></span>`},
+        {k:"want",l:en?"Wants":"希望",v:r=>r.x.isNew? null : r.x.want,h:r=>r.x.isNew? "" : salYen(r.x.want)},
+        {k:"react",l:en?"Reaction":"反応",v:r=>{ const re=salReact(r.x.offer,r.x.want); return r.x.rel? 3 : r.x.isNew? 2 : re==="hold"? 0 : 1; },h:r=>{ const re=salReact(r.x.offer,r.x.want), lab= r.x.rel? "退団" : r.x.isNew? "新入団" : re==="happy"? "満足" : re==="sign"? "サイン" : "保留"; return `<span class="salChip ${r.x.rel? "salRel" : r.x.isNew? "salNew" : "sal_"+re}">${lab}</span>`; }},
+        ...ux9Cols(["room"]),
+        {k:"rel",l:en?"Release":"退団",h:r=>`<input type="checkbox" aria-label="退団させる" onchange="salRel(${r.i},this.checked)"${r.x.rel?" checked":""}${(r.p.signature||r.p.uniqueId)? " disabled" : ""}>`}];
+      list.innerHTML=ux9Table("sal:list",cols,rows); list.classList.add("ux9In"); }catch(e){}
+    return r; }; }
+UX9R.camp=()=>{ try{ const box=document.querySelector("#playerModal .modalBox"), sc=box? box.scrollTop : 0; renderCamp(); if(box) box.scrollTop=sc; }catch(e){} };
+if(typeof renderCamp==="function"){ const o=renderCamp;
+  renderCamp=function(){
+    const r=o.apply(this,arguments);
+    try{ const list=document.querySelector("#playerModal .campList"); if(!list || !ux9Big()) return r;
+      list.insertAdjacentHTML("beforebegin",ux9BarHtml("camp"));
+      if(!ux9Wide()) return r;
+      const t=league[myTeam], one=new Set(oneGun(t)), en=ux9En(), ref=p=>playerByUid.get(puid(p))? puid(p) : 0;
+      const rows=campPool(t).map(p=>{ const s=campSel.find(x=>x.p===p); return {p,s,u:ref(p),_cls: s? "tradeOn" : ""}; });
+      const cols=[{k:"where",l:en?"Roster":"区分",v:r=>one.has(r.p)? 0 : 1,h:r=>one.has(r.p)? "1軍" : "2軍・育成"},...ux9Cols(["name","pos","age","tot"]),
+        {k:"pers",l:en?"Personality":"性格",v:r=>r.p.personality||"",h:r=>esc(r.p.personality||"")},...ux9Cols(["ssn","room"]),
+        {k:"menu",l:en?"Menu":"メニュー",h:r=>{ const m=CAMP_MENU[g2Pit(r.p)? "pit" : "bat"]; const opts=Object.entries(m).filter(([k])=>k!=="adj" || r.p.age>=30).map(([k,l])=>`<option value="${k}"${r.s&&r.s.menu===k?" selected":""}>${l}</option>`).join(""); return `<select aria-label="メニュー" onchange="campSetMenu(${r.u},this.value)">${opts}</select>`; }},
+        {k:"pick",l:"",v:r=>r.s? 0 : 1,h:r=>`<button class="${r.s?"act":"sec"}" onclick="campToggle(${r.u})">${r.s? (en?"Remove":"外す") : (en?"Pick":"選ぶ")}</button>`}];
+      list.innerHTML=ux9Table("camp:list",cols,rows); list.classList.add("ux9In"); }catch(e){}
+    return r; }; }
+UX9R.scout=()=>{ try{ ssRender(); }catch(e){} };
+function ux9SsKey(k,it){ const p=it.p;
+  return k==="age"? p.age : k==="pos"? dcPosLabel(it) : k==="mark"? -((p.ss&&p.ss.mark)||0) : k==="seen"? -((p.ss&&p.ss.lv)||0)
+    : k==="vis"? -(it.type==="batter"? ((p.power||0)+(p.speed||0))/2 : (p.velo||0)) : 0; }
+if(typeof ux4SsStable==="function"){ const o=ux4SsStable;
+  ux4SsStable=function(list,f){ const st=o.apply(this,arguments);
+    try{ const s=UX9S.scout; if(ux9Big() && s && s.k && s.k!=="rec"){ const d=s.d||1; st.sort((a,b)=>{ const x=ux9SsKey(s.k,a.it), y=ux9SsKey(s.k,b.it); return x===y? 0 : (x>y? 1 : -1)*d; }); } }catch(e){}
+    return st; }; }
+function ux9SsSort(k){ const s=UX9S.scout||{}; UX9S.scout= k==="rec"? {} : (s.k===k? {k,d:-(s.d||1)} : {k,d:1}); ux9SsRefresh(); }
+function ux9SsRefresh(){ try{ ux4SsFrz=null; ssRender(); }catch(e){} }
+if(typeof ssRender==="function"){ const o=ssRender;
+  ssRender=function(){ const r=o.apply(this,arguments);
+    try{ const box=document.getElementById("ssBody"), w=box && box.querySelector(".dcWrap"); if(!w || !ux9Big()) return r;
+      const s=UX9S.scout||{}, en=ux9En(), K=[["rec",en?"Recommended":"おすすめ順"],["vis",en?"Standout tools":"目立つ能力"],["age",en?"Age":"年齢"],["pos",en?"Position":"守備"],["mark",en?"Mark":"印"],["seen",en?"Scouted":"視察"]];
+      w.insertAdjacentHTML("beforebegin",`<div class="ux9Bar small">${en?"Sort":"並べ替え"}:${K.map(([k,l])=>`<button type="button" class="${(s.k||"rec")===k?"act":"sec"}" onclick="ux9SsSort('${k}')">${l}${s.k===k && k!=="rec"? (s.d>0?" ▲":" ▼") : ""}</button>`).join("")}</div>`); }catch(e){}
+    return r; }; }
 
 let noticeDateFix=null;
 { const o=recordResult; recordResult=function(r,date){ const prev=noticeDateFix; noticeDateFix=(date instanceof Date)? date : null; try{ return o.apply(this,arguments); } finally{ noticeDateFix=prev; } }; }
