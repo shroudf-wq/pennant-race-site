@@ -3288,7 +3288,7 @@ p.sqsOff[hidden]{display:none}
       <p class="formHint">ドラフトの1位入札で自分の入札が重なったとき、注目度(★1〜5)と競合した球団を見せ、ドキドキの間のあと封筒を開きます。当たりが出ると紙吹雪。ほかの球団どうしの抽選も一覧で出ます。当たる確率は変わりません。「なし」にすると、今までどおりです。</p></div>
     <div class="formRow"><label for="rainSel">天候(雨天中止)</label>
       <select id="rainSel"><option value="on" selected>あり</option><option value="off">なし</option></select>
-      <p class="formHint">通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止の試合はシーズンの最後に予備日として回り、試合数は変わりません。人工芝の球場の一部は屋根つきで、中止になりません。日程が変わるので、試合の結果の流れも変わります。「なし」にすると、今までどおりです。</p></div>
+      <p class="formHint">通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止の試合はシーズンの最後に予備日として回り、試合数は変わりません。人工芝の球場の一部は屋根つきで、中止になりません。開幕戦(4/1)も中止になりません。日程が変わるので、試合の結果の流れも変わります。「なし」にすると、今までどおりです。</p></div>
     <div class="formRow"><label for="parkSel">球場の個性</label>
       <select id="parkSel"><option value="on" selected>あり</option><option value="off">なし</option></select>
       <p class="formHint">どの本拠地にも、広さ(狭い・標準・広い)と芝(人工芝・天然芝)が付きます。狭い球場は本塁打が1割ほど増え、広い球場は1割ほど減ります。人工芝はゴロのヒットが少し増えます。「なし」にすると、今までどおりです。</p></div>
@@ -3901,7 +3901,7 @@ let practiceElsewhere=false;   // v1.4.c:ほかのタブで練習中(控えを�
   for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith("pennant") && !k.startsWith("pennantSave") && k!=="pennantPracticeSnap") del.push(k); }
   del.forEach(k=>localStorage.removeItem(k)); Object.entries(o).forEach(([k,v])=>localStorage.setItem(k,v)); localStorage.removeItem("pennantPracticeSnap"); try{ sessionStorage.removeItem("pennantPracticeOwner"); }catch(e){} }catch(e){} })();
 /* バージョン:公開のたびに末尾の英字を1つ進める(v1.0.a → … → v1.0.z → v1.1.a) */
-const APP_VERSION="v1.9.p";
+const APP_VERSION="v1.9.q";
 /* 体験版の切り替え:体験版のファイルは、この行を true にして作る(本編と同じプログラム) */
 const LITE=false, LITE_SEASONS=3;
 const DEV=false;   // v1.2.p:開発版(テスト機能がいつも出ている)。開発版を作るときは true に置き換える
@@ -9249,7 +9249,8 @@ let rainEnabled=false, rainStats={y:0,n:0,my:0}, rainMy=null;
 const RAIN_P=[0,0,0,0.035,0.04,0.085,0.055,0.035,0.065,0.035,0,0];   // 月ごとの雨天中止の確率(0始まり:6月=梅雨・9月=秋雨が高い)
 function rainDome(home){ return !!(home && parkOf(home) && parkOf(home).turf && (typeof home.park.dome==="boolean"? home.park.dome : ((forteHash(String(home.name)+"屋根")>>>3)%2)===0)); }   // v1.2.v:表の球場は屋根も表から(前のセーブの球場は名前から)   // 人工芝の球場の半分ほどは屋根つき(雨天中止にならない)
 // 天気は日付と対戦から決まる(試合の乱数は使わない)
-function rainRolls(g,date){ const m=date.getMonth(); return hlRand(year*977+m*131+date.getDate()*17+g[0]*7+g[1]*3+0.5) < (RAIN_P[m]||0); }
+function rainOpen(date){ return date.getMonth()===3 && date.getDate()===1; }   // v1.9.q:開幕戦(4/1)は雨天中止にしない
+function rainRolls(g,date){ const m=date.getMonth(); if(rainOpen(date)) return false; return hlRand(year*977+m*131+date.getDate()*17+g[0]*7+g[1]*3+0.5) < (RAIN_P[m]||0); }
 function rainKey(x){ return x.getFullYear()*10000+x.getMonth()*100+x.getDate(); }
 // いまの試合が雨天中止なら、末尾の予備日に回して次の試合へ進める
 function rainSkip(){
@@ -9295,7 +9296,7 @@ function rainSkipB(){
     rainDeferIn(scheduleB,gameDatesB,gameIdxB,g,date);
   }
 }
-function rainRollsB(g,date){ const m=date.getMonth(); return hlRand(year*977+m*131+date.getDate()*17+g[0]*7+g[1]*3+1000.5) < (RAIN_P[m]||0); }
+function rainRollsB(g,date){ const m=date.getMonth(); if(rainOpen(date)) return false; return hlRand(year*977+m*131+date.getDate()*17+g[0]*7+g[1]*3+1000.5) < (RAIN_P[m]||0); }
 function rainTagHtml(g,home){
   if(!rainEnabled || LITE || !g) return "";
   let h=g[2]? ' <span class="badge">順延分</span>' : "";
@@ -14076,7 +14077,7 @@ const MANUAL=[
   <p class="fullOnly">オーナーの解任(リーグを作るときの設定「オーナーの解任」):オーナーの信頼が0になると、そのオフに解任されます。「あり(続投もできる)」では、同じリーグの昨季の下位2球団からのオファーを受けて球団を移るか、いまの球団で続投(信頼50から)かを選びます。「あり(移籍のみ)」では、オファーを受けて移るしかありません。移っても、実績・図鑑・殿堂・球団ポイントは引き継がれ、新しい球団の信頼は60から始まります。「なし」は今までどおりです(信頼が下がっても解任されません)。</p>
   <p class="fullOnly">監督の経歴:成績の「年表」の上に、監督としての通算成績(年数・勝敗・勝率・リーグ優勝・日本一・Aクラス)、率いた球団、解任や移籍の出来事が出ます。監督を10年以上続けて、リーグ優勝3回か日本一2回に届くと「監督の殿堂入り」です。オーナーに解任されたときは、オファーの球団へ移る・続投のほかに「最初から(ゲームオーバー)」も選べます。選ぶとこのリーグは終わり、経歴を見てからタイトル画面に戻ります(オートセーブは終わったリーグとして残ります)。</p>
   <p class="fullOnly">ドラフトのくじ引きの演出(リーグを作るときの設定「くじ引きの演出」):「あり」にすると、1位入札で自分の入札が重なったときに、注目度(★1〜5)と競合した球団が先に表示され、ドキドキの間のあと、封筒が1つずつ開きます。当たると紙吹雪、ほかの球団どうしの抽選も結果が一覧で出ます。注目度は、目玉選手かどうか・評価の高さ(上位3人)・競合した球団の数で決まります(乱数は使いません)。「なし」にすると、今までどおりです。結果の確率は変わりません。</p>
-  <p class="fullOnly">天候(リーグを作るときの設定「天候(雨天中止)」):「あり」にすると、通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止になった試合は、シーズンの最後に予備日として回り、全日程の試合数は変わりません。人工芝の球場の一部は屋根つき(ドーム)で、雨天中止になりません。試合画面に、その日の天気(晴れ・曇り・屋根つき)と、順延された試合の札が出ます。ポストシーズンは中止になりません。「なし」にすると、今までどおりです。</p>
+  <p class="fullOnly">天候(リーグを作るときの設定「天候(雨天中止)」):「あり」にすると、通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止になった試合は、シーズンの最後に予備日として回り、全日程の試合数は変わりません。人工芝の球場の一部は屋根つき(ドーム)で、雨天中止になりません。試合画面に、その日の天気(晴れ・曇り・屋根つき)と、順延された試合の札が出ます。開幕戦(4/1)とポストシーズンは中止になりません。「なし」にすると、今までどおりです。</p>
   <p>お知らせ箱(試合の画面):雨天中止・ケガと復帰・助っ人の当たり外れや退団・自動入れ替え・追跡していた候補の復帰・実績・トレードの申し込みなど、画面の下に一瞬だけ出る知らせが「📬 お知らせ」の箱にたまります。開くと既読になります。最近の12件まで表示し、セーブにも残ります(60件まで)。設定の画面の「このリーグの設定」の表で、リーグを作ったときに決めた項目(スキル・目玉選手・得意・天候など)をまとめて確かめられます。</p>
   <p>今日のひとこと(試合の画面):優勝マジック・連勝や連敗・故障者・絶不調のスタメンと好調の控え・雨の順延・FAの資格・首位とのゲーム差・オーナーの目標など、いまの状況から次の一手を1〜2行で出します。表示だけで、試合の結果は変わりません。「編成」の「💡 おすすめの入れ替え」は、自動入れ替えと同じ物差し(能力と今月の調子)で見た提案を並べ、押したものだけ行います。「成績」の「年表」は、自チームの年ごとの順位・優勝・下馬評と実際・受賞・号外の見出し・オーナーの目標の結果を1本の帯で見られます。</p>
 <p>球団の地名と出身地:どの球団にもホームタウン(実在の都市。メジャー式は架空の町)が付き、号外の見出しや球団紹介では「熊本ベアーズ」のように地名つきで呼ばれます(順位表など狭い所は今までどおりです)。選手には出身地があり、本拠地と同じ地方の出身なら「地元」の札が付きます(選手の詳細・ドラフトの候補<span class="fullOnly">・FA市場</span>)。地名と出身地は名前から決まり、試合の結果には関係しません。</p>
@@ -32073,9 +32074,9 @@ I18N.add("en",{   // v1.3.a:英語の総点検で見つかった抜け(くじ引
 "天候":"Weather",
 "外野":"OF","遊撃":"SS","指名打者":"DH",
 "ドラフトの1位入札で自分の入札が重なったとき、注目度(★1〜5)と競合した球団を見せ、ドキドキの間のあと封筒を開きます。当たりが出ると紙吹雪。ほかの球団どうしの抽選も一覧で出ます。当たる確率は変わりません。「なし」にすると、今までどおりです。":"When your first-round bid collides with other clubs, the buzz (★1–5) and the competing clubs are shown first, and the envelopes open after a tense pause. Confetti when you win. The other clubs' lotteries are listed too. The odds do not change. \"Off\" works as before.",
-"通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止の試合はシーズンの最後に予備日として回り、試合数は変わりません。人工芝の球場の一部は屋根つきで、中止になりません。日程が変わるので、試合の結果の流れも変わります。「なし」にすると、今までどおりです。":"Regular-season games can be rained out (more often in the June rainy season and in September). Rained-out games move to make-up dates at the end of the season, so the number of games stays the same. Some artificial-turf parks have a dome and are never rained out. Because the schedule changes, the flow of results changes too. \"Off\" works as before.",
+"通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止の試合はシーズンの最後に予備日として回り、試合数は変わりません。人工芝の球場の一部は屋根つきで、中止になりません。開幕戦(4/1)も中止になりません。日程が変わるので、試合の結果の流れも変わります。「なし」にすると、今までどおりです。":"Regular-season games can be rained out (more often in the June rainy season and in September). Rained-out games move to make-up dates at the end of the season, so the number of games stays the same. Some artificial-turf parks have a dome and are never rained out. Opening Day is never rained out either. Because the schedule changes, the flow of results changes too. \"Off\" works as before.",
 "ドラフトのくじ引きの演出(リーグを作るときの設定「くじ引きの演出」):「あり」にすると、1位入札で自分の入札が重なったときに、注目度(★1〜5)と競合した球団が先に表示され、ドキドキの間のあと、封筒が1つずつ開きます。当たると紙吹雪、ほかの球団どうしの抽選も結果が一覧で出ます。注目度は、目玉選手かどうか・評価の高さ(上位3人)・競合した球団の数で決まります(乱数は使いません)。「なし」にすると、今までどおりです。結果の確率は変わりません。":"Draft lottery show (the \"Draft lottery show\" setting when creating a league): with \"on\", when your first-round bid collides with other clubs, the buzz (★1–5) and the competing clubs are shown first, and after a tense pause the envelopes open one by one. Confetti when you win, and the other clubs' lotteries are listed with their results. Buzz comes from whether the player is a phenom, how highly rated he is (top 3), and how many clubs bid (no random numbers). \"Off\" works as before. The odds do not change.",
-"天候(リーグを作るときの設定「天候(雨天中止)」):「あり」にすると、通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止になった試合は、シーズンの最後に予備日として回り、全日程の試合数は変わりません。人工芝の球場の一部は屋根つき(ドーム)で、雨天中止になりません。試合画面に、その日の天気(晴れ・曇り・屋根つき)と、順延された試合の札が出ます。ポストシーズンは中止になりません。「なし」にすると、今までどおりです。":"Weather (the \"Weather (rainouts)\" setting when creating a league): with \"on\", regular-season games can be rained out (more often in the June rainy season and in September). Rained-out games move to make-up dates at the end of the season, so the total number of games stays the same. Some artificial-turf parks have a dome and are never rained out. The game screen shows the day's weather (clear, cloudy, dome) and a tag on rescheduled games. The postseason is never rained out. \"Off\" works as before.",
+"天候(リーグを作るときの設定「天候(雨天中止)」):「あり」にすると、通常の試合が雨で中止になることがあります(梅雨の6月と秋の9月が多め)。中止になった試合は、シーズンの最後に予備日として回り、全日程の試合数は変わりません。人工芝の球場の一部は屋根つき(ドーム)で、雨天中止になりません。試合画面に、その日の天気(晴れ・曇り・屋根つき)と、順延された試合の札が出ます。開幕戦(4/1)とポストシーズンは中止になりません。「なし」にすると、今までどおりです。":"Weather (the \"Weather (rainouts)\" setting when creating a league): with \"on\", regular-season games can be rained out (more often in the June rainy season and in September). Rained-out games move to make-up dates at the end of the season, so the total number of games stays the same. Some artificial-turf parks have a dome and are never rained out. The game screen shows the day's weather (clear, cloudy, dome) and a tag on rescheduled games. Opening Day and the postseason are never rained out. \"Off\" works as before.",
 "お知らせ箱(試合の画面):雨天中止・ケガと復帰・助っ人の当たり外れや退団・自動入れ替え・追跡していた候補の復帰・実績・トレードの申し込みなど、画面の下に一瞬だけ出る知らせが「📬 お知らせ」の箱にたまります。開くと既読になります。最近の12件まで表示し、セーブにも残ります(60件まで)。設定の画面の「このリーグの設定」の表で、リーグを作ったときに決めた項目(スキル・目玉選手・得意・天候など)をまとめて確かめられます。":"Notice box (game screen): the short messages that flash at the bottom of the screen (rainouts, injuries and returns, imports who hit or missed or left, auto-moves, tracked prospects coming back, achievements, trade offers and so on) collect in the \"📬 Notices\" box. Opening it marks them read. It shows the latest 12 and keeps up to 60 in the save. The \"This league's settings\" table on the Settings screen lists what was decided when the league was created (skills, phenoms, strengths, weather and so on).",
 "今日のひとこと(試合の画面):優勝マジック・連勝や連敗・故障者・絶不調のスタメンと好調の控え・雨の順延・FAの資格・首位とのゲーム差・オーナーの目標など、いまの状況から次の一手を1〜2行で出します。表示だけで、試合の結果は変わりません。「編成」の「💡 おすすめの入れ替え」は、自動入れ替えと同じ物差し(能力と今月の調子)で見た提案を並べ、押したものだけ行います。「成績」の「年表」は、自チームの年ごとの順位・優勝・下馬評と実際・受賞・号外の見出し・オーナーの目標の結果を1本の帯で見られます。":"Today's tip (game screen): one or two lines on your next move from the current situation — the magic number, winning or losing streaks, injured players, ice-cold starters and hot bench players, rainouts, FA eligibility, games behind the leader, the owner's goal and so on. Display only; results do not change. \"💡 Suggested moves\" in Roster lists suggestions using the same yardstick as auto-moves (ability and this month's form), and only the ones you press are carried out. \"Timeline\" in Stats shows your club year by year in one strip: finish, pennants, the forecast versus the result, awards, EXTRA headlines and the owner's goals.",
 "野手:2軍の{0}を1軍へ、{1}を2軍へ({2})。目安の差 +{3}":"Position players: call up {0} from the farm and send down {1} ({2}). Margin +{3#}",
